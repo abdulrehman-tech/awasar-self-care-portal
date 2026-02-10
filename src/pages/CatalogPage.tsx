@@ -49,8 +49,8 @@ export default function CatalogPage() {
       </div>
 
       <div className="relative">
-        <SearchNormal size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("Search plans...", "ابحث عن الباقات...")} className="pl-9" />
+        <SearchNormal size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("Search plans...", "ابحث عن الباقات...")} className="ps-9" />
       </div>
 
       <Tabs defaultValue="all">
@@ -90,7 +90,7 @@ export default function CatalogPage() {
                       )}
                       <div className="mt-3 flex items-center justify-between">
                         <p className="text-lg font-bold">{plan.price} <span className="text-xs font-normal text-muted-foreground">{t("OMR/mo", "ر.ع/شهر")}</span></p>
-                        <Button size="sm" className="text-xs" onClick={(e) => { e.stopPropagation(); navigate("/orders"); }}>{t("Subscribe", "اشترك")} <ArrowRight2 size={14} className="ml-1" /></Button>
+                        <Button size="sm" className="text-xs" onClick={(e) => { e.stopPropagation(); navigate("/orders"); }}>{t("Subscribe", "اشترك")} <ArrowRight2 size={14} className="ms-1" /></Button>
                       </div>
                     </CardContent>
                   </Card>

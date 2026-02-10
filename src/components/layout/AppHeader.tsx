@@ -1,7 +1,6 @@
 import { Notification, SearchNormal, Global, User } from "iconsax-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "react-router-dom";
-import { cn } from "@/lib/utils";
 import { notifications } from "@/data/mockData";
 import awasrLogo from "@/assets/awasr-logo.png";
 
@@ -43,7 +42,7 @@ export default function AppHeader() {
         >
           <Notification size={20} />
           {unreadCount > 0 && (
-            <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-medium">
+            <span className="absolute -top-0.5 -end-0.5 h-4 w-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-medium">
               {unreadCount}
             </span>
           )}

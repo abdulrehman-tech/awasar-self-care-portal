@@ -26,7 +26,7 @@ export default function NotificationsPage() {
         </div>
         {unreadCount > 0 && (
           <Button variant="outline" size="sm" onClick={markAllRead}>
-            <TickCircle size={16} className="mr-1" />{t("Mark all read", "تحديد الكل كمقروء")}
+            <TickCircle size={16} className="me-1" />{t("Mark all read", "تحديد الكل كمقروء")}
           </Button>
         )}
       </div>

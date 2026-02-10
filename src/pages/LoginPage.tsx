@@ -32,7 +32,7 @@ export default function LoginPage() {
       {/* Language toggle */}
       <button
         onClick={toggleLanguage}
-        className="fixed top-4 right-4 flex items-center gap-1 px-3 py-1.5 rounded-md text-sm text-muted-foreground hover:bg-muted transition-colors bg-card border border-border"
+        className="fixed top-4 end-4 flex items-center gap-1 px-3 py-1.5 rounded-md text-sm text-muted-foreground hover:bg-muted transition-colors bg-card border border-border"
       >
         <Global size={16} />
         {language === "en" ? "عربي" : "EN"}
@@ -72,13 +72,13 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                 >
                   {showPassword ? <EyeSlash size={16} /> : <Eye size={16} />}
                 </button>
               </div>
             </div>
-            <div className="text-right">
+            <div className="text-end">
               <button type="button" className="text-sm text-secondary hover:underline">
                 {t("Forgot Password?", "نسيت كلمة المرور؟")}
               </button>

@@ -147,7 +147,7 @@ export default function SupportPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t("Support Tickets", "تذاكر الدعم")}</h1>
         <Button size="sm" onClick={() => { resetForm(); setShowCreate(true); }}>
-          <Add size={16} className="mr-1" />{t("New Ticket", "تذكرة جديدة")}
+          <Add size={16} className="me-1" />{t("New Ticket", "تذكرة جديدة")}
         </Button>
       </div>
 
@@ -247,7 +247,7 @@ export default function SupportPage() {
               <div className="flex gap-2 justify-end">
                 {(selectedTicket?.status === "resolved" || selectedTicket?.status === "open" || selectedTicket?.status === "in_progress") && (
                   <Button variant="outline" size="sm" className="text-destructive" onClick={() => selectedTicket && handleStatusChange(selectedTicket.id, "closed")}>
-                    <CloseCircle size={14} className="mr-1" />{t("Close Ticket", "إغلاق التذكرة")}
+                    <CloseCircle size={14} className="me-1" />{t("Close Ticket", "إغلاق التذكرة")}
                   </Button>
                 )}
               </div>
@@ -295,7 +295,7 @@ export default function SupportPage() {
                 maxLength={100}
               />
               {formErrors.subject && <p className="text-xs text-destructive">{formErrors.subject}</p>}
-              <p className="text-xs text-muted-foreground text-right">{formSubject.length}/100</p>
+              <p className="text-xs text-muted-foreground text-end">{formSubject.length}/100</p>
             </div>
 
             <div className="space-y-2">
@@ -309,7 +309,7 @@ export default function SupportPage() {
                 maxLength={500}
               />
               {formErrors.description && <p className="text-xs text-destructive">{formErrors.description}</p>}
-              <p className="text-xs text-muted-foreground text-right">{formDescription.length}/500</p>
+              <p className="text-xs text-muted-foreground text-end">{formDescription.length}/500</p>
             </div>
 
             <div className="space-y-2">
@@ -330,7 +330,7 @@ export default function SupportPage() {
               <Label>{t("Attachments", "المرفقات")}</Label>
               <input ref={fileInputRef} type="file" multiple className="hidden" onChange={(e) => handleFileSelect(e)} accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" />
               <Button variant="outline" size="sm" type="button" onClick={() => fileInputRef.current?.click()}>
-                <Paperclip size={16} className="mr-1" />{t("Attach Files", "إرفاق ملفات")}
+                <Paperclip size={16} className="me-1" />{t("Attach Files", "إرفاق ملفات")}
               </Button>
               <p className="text-xs text-muted-foreground">{t("JPG, PNG, PDF, DOC (max 5MB each)", "JPG, PNG, PDF, DOC (بحد أقصى 5 ميجا لكل ملف)")}</p>
               {formAttachments.length > 0 && (

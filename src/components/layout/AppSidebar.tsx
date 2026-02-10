@@ -28,13 +28,13 @@ const bottomItems = [
 
 export default function AppSidebar() {
   const [collapsed, setCollapsed] = useState(false);
-  const { t } = useLanguage();
+  const { t, dir } = useLanguage();
   const location = useLocation();
 
   return (
     <aside
       className={cn(
-        "hidden md:flex flex-col h-screen bg-card border-r border-border transition-all duration-200 sticky top-0",
+        "hidden md:flex flex-col h-screen bg-card border-e border-border transition-all duration-200 sticky top-0",
         collapsed ? "w-16" : "w-60"
       )}
     >
@@ -50,7 +50,10 @@ export default function AppSidebar() {
           onClick={() => setCollapsed(!collapsed)}
           className="p-1.5 rounded-md hover:bg-muted transition-colors"
         >
-          {collapsed ? <ArrowRight2 size={16} /> : <ArrowLeft2 size={16} />}
+          {dir === "rtl"
+            ? (collapsed ? <ArrowLeft2 size={16} /> : <ArrowRight2 size={16} />)
+            : (collapsed ? <ArrowRight2 size={16} /> : <ArrowLeft2 size={16} />)
+          }
         </button>
       </div>
 
@@ -70,7 +73,7 @@ export default function AppSidebar() {
               )}
             >
               {isActive && (
-                <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-primary" />
+                <div className="absolute start-0 top-1 bottom-1 w-[3px] rounded-full bg-primary" />
               )}
               <item.icon size={20} variant={isActive ? "Bold" : "Linear"} className="shrink-0" />
               {!collapsed && <span>{t(item.labelEn, item.labelAr)}</span>}

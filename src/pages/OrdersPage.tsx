@@ -112,7 +112,7 @@ export default function OrdersPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t("Order & Installation Tracking", "تتبع الطلبات والتركيب")}</h1>
         <Button size="sm" onClick={() => { setNewOrderStep(0); setShowNewOrder(true); }}>
-          <Add size={16} className="mr-1" />{t("New Order", "طلب جديد")}
+          <Add size={16} className="me-1" />{t("New Order", "طلب جديد")}
         </Button>
       </div>
 
@@ -209,7 +209,7 @@ export default function OrdersPage() {
                       </div>
                     </div>
                     <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); setShowContact(true); }}>
-                      <MessageText size={14} className="mr-1" />{t("Message", "رسالة")}
+                      <MessageText size={14} className="me-1" />{t("Message", "رسالة")}
                     </Button>
                   </CardContent>
                 </Card>
@@ -240,12 +240,12 @@ export default function OrdersPage() {
               <div className="flex flex-wrap gap-2 justify-end">
                 {!isInstallationComplete(selectedOrder) && (
                   <Button variant="outline" size="sm" onClick={() => setShowReschedule(true)}>
-                    <Calendar size={14} className="mr-1" />{t("Reschedule", "إعادة الجدولة")}
+                    <Calendar size={14} className="me-1" />{t("Reschedule", "إعادة الجدولة")}
                   </Button>
                 )}
                 {isInstallationComplete(selectedOrder) && !selectedOrder.feedback && (
                   <Button variant="outline" size="sm" onClick={() => setShowFeedback(true)}>
-                    <Star1 size={14} className="mr-1" />{t("Give Feedback", "أعط ملاحظات")}
+                    <Star1 size={14} className="me-1" />{t("Give Feedback", "أعط ملاحظات")}
                   </Button>
                 )}
               </div>
@@ -299,7 +299,7 @@ export default function OrdersPage() {
             <p className="text-xs text-muted-foreground text-right">{contactMessage.length}/300</p>
             <div className="flex gap-2 justify-end">
               <Button variant="outline" onClick={() => setShowContact(false)}>{t("Cancel", "إلغاء")}</Button>
-              <Button onClick={handleContactTech} disabled={!contactMessage.trim()}><MessageText size={14} className="mr-1" />{t("Send", "إرسال")}</Button>
+              <Button onClick={handleContactTech} disabled={!contactMessage.trim()}><MessageText size={14} className="me-1" />{t("Send", "إرسال")}</Button>
             </div>
           </div>
         </DialogContent>
@@ -405,7 +405,7 @@ export default function OrdersPage() {
               </Card>
               <div className="flex gap-2 justify-end">
                 <Button variant="outline" onClick={() => setNewOrderStep(1)}>{t("Back", "رجوع")}</Button>
-                <Button onClick={handleNewOrder}><TickCircle size={14} className="mr-1" />{t("Place Order", "تقديم الطلب")}</Button>
+                <Button onClick={handleNewOrder}><TickCircle size={14} className="me-1" />{t("Place Order", "تقديم الطلب")}</Button>
               </div>
             </div>
           )}

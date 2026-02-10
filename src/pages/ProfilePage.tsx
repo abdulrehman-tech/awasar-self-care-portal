@@ -30,7 +30,7 @@ export default function ProfilePage() {
           <div className="flex items-center justify-between">
             <CardTitle className="text-base">{t("Personal Information", "المعلومات الشخصية")}</CardTitle>
             <Button variant="outline" size="sm" onClick={() => editing ? handleSave() : setEditing(true)}>
-              {editing ? <><Save2 size={16} className="mr-1" />{t("Save", "حفظ")}</> : t("Edit", "تعديل")}
+              {editing ? <><Save2 size={16} className="me-1" />{t("Save", "حفظ")}</> : t("Edit", "تعديل")}
             </Button>
           </div>
         </CardHeader>
@@ -118,13 +118,13 @@ export default function ProfilePage() {
           <div className="space-y-2"><Label>{t("Current Password", "كلمة المرور الحالية")}</Label><Input type="password" /></div>
           <div className="space-y-2"><Label>{t("New Password", "كلمة المرور الجديدة")}</Label><Input type="password" /></div>
           <div className="space-y-2"><Label>{t("Confirm Password", "تأكيد كلمة المرور")}</Label><Input type="password" /></div>
-          <Button size="sm"><Lock size={16} className="mr-1" />{t("Update Password", "تحديث كلمة المرور")}</Button>
+          <Button size="sm"><Lock size={16} className="me-1" />{t("Update Password", "تحديث كلمة المرور")}</Button>
         </CardContent>
       </Card>
 
       {/* Logout */}
       <Button variant="destructive" className="w-full sm:w-auto">
-        <Logout size={16} className="mr-1" />{t("Logout", "تسجيل الخروج")}
+        <Logout size={16} className="me-1" />{t("Logout", "تسجيل الخروج")}
       </Button>
     </div>
   );

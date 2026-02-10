@@ -300,7 +300,7 @@ export default function BillingPage() {
                     required
                     inputMode="numeric"
                   />
-                  <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground" onClick={() => setShowCvv(!showCvv)}>
+                  <button type="button" className="absolute end-2 top-1/2 -translate-y-1/2 text-muted-foreground" onClick={() => setShowCvv(!showCvv)}>
                     {showCvv ? <EyeSlash size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
@@ -330,7 +330,7 @@ export default function BillingPage() {
           </div>
           <div className="flex gap-2 justify-end">
             <Button variant="outline" onClick={() => setShowConfirmation(false)}>{t("Cancel", "إلغاء")}</Button>
-            <Button onClick={confirmPayment}><TickCircle size={16} className="mr-1" />{t("Confirm & Pay", "تأكيد والدفع")}</Button>
+            <Button onClick={confirmPayment}><TickCircle size={16} className="me-1" />{t("Confirm & Pay", "تأكيد والدفع")}</Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -352,7 +352,7 @@ export default function BillingPage() {
           </div>
           <div className="flex gap-2 justify-end">
             <Button variant="outline" onClick={() => handleDownloadInvoice(receiptData.ref)}>
-              <DocumentDownload size={16} className="mr-1" />{t("Download Receipt", "تحميل الإيصال")}
+              <DocumentDownload size={16} className="me-1" />{t("Download Receipt", "تحميل الإيصال")}
             </Button>
             <Button onClick={() => setShowReceipt(false)}>{t("Done", "تم")}</Button>
           </div>
@@ -397,7 +397,7 @@ export default function BillingPage() {
               </div>
               <div className="flex gap-2 justify-end">
                 <Button variant="outline" size="sm" onClick={() => handleDownloadInvoice(selectedInvoice.id)}>
-                  <DocumentDownload size={16} className="mr-1" />{t("Download PDF", "تحميل PDF")}
+                  <DocumentDownload size={16} className="me-1" />{t("Download PDF", "تحميل PDF")}
                 </Button>
                 {selectedInvoice.status === "unpaid" && (
                   <Button size="sm" onClick={() => { setShowInvoiceDetail(null); handlePay(); }}>{t("Pay Now", "ادفع الآن")}</Button>
