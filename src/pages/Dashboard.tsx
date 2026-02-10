@@ -13,9 +13,8 @@ export default function Dashboard() {
   const { t } = useLanguage();
   const outstandingBalance = invoices.filter((i) => i.status === "unpaid").reduce((sum, i) => sum + i.amount, 0);
   const activeServicesCount = services.filter((s) => s.status === "active").length;
-  const downloadUsage = usageData.find((u) => u.name === "Data")!;
+  const downloadUsage = usageData.find((u) => u.name === "Download")!;
   const uploadUsage = usageData.find((u) => u.name === "Upload")!;
-  const devicesUsage = usageData.find((u) => u.name === "Devices")!;
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? t("Good morning", "صباح الخير") : hour < 17 ? t("Good afternoon", "مساء الخير") : t("Good evening", "مساء الخير");
@@ -48,8 +47,8 @@ export default function Dashboard() {
             <p className="text-[10px] opacity-80">{t("Uploaded", "رفع")}</p>
           </div>
           <div className="bg-white/15 rounded-lg p-3 text-center backdrop-blur-sm">
-            <p className="text-xl font-bold">{devicesUsage.value}<span className="text-xs font-normal opacity-70">/{devicesUsage.limit}</span></p>
-            <p className="text-[10px] opacity-80">{t("Devices", "الأجهزة")}</p>
+            <p className="text-xl font-bold">{outstandingBalance.toFixed(0)}<span className="text-xs font-normal opacity-70"> OMR</span></p>
+            <p className="text-[10px] opacity-80">{t("Due", "مستحق")}</p>
           </div>
         </div>
       </div>
@@ -99,7 +98,7 @@ export default function Dashboard() {
             <Card key={item.name}>
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium">{t(item.name, item.name === "Data" ? "التحميل" : item.name === "Upload" ? "الرفع" : "الأجهزة")}</p>
+                  <p className="text-sm font-medium">{t(item.name, item.name === "Download" ? "التحميل" : "الرفع")}</p>
                   {isUnlimited && <Badge variant="outline" className="text-[10px] text-success border-success/20">{t("Unlimited", "غير محدود")}</Badge>}
                 </div>
                 <p className="text-2xl font-bold">{item.value} <span className="text-sm font-normal text-muted-foreground">{item.unit}{!isUnlimited && ` / ${item.limit}`}</span></p>
