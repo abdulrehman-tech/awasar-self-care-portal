@@ -81,20 +81,14 @@ export default function CatalogPage() {
     if (plan.speed) features.push(plan.speed);
     if ("channels" in plan) features.push(`${(plan as any).channels} ${t("channels", "قناة")}`);
     if (plan.type === "internet") {
-      features.push(t("Unlimited local calls", "مكالمات محلية غير محدودة"));
-      features.push(t("Free router included", "راوتر مجاني"));
-      features.push(t("24/7 support", "دعم على مدار الساعة"));
+      if ("uploadSpeed" in plan) features.push(`↑ ${(plan as any).uploadSpeed}`);
+      if ("features" in plan) (plan as any).features.forEach((f: string) => features.push(f));
+    }
+    if (plan.type === "addon" && "features" in plan) {
+      (plan as any).features.forEach((f: string) => features.push(f));
     }
     if (plan.type === "tv") {
       features.push(t("HD quality", "جودة عالية"));
-      features.push(t("DVR included", "مسجل فيديو رقمي"));
-    }
-    if (plan.type === "voice") {
-      features.push(t("Caller ID", "معرّف المتصل"));
-      features.push(t("Voicemail", "البريد الصوتي"));
-    }
-    if ("includes" in plan) {
-      ((plan as any).includes as string[]).forEach((inc) => features.push(inc));
     }
     return features;
   };
@@ -127,12 +121,10 @@ export default function CatalogPage() {
         <TabsList>
           <TabsTrigger value="all">{t("All", "الكل")}</TabsTrigger>
           <TabsTrigger value="internet">{t("Internet", "الإنترنت")}</TabsTrigger>
-          <TabsTrigger value="tv">{t("TV", "التلفزيون")}</TabsTrigger>
-          <TabsTrigger value="voice">{t("Voice", "الصوت")}</TabsTrigger>
-          <TabsTrigger value="bundle">{t("Bundles", "الباقات")}</TabsTrigger>
+          <TabsTrigger value="addon">{t("Add-ons", "الإضافات")}</TabsTrigger>
         </TabsList>
 
-        {["all", "internet", "tv", "voice", "bundle"].map((tab) => (
+        {["all", "internet", "addon"].map((tab) => (
           <TabsContent key={tab} value={tab} className="mt-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {filtered.filter((p) => tab === "all" || p.type === tab).map((plan) => {
@@ -187,7 +179,7 @@ export default function CatalogPage() {
                     {t(selectedPlan.name, selectedPlan.nameAr)}
                   </DialogTitle>
                   <DialogDescription>
-                    {t(`${selectedPlan.type.charAt(0).toUpperCase() + selectedPlan.type.slice(1)} Plan`, `باقة ${selectedPlan.type === "internet" ? "إنترنت" : selectedPlan.type === "tv" ? "تلفزيون" : selectedPlan.type === "voice" ? "صوت" : "مجمّعة"}`)}
+                    {t(`${selectedPlan.type.charAt(0).toUpperCase() + selectedPlan.type.slice(1)} Plan`, `باقة ${selectedPlan.type === "internet" ? "إنترنت" : selectedPlan.type === "addon" ? "إضافة" : "تلفزيون"}`)}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
