@@ -212,7 +212,7 @@ export default function SupportPage() {
           </DialogHeader>
 
           {/* Messages thread */}
-          <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
+          <div className="space-y-3 max-h-60 overflow-y-auto pe-1">
             {selectedTicket?.messages.map((msg, i) => (
               <div key={i} className={cn("flex", msg.sender === "customer" ? "justify-end" : "justify-start")}>
                 <div className={cn("max-w-[80%] rounded-lg px-3 py-2 text-sm", msg.sender === "customer" ? "bg-primary text-primary-foreground" : "bg-muted")}>
@@ -338,7 +338,7 @@ export default function SupportPage() {
                   {formAttachments.map((f, i) => (
                     <Badge key={i} variant="secondary" className="text-xs gap-1">
                       <DocumentText size={12} />{f}
-                      <button type="button" onClick={() => setFormAttachments((prev) => prev.filter((_, idx) => idx !== i))} className="ml-1 hover:text-destructive"><Trash size={10} /></button>
+                      <button type="button" onClick={() => setFormAttachments((prev) => prev.filter((_, idx) => idx !== i))} className="ms-1 hover:text-destructive"><Trash size={10} /></button>
                     </Badge>
                   ))}
                 </div>
