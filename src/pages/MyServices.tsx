@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Wifi, Monitor, Call, Box, Add, SearchNormal, ArrowRight2, TickCircle, Location } from "iconsax-react";
+import { Wifi, Monitor, Call, Box, Add, SearchNormal, TickCircle, Location } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -375,7 +375,7 @@ export default function MyServices() {
                     <p className="text-xs font-medium mt-1">{upgradeService && t(upgradeService.name, upgradeService.nameAr)}</p>
                     <p className="text-xs text-muted-foreground">{upgradeService?.monthlyCost.toFixed(2)} {t("OMR", "ر.ع")}</p>
                   </CardContent></Card>
-                  <ArrowRight2 size={20} className="text-muted-foreground shrink-0" />
+                  <span className="text-muted-foreground shrink-0 text-lg">→</span>
                   <Card className="flex-1 border-primary"><CardContent className="p-3 text-center">
                     <p className="text-[10px] text-primary">{t("TO", "إلى")}</p>
                     <p className="text-xs font-medium mt-1">{target && t(target.name, target.nameAr)}</p>

@@ -161,7 +161,7 @@ export default function OrdersPage() {
                 {[1, 2, 3, 4, 5].map((s) => (
                   <Star1 key={s} size={12} variant={s <= order.feedback!.rating ? "Bold" : "Linear"} className={s <= order.feedback!.rating ? "text-warning" : "text-muted-foreground/30"} />
                 ))}
-                <span className="text-xs text-muted-foreground ml-1">{t("Feedback submitted", "تم إرسال الملاحظات")}</span>
+                <span className="text-xs text-muted-foreground ms-1">{t("Feedback submitted", "تم إرسال الملاحظات")}</span>
               </div>
             )}
           </CardContent>

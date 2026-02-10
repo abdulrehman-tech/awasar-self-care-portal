@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 
 type Language = "en" | "ar";
 
@@ -24,6 +24,12 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   );
 
   const dir = language === "ar" ? "rtl" : "ltr";
+
+  // Set dir on document root so Radix portals (dialogs, selects, popovers) inherit RTL
+  useEffect(() => {
+    document.documentElement.setAttribute("dir", dir);
+    document.documentElement.setAttribute("lang", language);
+  }, [dir, language]);
 
   return (
     <LanguageContext.Provider value={{ language, toggleLanguage, t, dir }}>

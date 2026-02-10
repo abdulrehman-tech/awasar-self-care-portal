@@ -34,7 +34,7 @@ export default function BottomNav() {
 
   return (
     <>
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-card border-t border-border">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-card border-t border-border">
         <div className="flex items-center justify-around h-16">
           {mainTabs.map((tab) => {
             const isActive = location.pathname === tab.path;
