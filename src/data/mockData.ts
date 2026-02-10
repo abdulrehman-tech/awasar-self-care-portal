@@ -49,6 +49,12 @@ export const services = [
   },
 ];
 
+export const invoiceLineItems = [
+  { description: "Awasr Fiber 200", descriptionAr: "أوامر فايبر 200", amount: 25.0 },
+  { description: "Awasr TV Premium", descriptionAr: "أوامر تلفزيون بريميوم", amount: 12.0 },
+  { description: "Home Phone Basic", descriptionAr: "هاتف منزلي أساسي", amount: 3.0 },
+];
+
 export const invoices = [
   { id: "INV-2401", date: "2024-01-05", amount: 40.0, status: "paid" as const, dueDate: "2024-01-20" },
   { id: "INV-2402", date: "2024-02-05", amount: 40.0, status: "paid" as const, dueDate: "2024-02-20" },
