@@ -87,7 +87,7 @@ export default function BottomNav() {
               </Link>
             ))}
             <button
-              onClick={() => { setDrawerOpen(false); navigate("/login"); }}
+              onClick={() => { setDrawerOpen(false); navigate("/"); }}
               className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-muted transition-colors"
             >
               <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center">
