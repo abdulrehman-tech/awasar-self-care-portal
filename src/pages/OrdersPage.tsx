@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { orders as initialOrders, plans } from "@/data/mockData";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import OmrSymbol from "@/components/OmrSymbol";
 
 type Order = typeof initialOrders[0] & { feedback?: { rating: number; comment: string } };
 
@@ -357,7 +358,7 @@ export default function OrdersPage() {
                     <p className="font-medium text-sm">{t(p.name, p.nameAr)}</p>
                     <p className="text-xs text-muted-foreground">{p.speed}</p>
                   </div>
-                  <span className="text-sm font-semibold">{p.price} {t("OMR/mo", "ر.ع/شهر")}</span>
+                  <span className="text-sm font-semibold">{p.price} <OmrSymbol />/{t("mo", "شهر")}</span>
                 </button>
               ))}
               <Button variant="outline" size="sm" onClick={() => navigate("/catalog")}>{t("Browse Full Catalog", "تصفح الكتالوج الكامل")}</Button>
@@ -392,7 +393,7 @@ export default function OrdersPage() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between"><span className="text-muted-foreground">{t("Plan", "الباقة")}</span><span className="font-semibold">{t(selectedPlanObj.name, selectedPlanObj.nameAr)}</span></div>
                 {selectedPlanObj.speed && <div className="flex justify-between"><span className="text-muted-foreground">{t("Speed", "السرعة")}</span><span>{selectedPlanObj.speed}</span></div>}
-                <div className="flex justify-between"><span className="text-muted-foreground">{t("Monthly Cost", "التكلفة الشهرية")}</span><span className="font-semibold">{selectedPlanObj.price} {t("OMR", "ر.ع")}</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">{t("Monthly Cost", "التكلفة الشهرية")}</span><span className="font-semibold">{selectedPlanObj.price} <OmrSymbol /></span></div>
                 <Separator />
                 <div className="flex justify-between"><span className="text-muted-foreground">{t("Name", "الاسم")}</span><span>{newOrderName}</span></div>
                 {newOrderPhone && <div className="flex justify-between"><span className="text-muted-foreground">{t("Phone", "الهاتف")}</span><span>{newOrderPhone}</span></div>}
