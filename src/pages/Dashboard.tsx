@@ -160,7 +160,7 @@ export default function Dashboard() {
           <h2 className="text-sm font-semibold text-foreground">{t("Active Services", "الخدمات النشطة")}</h2>
           <Link to="/services" className="text-xs text-primary font-medium">{t("Manage", "إدارة")}</Link>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {services.filter(s => s.status === "active").map((service) => (
             <Link key={service.id} to="/services">
               <Card className="card-shadow border-0 hover:card-shadow-md transition-all duration-200">

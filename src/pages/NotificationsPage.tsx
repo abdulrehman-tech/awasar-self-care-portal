@@ -18,10 +18,10 @@ export default function NotificationsPage() {
   const unreadCount = items.filter((n) => !n.read).length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">{t("Notifications", "الإشعارات")}</h1>
+          <h1 className="text-xl font-semibold">{t("Notifications", "الإشعارات")}</h1>
           {unreadCount > 0 && <p className="text-sm text-muted-foreground">{unreadCount} {t("unread", "غير مقروءة")}</p>}
         </div>
         {unreadCount > 0 && (
@@ -46,9 +46,11 @@ export default function NotificationsPage() {
               .map((notification) => {
                 const Icon = categoryIcons[notification.category] || Notification;
                 return (
-                  <Card key={notification.id} className={cn(!notification.read && "border-primary/20 bg-primary/5")}>
+                  <Card key={notification.id} className={cn("card-shadow border-0 transition-all duration-200", !notification.read && "ring-1 ring-primary/20 bg-primary/[0.02]")}>
                     <CardContent className="p-4 flex items-start gap-3">
-                      <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center shrink-0">
+                      <div className={`h-9 w-9 rounded-xl flex items-center justify-center shrink-0 ${
+                        notification.category === "billing" ? "bg-primary/8" : notification.category === "service" ? "bg-secondary/8" : notification.category === "outage" ? "bg-warning/8" : "bg-info/8"
+                      }`}>
                         <Icon size={16} className="text-muted-foreground" />
                       </div>
                       <div className="min-w-0 flex-1">

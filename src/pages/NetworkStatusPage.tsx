@@ -83,17 +83,17 @@ export default function NetworkStatusPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{t("Network Status", "حالة الشبكة")}</h1>
-        <Button size="sm" variant="outline" onClick={() => { setReportErrors({}); setShowReportIssue(true); }}>
+        <h1 className="text-xl font-semibold">{t("Network Status", "حالة الشبكة")}</h1>
+        <Button size="sm" variant="outline" className="rounded-xl" onClick={() => { setReportErrors({}); setShowReportIssue(true); }}>
           <MessageQuestion size={16} className="me-1" />{t("Report Issue", "الإبلاغ عن مشكلة")}
         </Button>
       </div>
 
       {/* Active outages */}
       {outages.length > 0 && (
-        <Card className="border-warning/20 bg-warning/5">
+        <Card className="card-shadow border-0 bg-gradient-to-br from-warning/5 to-transparent">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
               <Warning2 size={16} className="text-warning" />
@@ -122,7 +122,7 @@ export default function NetworkStatusPage() {
       )}
 
       {/* All regions */}
-      <Card>
+      <Card className="card-shadow border-0">
         <CardHeader className="pb-2">
           <CardTitle className="text-base">{t("Regional Status", "حالة المناطق")}</CardTitle>
         </CardHeader>
@@ -153,7 +153,7 @@ export default function NetworkStatusPage() {
       </Card>
 
       {/* Historical Outage Log */}
-      <Card>
+      <Card className="card-shadow border-0">
         <CardHeader className="pb-2">
           <CardTitle className="text-base flex items-center gap-2">
             <Timer1 size={16} className="text-muted-foreground" />
@@ -184,7 +184,7 @@ export default function NetworkStatusPage() {
       </Card>
 
       {/* Planned maintenance */}
-      <Card>
+      <Card className="card-shadow border-0">
         <CardHeader className="pb-2">
           <CardTitle className="text-base">{t("Planned Maintenance", "الصيانة المخططة")}</CardTitle>
         </CardHeader>

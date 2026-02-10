@@ -94,9 +94,9 @@ export default function CatalogPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <h1 className="text-2xl font-bold">{t("Products & Plans", "المنتجات والباقات")}</h1>
+        <h1 className="text-xl font-semibold">{t("Products & Plans", "المنتجات والباقات")}</h1>
         <div className="flex gap-2">
           {compareList.length >= 2 && (
             <Button size="sm" variant="outline" onClick={() => setShowCompare(true)}>
@@ -131,11 +131,11 @@ export default function CatalogPage() {
                 const Icon = typeIcons[plan.type] || Box;
                 const isComparing = compareList.includes(plan.id);
                 return (
-                  <Card key={plan.id} className={cn("transition-colors cursor-pointer hover:shadow-md", isComparing && "border-primary")} onClick={() => setSelectedPlan(plan)}>
+                  <Card key={plan.id} className={cn("transition-all duration-200 cursor-pointer card-shadow border-0 hover:card-shadow-md", isComparing && "ring-2 ring-primary")} onClick={() => setSelectedPlan(plan)}>
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between mb-3">
-                        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                          <Icon size={20} className="text-primary" />
+                        <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${plan.type === "internet" ? "bg-primary/8" : "bg-secondary/8"}`}>
+                          <Icon size={20} className={plan.type === "internet" ? "text-primary" : "text-secondary"} />
                         </div>
                         <button onClick={(e) => { e.stopPropagation(); toggleCompare(plan.id); }} className={cn("text-xs px-2 py-1 rounded border transition-colors", isComparing ? "border-primary text-primary bg-primary/5" : "border-border text-muted-foreground hover:border-primary/30")}>
                           {isComparing ? <TickCircle size={12} className="inline me-0.5" /> : null}

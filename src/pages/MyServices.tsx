@@ -85,10 +85,10 @@ export default function MyServices() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{t("My Services", "خدماتي")}</h1>
-        <Button size="sm" onClick={openAddService}><Add size={16} className="me-1" />{t("Add Service", "إضافة خدمة")}</Button>
+        <h1 className="text-xl font-semibold">{t("My Services", "خدماتي")}</h1>
+        <Button size="sm" className="rounded-xl" onClick={openAddService}><Add size={16} className="me-1" />{t("Add Service", "إضافة خدمة")}</Button>
       </div>
 
       <Tabs defaultValue="all" dir={dir}>
@@ -106,11 +106,11 @@ export default function MyServices() {
               .map((service) => {
                 const Icon = typeIcons[service.type] || Box;
                 return (
-                  <Card key={service.id}>
+                  <Card key={service.id} className="card-shadow border-0 hover:card-shadow-md transition-all duration-200">
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex items-start gap-3">
-                          <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                          <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${service.type === "internet" ? "bg-primary/8" : service.type === "tv" ? "bg-secondary/8" : "bg-success/8"}`}>
                             <Icon size={20} className="text-primary" />
                           </div>
                           <div>
@@ -140,7 +140,7 @@ export default function MyServices() {
       </Tabs>
 
       {/* Coverage Check */}
-      <Card>
+      <Card className="card-shadow border-0">
         <CardHeader className="pb-2">
           <CardTitle className="text-base flex items-center gap-2">
             <Location size={18} className="text-primary" />

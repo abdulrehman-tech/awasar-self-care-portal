@@ -331,9 +331,9 @@ export default function RequestsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{t("Service Requests", "طلبات الخدمة")}</h1>
+        <h1 className="text-xl font-semibold">{t("Service Requests", "طلبات الخدمة")}</h1>
       </div>
 
       {/* Quick action cards */}
@@ -344,7 +344,7 @@ export default function RequestsPage() {
           { type: "addon" as const, icon: <AddCircle size={20} />, label: t("Add-on", "إضافة"), color: "text-info" },
           { type: "relocation" as const, icon: <Location size={20} />, label: t("Relocate", "نقل"), color: "text-primary" },
         ].map((action) => (
-          <Card key={action.type} className="cursor-pointer hover:border-primary/20 transition-colors" onClick={() => openFlow(action.type)}>
+          <Card key={action.type} className="cursor-pointer card-shadow border-0 hover:card-shadow-md transition-all duration-200" onClick={() => openFlow(action.type)}>
             <CardContent className="p-4 flex flex-col items-center gap-2 text-center">
               <span className={action.color}>{action.icon}</span>
               <span className="text-sm font-medium">{action.label}</span>
@@ -358,7 +358,7 @@ export default function RequestsPage() {
         <h2 className="text-base font-semibold mb-3">{t("Your Requests", "طلباتك")} ({requests.length})</h2>
         <div className="space-y-3">
           {requests.map((req) => (
-            <Card key={req.id} className="cursor-pointer hover:border-primary/20 transition-colors" onClick={() => setShowDetail(req.id)}>
+            <Card key={req.id} className="cursor-pointer card-shadow border-0 hover:card-shadow-md transition-all duration-200" onClick={() => setShowDetail(req.id)}>
               <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3">
