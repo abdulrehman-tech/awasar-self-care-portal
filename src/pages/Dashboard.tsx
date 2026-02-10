@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Card as CardIcon, MessageQuestion, Box, Eye, Flash, Wifi, Monitor, Call } from "iconsax-react";
+import { Card as CardIcon, MessageQuestion, Box, Eye, Flash, Wifi } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -27,13 +27,15 @@ export default function Dashboard() {
 
       {/* Promotions banner */}
       {promotions.length > 0 && (
-        <div className="gradient-primary rounded-lg p-4 text-white">
-          <p className="font-semibold">{t(promotions[0].title, promotions[0].titleAr)}</p>
-          <p className="text-sm opacity-90 mt-1">{t(promotions[0].description, promotions[0].descriptionAr)}</p>
-          <Button variant="secondary" size="sm" className="mt-2 bg-white/20 text-white hover:bg-white/30 border-0">
-            {t("Learn More", "اعرف المزيد")}
-          </Button>
-        </div>
+        <Link to="/catalog">
+          <div className="gradient-primary rounded-lg p-4 text-white cursor-pointer hover:opacity-95 transition-opacity">
+            <p className="font-semibold">{t(promotions[0].title, promotions[0].titleAr)}</p>
+            <p className="text-sm opacity-90 mt-1">{t(promotions[0].description, promotions[0].descriptionAr)}</p>
+            <Button variant="secondary" size="sm" className="mt-2 bg-white/20 text-white hover:bg-white/30 border-0">
+              {t("Learn More", "اعرف المزيد")}
+            </Button>
+          </div>
+        </Link>
       )}
 
       {/* Summary cards */}
@@ -124,7 +126,10 @@ export default function Dashboard() {
       {/* Recent activity */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base">{t("Recent Activity", "النشاط الأخير")}</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-base">{t("Recent Activity", "النشاط الأخير")}</CardTitle>
+            <Link to="/notifications" className="text-xs text-primary hover:underline">{t("View All", "عرض الكل")}</Link>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
