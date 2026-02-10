@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 
 const mainTabs = [
-  { path: "/", icon: Home2, labelEn: "Home", labelAr: "الرئيسية" },
+  { path: "/dashboard", icon: Home2, labelEn: "Home", labelAr: "الرئيسية" },
   { path: "/services", icon: Layer, labelEn: "Services", labelAr: "خدماتي" },
   { path: "/billing", icon: CardIcon, labelEn: "Pay", labelAr: "الدفع" },
   { path: "/support", icon: MessageQuestion, labelEn: "Support", labelAr: "الدعم" },
