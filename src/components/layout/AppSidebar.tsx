@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home2, Layer, Card as CardIcon, MessageQuestion, Box, Wifi,
   Notification, Book, LocationTick, User, Setting2, Logout,
   ArrowLeft2, ArrowRight2, ClipboardText
 } from "iconsax-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import awasrLogo from "@/assets/awasr-logo.png";
 
@@ -28,8 +31,17 @@ const bottomItems = [
 
 export default function AppSidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
   const { t, dir } = useLanguage();
+  const { toast } = useToast();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setShowLogout(false);
+    toast({ title: t("Logged out", "تم تسجيل الخروج") });
+    setTimeout(() => navigate("/login"), 500);
+  };
 
   return (
     <aside
@@ -102,7 +114,7 @@ export default function AppSidebar() {
             </Link>
           );
         })}
-        <button className="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-md text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors w-full">
+        <button onClick={() => setShowLogout(true)} className="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-md text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors w-full">
           <Logout size={20} className="shrink-0" />
           {!collapsed && <span>{t("Logout", "تسجيل الخروج")}</span>}
         </button>
@@ -122,6 +134,22 @@ export default function AppSidebar() {
           </div>
         </div>
       )}
+
+      {/* Logout confirmation */}
+      <Dialog open={showLogout} onOpenChange={setShowLogout}>
+        <DialogContent className="max-w-xs">
+          <DialogHeader>
+            <DialogTitle>{t("Logout", "تسجيل الخروج")}</DialogTitle>
+            <DialogDescription>{t("Are you sure you want to log out?", "هل أنت متأكد أنك تريد تسجيل الخروج؟")}</DialogDescription>
+          </DialogHeader>
+          <div className="flex gap-2 justify-end">
+            <Button variant="outline" size="sm" onClick={() => setShowLogout(false)}>{t("Cancel", "إلغاء")}</Button>
+            <Button variant="destructive" size="sm" onClick={handleLogout}>
+              <Logout size={14} className="me-1" />{t("Logout", "تسجيل الخروج")}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </aside>
   );
 }
