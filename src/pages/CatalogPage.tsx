@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SearchNormal, Wifi, Monitor, Call, Box, ArrowRight2, TickCircle } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ export default function CatalogPage() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
   const [compareList, setCompareList] = useState<string[]>([]);
   const [showCompare, setShowCompare] = useState(false);
   const [showContact, setShowContact] = useState(false);
@@ -88,7 +90,7 @@ export default function CatalogPage() {
                       )}
                       <div className="mt-3 flex items-center justify-between">
                         <p className="text-lg font-bold">{plan.price} <span className="text-xs font-normal text-muted-foreground">{t("OMR/mo", "ر.ع/شهر")}</span></p>
-                        <Button size="sm" className="text-xs">{t("Subscribe", "اشترك")} <ArrowRight2 size={14} className="ml-1" /></Button>
+                        <Button size="sm" className="text-xs" onClick={(e) => { e.stopPropagation(); navigate("/orders"); }}>{t("Subscribe", "اشترك")} <ArrowRight2 size={14} className="ml-1" /></Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -113,7 +115,7 @@ export default function CatalogPage() {
                 <p className="text-2xl font-bold">{plan.price} <span className="text-xs text-muted-foreground">{t("OMR", "ر.ع")}</span></p>
                 {plan.speed && <p className="text-sm text-muted-foreground">{plan.speed}</p>}
                 {"channels" in plan && <p className="text-sm text-muted-foreground">{(plan as any).channels} {t("channels", "قناة")}</p>}
-                <Button size="sm" className="w-full text-xs">{t("Subscribe", "اشترك")}</Button>
+                <Button size="sm" className="w-full text-xs" onClick={() => navigate("/orders")}>{t("Subscribe", "اشترك")}</Button>
               </div>
             ))}
           </div>
