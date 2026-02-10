@@ -14,6 +14,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { plans } from "@/data/mockData";
 import { cn } from "@/lib/utils";
+import OmrSymbol from "@/components/OmrSymbol";
 
 const typeIcons: Record<string, any> = { internet: Wifi, tv: Monitor, voice: Call, bundle: Box };
 
@@ -151,7 +152,7 @@ export default function CatalogPage() {
                         ))}</div>
                       )}
                       <div className="mt-3 flex items-center justify-between">
-                        <p className="text-lg font-bold">{plan.price} <span className="text-xs font-normal text-muted-foreground">{t("OMR/mo", "ر.ع/شهر")}</span></p>
+                        <p className="text-lg font-bold">{plan.price} <OmrSymbol /><span className="text-xs font-normal text-muted-foreground">/{t("mo", "شهر")}</span></p>
                         <Button size="sm" className="text-xs" onClick={(e) => { e.stopPropagation(); setShowCheckout(plan); }}>{t("Subscribe", "اشترك")} <ArrowRight2 size={14} className="ms-1" /></Button>
                       </div>
                     </CardContent>
@@ -184,7 +185,7 @@ export default function CatalogPage() {
                 </DialogHeader>
                 <div className="space-y-4">
                   <div className="text-center py-4 bg-muted/30 rounded-lg">
-                    <p className="text-3xl font-bold">{selectedPlan.price} <span className="text-sm font-normal text-muted-foreground">{t("OMR/month", "ر.ع/شهر")}</span></p>
+                    <p className="text-3xl font-bold">{selectedPlan.price} <OmrSymbol /><span className="text-sm font-normal text-muted-foreground">/{t("month", "شهر")}</span></p>
                   </div>
                   <div>
                     <p className="text-sm font-medium mb-2">{t("Features", "المميزات")}</p>
@@ -220,7 +221,7 @@ export default function CatalogPage() {
               <DialogHeader>
                 <DialogTitle>{t("Subscribe to", "الاشتراك في")} {t(showCheckout.name, showCheckout.nameAr)}</DialogTitle>
                 <DialogDescription>
-                  {showCheckout.price} {t("OMR/month", "ر.ع/شهر")} {showCheckout.speed ? `— ${showCheckout.speed}` : ""}
+                  {showCheckout.price} <OmrSymbol />/{t("month", "شهر")} {showCheckout.speed ? `— ${showCheckout.speed}` : ""}
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleCheckout} className="space-y-3">
@@ -250,7 +251,7 @@ export default function CatalogPage() {
                   </div>
                   <div className="flex items-center justify-between text-sm mt-1">
                     <span>{t("Monthly Cost", "التكلفة الشهرية")}</span>
-                    <span className="font-bold">{showCheckout.price} {t("OMR", "ر.ع")}</span>
+                    <span className="font-bold">{showCheckout.price} <OmrSymbol /></span>
                   </div>
                 </div>
                 <div className="flex gap-2 justify-end pt-2">
@@ -297,7 +298,7 @@ export default function CatalogPage() {
               <Select value={quoteForm.plan} onValueChange={(v) => setQuoteForm((p) => ({ ...p, plan: v }))}>
                 <SelectTrigger><SelectValue placeholder={t("Select a plan", "اختر باقة")} /></SelectTrigger>
                 <SelectContent>
-                  {plans.map((p) => <SelectItem key={p.id} value={p.name}>{t(p.name, p.nameAr)} — {p.price} {t("OMR", "ر.ع")}</SelectItem>)}
+                  {plans.map((p) => <SelectItem key={p.id} value={p.name}>{t(p.name, p.nameAr)} — {p.price} <OmrSymbol /></SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
@@ -334,7 +335,7 @@ export default function CatalogPage() {
               <tbody>
                 <tr className="border-b border-border">
                   <td className="p-2 text-muted-foreground">{t("Price", "السعر")}</td>
-                  {comparePlans.map((p) => <td key={p.id} className="p-2 text-center font-bold">{p.price} {t("OMR", "ر.ع")}</td>)}
+                  {comparePlans.map((p) => <td key={p.id} className="p-2 text-center font-bold">{p.price} <OmrSymbol /></td>)}
                 </tr>
                 <tr className="border-b border-border">
                   <td className="p-2 text-muted-foreground">{t("Type", "النوع")}</td>

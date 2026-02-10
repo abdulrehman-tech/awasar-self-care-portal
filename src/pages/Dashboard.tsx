@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { customer, services, invoices, usageData, monthlyUsage, recentActivity, promotions } from "@/data/mockData";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import promoIllustration from "@/assets/promo-illustration.png";
+import OmrSymbol from "@/components/OmrSymbol";
 
 export default function Dashboard() {
   const { t } = useLanguage();
@@ -65,7 +66,7 @@ export default function Dashboard() {
                 <MoneyRecive size={12} className="opacity-70" />
               </div>
               <p className="text-lg font-bold tabular-nums">{outstandingBalance.toFixed(0)}</p>
-              <p className="text-[10px] opacity-60 mt-0.5">OMR {t("due", "مستحق")}</p>
+              <p className="text-[10px] opacity-60 mt-0.5"><OmrSymbol /> {t("due", "مستحق")}</p>
             </div>
           </div>
         </div>
@@ -175,7 +176,7 @@ export default function Dashboard() {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-foreground">{t(service.name, service.nameAr)}</p>
                     <p className="text-[11px] text-muted-foreground">
-                      {service.speed ? `${service.speed} • ` : ""}{service.monthlyCost > 0 ? `${service.monthlyCost} OMR/${t("mo", "شهر")}` : t("Included", "مشمول")}
+                      {service.speed ? `${service.speed} • ` : ""}{service.monthlyCost > 0 ? <>{service.monthlyCost} <OmrSymbol />/{t("mo", "شهر")}</> : t("Included", "مشمول")}
                     </p>
                   </div>
                   <div className="h-2 w-2 rounded-full bg-success shrink-0" />
@@ -195,7 +196,7 @@ export default function Dashboard() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs text-muted-foreground font-medium">{t("Outstanding Balance", "الرصيد المستحق")}</p>
-              <p className="text-lg font-bold text-foreground">{outstandingBalance.toFixed(2)} <span className="text-xs font-normal text-muted-foreground">OMR</span></p>
+              <p className="text-lg font-bold text-foreground">{outstandingBalance.toFixed(2)} <span className="text-xs font-normal text-muted-foreground"><OmrSymbol /></span></p>
             </div>
             <Link to="/billing">
               <Button size="sm" className="rounded-xl text-xs h-9 px-4">{t("Pay Now", "ادفع الآن")}</Button>

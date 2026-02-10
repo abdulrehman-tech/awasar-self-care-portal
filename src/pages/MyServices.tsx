@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { services, plans } from "@/data/mockData";
 import { cn } from "@/lib/utils";
+import OmrSymbol from "@/components/OmrSymbol";
 
 const typeIcons: Record<string, any> = { internet: Wifi, tv: Monitor, voice: Call, bundle: Box };
 
@@ -22,7 +23,6 @@ export default function MyServices() {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Dialog states
   const [showAddService, setShowAddService] = useState(false);
   const [addStep, setAddStep] = useState<"type" | "plan" | "confirm">("type");
   const [selectedType, setSelectedType] = useState("");
@@ -45,7 +45,6 @@ export default function MyServices() {
     s === "suspended" ? "bg-warning/10 text-warning border-warning/20" :
     "bg-muted text-muted-foreground";
 
-  // Add Service handlers
   const resetAddFlow = () => { setAddStep("type"); setSelectedType(""); setSelectedPlan(""); };
   const openAddService = () => { resetAddFlow(); setShowAddService(true); };
   const filteredPlans = plans.filter((p) => p.type === selectedType);
@@ -55,10 +54,8 @@ export default function MyServices() {
     toast({ title: t("Service Added!", "تمت إضافة الخدمة!"), description: t("Your new service will be activated within 24 hours.", "سيتم تفعيل خدمتك الجديدة خلال 24 ساعة.") });
   };
 
-  // Manage handler
   const openManage = (service: typeof services[0]) => { setManagedService(service); setShowManage(true); };
 
-  // Upgrade handlers
   const openUpgrade = (service: typeof services[0]) => {
     setUpgradeService(service);
     setUpgradeTarget("");
@@ -67,15 +64,12 @@ export default function MyServices() {
   };
   const availableUpgrades = upgradeService ? plans.filter((p) => p.type === upgradeService.type && p.price > upgradeService.monthlyCost) : [];
 
-  const handleUpgradeConfirm = () => {
-    setUpgradeStep("done");
-  };
+  const handleUpgradeConfirm = () => { setUpgradeStep("done"); };
   const handleUpgradeDone = () => {
     setShowUpgrade(false);
     toast({ title: t("Upgrade Requested!", "تم طلب الترقية!"), description: t("Reference: REQ-3010. We'll process within 1-2 business days.", "المرجع: REQ-3010. سنقوم بالمعالجة خلال 1-2 أيام عمل.") });
   };
 
-  // Coverage check
   const checkCoverage = () => {
     if (!coverageAddress.trim()) return;
     setCoverageResult("checking");
@@ -123,7 +117,7 @@ export default function MyServices() {
                           </div>
                         </div>
                         <div className="text-end">
-                          <p className="font-bold text-sm">{service.monthlyCost.toFixed(2)} <span className="text-xs text-muted-foreground">{t("OMR/mo", "ر.ع/شهر")}</span></p>
+                          <p className="font-bold text-sm">{service.monthlyCost.toFixed(2)} <span className="text-xs text-muted-foreground"><OmrSymbol />/{t("mo", "شهر")}</span></p>
                         </div>
                       </div>
                       <div className="flex gap-2 mt-3">
@@ -150,11 +144,7 @@ export default function MyServices() {
         <CardContent>
           <p className="text-sm text-muted-foreground mb-3">{t("Check if Awasr services are available at your address.", "تحقق مما إذا كانت خدمات أوامر متوفرة في عنوانك.")}</p>
           <div className="flex gap-2">
-            <Input
-              value={coverageAddress}
-              onChange={(e) => { setCoverageAddress(e.target.value); setCoverageResult("idle"); }}
-              placeholder={t("Enter your address...", "أدخل عنوانك...")}
-            />
+            <Input value={coverageAddress} onChange={(e) => { setCoverageAddress(e.target.value); setCoverageResult("idle"); }} placeholder={t("Enter your address...", "أدخل عنوانك...")} />
             <Button onClick={checkCoverage} disabled={coverageResult === "checking"} size="sm">
               {coverageResult === "checking" ? t("Checking...", "جاري الفحص...") : t("Check", "فحص")}
             </Button>
@@ -186,7 +176,6 @@ export default function MyServices() {
             </DialogDescription>
           </DialogHeader>
 
-          {/* Step indicators */}
           <div className="flex items-center gap-2 mb-2">
             {["type", "plan", "confirm"].map((s, i) => (
               <div key={s} className="flex items-center gap-1">
@@ -228,7 +217,7 @@ export default function MyServices() {
                       <p className="font-semibold text-sm">{t(plan.name, plan.nameAr)}</p>
                       {plan.speed && <p className="text-xs text-muted-foreground">{plan.speed}</p>}
                     </div>
-                    <p className="font-bold text-sm">{plan.price} <span className="text-xs text-muted-foreground">{t("OMR/mo", "ر.ع/شهر")}</span></p>
+                    <p className="font-bold text-sm">{plan.price} <span className="text-xs text-muted-foreground"><OmrSymbol />/{t("mo", "شهر")}</span></p>
                   </div>
                 </button>
               ))}
@@ -244,7 +233,7 @@ export default function MyServices() {
                   <CardContent className="p-4 space-y-2">
                     <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Plan", "الباقة")}</span><span className="font-medium">{plan && t(plan.name, plan.nameAr)}</span></div>
                     {plan?.speed && <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Speed", "السرعة")}</span><span>{plan.speed}</span></div>}
-                    <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Monthly Cost", "التكلفة الشهرية")}</span><span className="font-bold">{plan?.price} {t("OMR", "ر.ع")}</span></div>
+                    <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Monthly Cost", "التكلفة الشهرية")}</span><span className="font-bold">{plan?.price} <OmrSymbol /></span></div>
                   </CardContent>
                 </Card>
                 <div className="flex gap-2 justify-between">
@@ -275,7 +264,7 @@ export default function MyServices() {
                 </CardContent></Card>
                 <Card className="bg-muted/50"><CardContent className="p-3 text-center">
                   <p className="text-xs text-muted-foreground">{t("Monthly Cost", "التكلفة الشهرية")}</p>
-                  <p className="font-bold text-sm mt-1">{managedService.monthlyCost.toFixed(2)} {t("OMR", "ر.ع")}</p>
+                  <p className="font-bold text-sm mt-1">{managedService.monthlyCost.toFixed(2)} <OmrSymbol /></p>
                 </CardContent></Card>
               </div>
 
@@ -339,7 +328,7 @@ export default function MyServices() {
                 <CardContent className="p-3">
                   <p className="text-xs text-muted-foreground">{t("Current Plan", "الباقة الحالية")}</p>
                   <p className="font-semibold text-sm">{upgradeService && t(upgradeService.name, upgradeService.nameAr)}</p>
-                  <p className="text-xs text-muted-foreground">{upgradeService?.speed} — {upgradeService?.monthlyCost.toFixed(2)} {t("OMR/mo", "ر.ع/شهر")}</p>
+                  <p className="text-xs text-muted-foreground">{upgradeService?.speed} — {upgradeService?.monthlyCost.toFixed(2)} <OmrSymbol />/{t("mo", "شهر")}</p>
                 </CardContent>
               </Card>
 
@@ -355,8 +344,8 @@ export default function MyServices() {
                       {plan.speed && <p className="text-xs text-muted-foreground">{plan.speed}</p>}
                     </div>
                     <div className="text-end">
-                      <p className="font-bold text-sm">{plan.price} {t("OMR/mo", "ر.ع/شهر")}</p>
-                      <p className="text-xs text-success">+{(plan.price - (upgradeService?.monthlyCost || 0)).toFixed(2)} {t("OMR", "ر.ع")}</p>
+                      <p className="font-bold text-sm">{plan.price} <OmrSymbol />/{t("mo", "شهر")}</p>
+                      <p className="text-xs text-success">+{(plan.price - (upgradeService?.monthlyCost || 0)).toFixed(2)} <OmrSymbol /></p>
                     </div>
                   </button>
                 ))
@@ -372,13 +361,13 @@ export default function MyServices() {
                   <Card className="flex-1 bg-muted/50"><CardContent className="p-3 text-center">
                     <p className="text-[10px] text-muted-foreground">{t("FROM", "من")}</p>
                     <p className="text-xs font-medium mt-1">{upgradeService && t(upgradeService.name, upgradeService.nameAr)}</p>
-                    <p className="text-xs text-muted-foreground">{upgradeService?.monthlyCost.toFixed(2)} {t("OMR", "ر.ع")}</p>
+                    <p className="text-xs text-muted-foreground">{upgradeService?.monthlyCost.toFixed(2)} <OmrSymbol /></p>
                   </CardContent></Card>
                   <span className="text-muted-foreground shrink-0 text-lg">→</span>
                   <Card className="flex-1 border-primary"><CardContent className="p-3 text-center">
                     <p className="text-[10px] text-primary">{t("TO", "إلى")}</p>
                     <p className="text-xs font-medium mt-1">{target && t(target.name, target.nameAr)}</p>
-                    <p className="text-xs text-primary font-bold">{target?.price.toFixed(2)} {t("OMR", "ر.ع")}</p>
+                    <p className="text-xs text-primary font-bold">{target?.price.toFixed(2)} <OmrSymbol /></p>
                   </CardContent></Card>
                 </div>
                 <div className="flex gap-2 justify-between">

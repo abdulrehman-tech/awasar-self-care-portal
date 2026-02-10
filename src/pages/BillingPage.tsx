@@ -14,6 +14,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { invoices, invoiceLineItems } from "@/data/mockData";
 import { cn } from "@/lib/utils";
+import OmrSymbol from "@/components/OmrSymbol";
 
 const paymentMethods = [
   { id: "card", name: "Credit/Debit Card", nameAr: "بطاقة ائتمان/خصم", icon: "/icons/visa.svg" },
@@ -104,7 +105,7 @@ export default function BillingPage() {
       const d = promoCode.toUpperCase() === "AWASR20" ? outstanding * 0.2 : 10;
       setDiscount(d);
       setPromoStatus("success");
-      toast({ title: t("Promo applied!", "تم تطبيق الرمز!"), description: t(`Discount: OMR ${d.toFixed(2)}`, `الخصم: ${d.toFixed(2)} ر.ع`) });
+      toast({ title: t("Promo applied!", "تم تطبيق الرمز!"), description: `${t("Discount", "الخصم")}: ${d.toFixed(2)}` });
     } else {
       setPromoStatus("error");
       toast({ title: t("Invalid promo code", "رمز ترويجي غير صالح"), variant: "destructive" });
@@ -157,9 +158,9 @@ export default function BillingPage() {
                   {finalAmount.toFixed(2)}
                 </>
               ) : outstanding.toFixed(2)}
-              <span className="text-sm font-normal text-muted-foreground ms-1">{t("OMR", "ر.ع")}</span>
+              <span className="text-sm font-normal text-muted-foreground ms-1"><OmrSymbol /></span>
             </p>
-            {discount > 0 && <p className="text-xs text-success mt-0.5">{t(`Discount: OMR ${discount.toFixed(2)}`, `الخصم: ${discount.toFixed(2)} ر.ع`)}</p>}
+            {discount > 0 && <p className="text-xs text-success mt-0.5">{t("Discount", "الخصم")}: {discount.toFixed(2)} <OmrSymbol /></p>}
             {outstanding > 0 && (
               <Button size="sm" className="w-full mt-3" onClick={handlePay}>
                 {t("Pay Now", "ادفع الآن")}
@@ -171,7 +172,7 @@ export default function BillingPage() {
         <Card className="card-shadow border-0">
           <CardContent className="p-4">
             <p className="text-xs text-muted-foreground mb-1">{t("Total Paid (YTD)", "إجمالي المدفوعات")}</p>
-            <p className="text-2xl font-bold">{totalPaid.toFixed(2)} <span className="text-sm font-normal text-muted-foreground">{t("OMR", "ر.ع")}</span></p>
+            <p className="text-2xl font-bold">{totalPaid.toFixed(2)} <span className="text-sm font-normal text-muted-foreground"><OmrSymbol /></span></p>
             <p className="text-xs text-muted-foreground mt-1">{invoices.filter(i => i.status === "paid").length} {t("invoices", "فواتير")}</p>
           </CardContent>
         </Card>
@@ -296,7 +297,7 @@ export default function BillingPage() {
                   </div>
                 </div>
                 <div className="text-end">
-                  <p className="text-sm font-semibold">{inv.amount.toFixed(2)} {t("OMR", "ر.ع")}</p>
+                  <p className="text-sm font-semibold">{inv.amount.toFixed(2)} <OmrSymbol /></p>
                   <Badge variant="outline" className={cn("text-[10px]", inv.status === "paid" ? "text-success border-success/20" : "text-warning border-warning/20")}>
                     {t(inv.status === "paid" ? "Paid" : "Unpaid", inv.status === "paid" ? "مدفوع" : "غير مدفوع")}
                   </Badge>
@@ -361,8 +362,8 @@ export default function BillingPage() {
             <DialogDescription>{t("Review your payment details below.", "راجع تفاصيل الدفع أدناه.")}</DialogDescription>
           </DialogHeader>
           <div className="space-y-3 py-2">
-            <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Amount", "المبلغ")}</span><span className="font-semibold">{finalAmount.toFixed(2)} {t("OMR", "ر.ع")}</span></div>
-            {discount > 0 && <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Discount", "الخصم")}</span><span className="text-success">-{discount.toFixed(2)} {t("OMR", "ر.ع")}</span></div>}
+            <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Amount", "المبلغ")}</span><span className="font-semibold">{finalAmount.toFixed(2)} <OmrSymbol /></span></div>
+            {discount > 0 && <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Discount", "الخصم")}</span><span className="text-success">-{discount.toFixed(2)} <OmrSymbol /></span></div>}
             <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Method", "الطريقة")}</span><span>{paymentMethods.find((m) => m.id === selectedMethod)?.name}</span></div>
             {selectedMethod === "card" && cardNumber && <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Card", "البطاقة")}</span><span>•••• {cardNumber.slice(-4)}</span></div>}
             <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Account", "الحساب")}</span><span>AWR-98765432</span></div>
@@ -384,7 +385,7 @@ export default function BillingPage() {
           </div>
           <Separator />
           <div className="space-y-2 py-3">
-            <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Amount Paid", "المبلغ المدفوع")}</span><span className="font-semibold">{receiptData.amount.toFixed(2)} {t("OMR", "ر.ع")}</span></div>
+            <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Amount Paid", "المبلغ المدفوع")}</span><span className="font-semibold">{receiptData.amount.toFixed(2)} <OmrSymbol /></span></div>
             <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Payment Method", "طريقة الدفع")}</span><span>{receiptData.method}</span></div>
             <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Date", "التاريخ")}</span><span>{new Date().toLocaleDateString()}</span></div>
             <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("Account", "الحساب")}</span><span>AWR-98765432</span></div>
@@ -424,14 +425,14 @@ export default function BillingPage() {
                   {invoiceLineItems.map((item, i) => (
                     <div key={i} className="flex justify-between text-sm">
                       <span>{t(item.description, item.descriptionAr)}</span>
-                      <span>{item.amount.toFixed(2)} {t("OMR", "ر.ع")}</span>
+                      <span>{item.amount.toFixed(2)} <OmrSymbol /></span>
                     </div>
                   ))}
                 </div>
                 <Separator className="my-2" />
                 <div className="flex justify-between text-sm font-bold">
                   <span>{t("Total", "الإجمالي")}</span>
-                  <span>{selectedInvoice.amount.toFixed(2)} {t("OMR", "ر.ع")}</span>
+                  <span>{selectedInvoice.amount.toFixed(2)} <OmrSymbol /></span>
                 </div>
               </div>
               <div className="flex gap-2 justify-end">
@@ -465,7 +466,7 @@ export default function BillingPage() {
                 )}
               >
                 <span className="text-lg font-bold">{amt}</span>
-                <span className="text-xs text-muted-foreground block">{t("OMR", "ر.ع")}</span>
+                <span className="text-xs text-muted-foreground block"><OmrSymbol /></span>
               </button>
             ))}
           </div>
