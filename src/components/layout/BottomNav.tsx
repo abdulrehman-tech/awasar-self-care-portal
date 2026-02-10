@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home2, Layer, Card as CardIcon, MessageQuestion, More,
   User, Wifi, Book, Notification, Logout, Box, ClipboardText
@@ -7,6 +7,9 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const mainTabs = [
   { path: "/", icon: Home2, labelEn: "Home", labelAr: "الرئيسية" },
@@ -27,8 +30,18 @@ const moreItems = [
 
 export default function BottomNav() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
   const { t } = useLanguage();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    setShowLogout(false);
+    setDrawerOpen(false);
+    toast({ title: t("Logged out", "تم تسجيل الخروج") });
+    setTimeout(() => navigate("/login"), 500);
+  };
 
   const isMoreActive = moreItems.some((item) => location.pathname === item.path);
 
@@ -85,7 +98,13 @@ export default function BottomNav() {
                 <span className="text-xs font-medium text-center">{t(item.labelEn, item.labelAr)}</span>
               </Link>
             ))}
-            <button className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-muted transition-colors">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowLogout(true);
+              }}
+              className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-muted transition-colors"
+            >
               <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center">
                 <Logout size={20} className="text-destructive" />
               </div>
@@ -94,6 +113,22 @@ export default function BottomNav() {
           </div>
         </DrawerContent>
       </Drawer>
+
+      {/* Logout Confirmation */}
+      <Dialog open={showLogout} onOpenChange={setShowLogout}>
+        <DialogContent className="max-w-xs">
+          <DialogHeader>
+            <DialogTitle>{t("Logout", "تسجيل الخروج")}</DialogTitle>
+            <DialogDescription>{t("Are you sure you want to log out?", "هل أنت متأكد أنك تريد تسجيل الخروج؟")}</DialogDescription>
+          </DialogHeader>
+          <div className="flex gap-2 justify-end">
+            <Button variant="outline" size="sm" onClick={() => setShowLogout(false)}>{t("Cancel", "إلغاء")}</Button>
+            <Button variant="destructive" size="sm" onClick={handleLogout}>
+              <Logout size={14} className="me-1" />{t("Logout", "تسجيل الخروج")}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
