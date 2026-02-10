@@ -71,9 +71,10 @@ export default function LoginPage() {
         {view === "phone" && (
           <>
             <CardHeader className="text-center pb-2">
-              <div className="mx-auto mb-4">
+              <div className="mx-auto mb-3">
                 <img src={awasrLogo} alt="Awasr" className="h-16 w-auto mx-auto object-contain" />
               </div>
+              <h1 className="text-lg font-semibold text-foreground">{t("Awasar Self-Care Portal", "بوابة أواصر للخدمة الذاتية")}</h1>
               <p className="text-sm text-muted-foreground">{t("Sign in with your phone number", "سجل الدخول برقم هاتفك")}</p>
             </CardHeader>
             <CardContent>
