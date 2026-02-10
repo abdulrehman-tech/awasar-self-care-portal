@@ -162,8 +162,8 @@ export default function Dashboard() {
         </div>
         <div className="space-y-3">
           {services.filter(s => s.status === "active").map((service) => (
-            <Link key={service.id} to="/services">
-              <Card className="card-shadow border-0 hover:card-shadow-md transition-all duration-200">
+            <Link key={service.id} to="/services" className="block">
+              <Card className="card-shadow border-0 hover:card-shadow-md transition-all duration-200 mb-0">
                 <CardContent className="p-3.5 flex items-center gap-3">
                   <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${
                     service.type === "internet" ? "bg-primary/8" : service.type === "tv" ? "bg-secondary/8" : "bg-success/8"

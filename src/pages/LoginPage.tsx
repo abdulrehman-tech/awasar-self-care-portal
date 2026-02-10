@@ -51,18 +51,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Gradient background */}
+      <div className="absolute inset-0 gradient-primary" />
+      <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+
       {/* Language toggle */}
       <button
         onClick={toggleLanguage}
-        className="fixed top-4 end-4 flex items-center gap-1 px-3 py-1.5 rounded-md text-sm text-muted-foreground hover:bg-muted transition-colors bg-card border border-border"
+        className="fixed top-4 end-4 z-10 flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors backdrop-blur-sm border border-white/10"
       >
         <Global size={16} />
         {language === "en" ? "عربي" : "EN"}
       </button>
 
-      <Card className="w-full max-w-sm">
-        <div className="h-1.5 gradient-primary rounded-t-lg" />
+      <Card className="w-full max-w-sm relative z-10 border-0 card-shadow-md rounded-2xl overflow-hidden">
 
         {/* === PHONE NUMBER VIEW === */}
         {view === "phone" && (
@@ -87,12 +90,12 @@ export default function LoginPage() {
                       value={phone}
                       onChange={(e) => setPhone(formatPhone(e.target.value))}
                       placeholder="9123 4567"
-                      className="font-mono"
+                      className="font-mono rounded-xl h-11"
                       maxLength={9}
                     />
                   </div>
                 </div>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full rounded-xl h-11">
                   <Call size={16} className="me-1" />
                   {t("Send Verification Code", "إرسال رمز التحقق")}
                 </Button>
@@ -125,12 +128,12 @@ export default function LoginPage() {
                     value={otp}
                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 4))}
                     placeholder="0000"
-                    className="text-center text-2xl tracking-[0.5em] font-mono"
+                    className="text-center text-2xl tracking-[0.5em] font-mono rounded-xl h-12"
                     maxLength={4}
                     autoFocus
                   />
                 </div>
-                <Button type="submit" className="w-full">{t("Verify & Sign In", "تحقق وسجل الدخول")}</Button>
+                <Button type="submit" className="w-full rounded-xl h-11">{t("Verify & Sign In", "تحقق وسجل الدخول")}</Button>
                 <button type="button" onClick={handleResend} className="w-full text-sm text-secondary hover:underline text-center">
                   {t("Resend Code", "إعادة إرسال الرمز")}
                 </button>
