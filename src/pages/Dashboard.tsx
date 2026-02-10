@@ -28,12 +28,12 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Personalized Greeting */}
       <div className="gradient-primary rounded-xl p-5 text-white">
         <p className="text-sm opacity-80">{greeting}</p>
         <h1 className="text-xl font-bold mt-0.5">{t(customer.name, customer.nameAr)} 👋</h1>
-        <p className="text-sm opacity-80 mt-1">{t("Here's your account overview", "إليك نظرة عامة على حسابك")}</p>
+        <p className="text-sm opacity-80 mt-2">{t("Here's your account overview", "إليك نظرة عامة على حسابك")}</p>
 
         {/* Inline stats */}
         <div className="grid grid-cols-3 gap-3 mt-4">
