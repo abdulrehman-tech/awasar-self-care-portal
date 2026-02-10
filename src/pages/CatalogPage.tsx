@@ -76,7 +76,7 @@ export default function CatalogPage() {
                           <Icon size={20} className="text-primary" />
                         </div>
                         <button onClick={() => toggleCompare(plan.id)} className={cn("text-xs px-2 py-1 rounded border transition-colors", isComparing ? "border-primary text-primary bg-primary/5" : "border-border text-muted-foreground hover:border-primary/30")}>
-                          {isComparing ? <TickCircle size={12} className="inline mr-0.5" /> : null}
+                          {isComparing ? <TickCircle size={12} className="inline me-0.5" /> : null}
                           {t("Compare", "مقارنة")}
                         </button>
                       </div>
@@ -85,7 +85,7 @@ export default function CatalogPage() {
                       {"channels" in plan && <p className="text-xs text-muted-foreground">{(plan as any).channels} {t("channels", "قناة")}</p>}
                       {"includes" in plan && (
                         <div className="mt-1">{((plan as any).includes as string[]).map((inc, i) => (
-                          <Badge key={i} variant="outline" className="text-[10px] mr-1">{inc}</Badge>
+                          <Badge key={i} variant="outline" className="text-[10px] me-1">{inc}</Badge>
                         ))}</div>
                       )}
                       <div className="mt-3 flex items-center justify-between">

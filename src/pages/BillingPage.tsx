@@ -153,7 +153,7 @@ export default function BillingPage() {
                 <p className="text-2xl font-bold">
                   {discount > 0 ? (
                     <>
-                      <span className="line-through text-muted-foreground text-lg mr-2">{outstanding.toFixed(2)}</span>
+                      <span className="line-through text-muted-foreground text-lg me-2">{outstanding.toFixed(2)}</span>
                       {finalAmount.toFixed(2)}
                     </>
                   ) : outstanding.toFixed(2)}

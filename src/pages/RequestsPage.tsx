@@ -417,7 +417,7 @@ export default function RequestsPage() {
               {(selectedDetailReq.status === "pending" || selectedDetailReq.status === "in_progress") && (
                 <div className="flex justify-end">
                   <Button variant="outline" size="sm" className="text-destructive" onClick={() => cancelRequest(selectedDetailReq.id)}>
-                    <CloseCircle size={14} className="mr-1" />{t("Cancel Request", "إلغاء الطلب")}
+                    <CloseCircle size={14} className="me-1" />{t("Cancel Request", "إلغاء الطلب")}
                   </Button>
                 </div>
               )}
