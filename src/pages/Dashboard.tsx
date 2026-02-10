@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { customer, services, invoices, usageData, monthlyUsage, recentActivity, promotions } from "@/data/mockData";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from "recharts";
+import promoIllustration from "@/assets/promo-illustration.png";
 
 export default function Dashboard() {
   const { t } = useLanguage();
@@ -55,16 +56,17 @@ export default function Dashboard() {
       {/* Promotions banner */}
       {promotions.length > 0 && (
         <Link to="/catalog">
-          <Card className="border-secondary/20 bg-secondary/5 hover:bg-secondary/10 transition-colors cursor-pointer">
-            <CardContent className="p-4 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
-                <Flash size={20} className="text-secondary" />
-              </div>
+          <Card className="border-secondary/20 bg-secondary/5 hover:bg-secondary/10 transition-colors cursor-pointer overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-4">
               <div className="flex-1 min-w-0">
+                <Badge variant="outline" className="text-[10px] border-secondary/30 text-secondary mb-2">{t("Limited Offer", "عرض محدود")}</Badge>
                 <p className="font-semibold text-sm">{t(promotions[0].title, promotions[0].titleAr)}</p>
-                <p className="text-xs text-muted-foreground">{t(promotions[0].description, promotions[0].descriptionAr)}</p>
+                <p className="text-xs text-muted-foreground mt-1">{t(promotions[0].description, promotions[0].descriptionAr)}</p>
+                <Button size="sm" variant="outline" className="mt-3 text-xs border-secondary/30 text-secondary hover:bg-secondary/10">
+                  {t("Learn More", "اعرف المزيد")} <ArrowRight2 size={14} className="ms-1" />
+                </Button>
               </div>
-              <ArrowRight2 size={16} className="text-muted-foreground shrink-0" />
+              <img src={promoIllustration} alt="" className="h-24 w-24 object-contain shrink-0 opacity-90" />
             </CardContent>
           </Card>
         </Link>
