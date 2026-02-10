@@ -153,9 +153,8 @@ export const orders = [
 ];
 
 export const usageData = [
-  { name: "Data", value: 856, limit: -1, unit: "GB", unlimited: true },
+  { name: "Download", value: 856, limit: -1, unit: "GB", unlimited: true },
   { name: "Upload", value: 124, limit: -1, unit: "GB", unlimited: true },
-  { name: "Devices", value: 12, limit: 32, unit: "", unlimited: false },
 ];
 
 export const monthlyUsage = [
