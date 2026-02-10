@@ -96,10 +96,10 @@ export default function MyServices() {
           <TabsTrigger value="all">{t("All", "الكل")}</TabsTrigger>
           <TabsTrigger value="internet">{t("Internet", "الإنترنت")}</TabsTrigger>
           <TabsTrigger value="tv">{t("TV", "التلفزيون")}</TabsTrigger>
-          <TabsTrigger value="voice">{t("Voice", "الصوت")}</TabsTrigger>
+          <TabsTrigger value="addon">{t("Add-ons", "الإضافات")}</TabsTrigger>
         </TabsList>
 
-        {["all", "internet", "tv", "voice"].map((tab) => (
+        {["all", "internet", "tv", "addon"].map((tab) => (
           <TabsContent key={tab} value={tab} className="space-y-4 mt-4">
             {services
               .filter((s) => tab === "all" || s.type === tab)
@@ -203,9 +203,8 @@ export default function MyServices() {
             <div className="grid grid-cols-2 gap-3">
               {[
                 { value: "internet", icon: Wifi, en: "Internet", ar: "الإنترنت" },
-                { value: "tv", icon: Monitor, en: "TV", ar: "التلفزيون" },
-                { value: "voice", icon: Call, en: "Voice", ar: "الصوت" },
-                { value: "bundle", icon: Box, en: "Bundle", ar: "باقة" },
+                { value: "tv", icon: Monitor, en: "Jawwy TV", ar: "جوّي تي في" },
+                { value: "addon", icon: Box, en: "Add-ons", ar: "الإضافات" },
               ].map((type) => (
                 <button key={type.value} onClick={() => { setSelectedType(type.value); setAddStep("plan"); }}
                   className="p-4 rounded-lg border border-border hover:border-primary/30 transition-colors flex flex-col items-center gap-2">
@@ -290,10 +289,10 @@ export default function MyServices() {
               {managedService.type === "internet" && (
                 <div>
                   <div className="flex justify-between text-xs mb-1">
-                    <span className="text-muted-foreground">{t("Data Used", "البيانات المستخدمة")}</span>
-                    <span>{managedService.dataUsed} / {managedService.dataLimit} GB</span>
+                    <span className="text-muted-foreground">{t("Data", "البيانات")}</span>
+                    <span className="font-medium text-success">{t("Unlimited", "غير محدود")} ∞</span>
                   </div>
-                  <Progress value={managedService.dataUsed && managedService.dataLimit ? (managedService.dataUsed / managedService.dataLimit) * 100 : 0} className="h-2" />
+                  <Progress value={100} className="h-2 [&>div]:bg-success" />
                 </div>
               )}
 

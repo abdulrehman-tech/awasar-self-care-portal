@@ -13,8 +13,9 @@ export default function Dashboard() {
   const { t } = useLanguage();
   const outstandingBalance = invoices.filter((i) => i.status === "unpaid").reduce((sum, i) => sum + i.amount, 0);
   const activeServicesCount = services.filter((s) => s.status === "active").length;
-  const dataUsage = usageData.find((u) => u.name === "Data")!;
-  const dataPercent = Math.round((dataUsage.value / dataUsage.limit) * 100);
+  const downloadUsage = usageData.find((u) => u.name === "Data")!;
+  const uploadUsage = usageData.find((u) => u.name === "Upload")!;
+  const devicesUsage = usageData.find((u) => u.name === "Devices")!;
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? t("Good morning", "صباح الخير") : hour < 17 ? t("Good afternoon", "مساء الخير") : t("Good evening", "مساء الخير");
@@ -39,16 +40,16 @@ export default function Dashboard() {
         {/* Inline stats */}
         <div className="grid grid-cols-3 gap-3 mt-4">
           <div className="bg-white/15 rounded-lg p-3 text-center backdrop-blur-sm">
-            <p className="text-xl font-bold">{dataUsage.value}<span className="text-xs font-normal opacity-70">/{dataUsage.limit} GB</span></p>
-            <p className="text-[10px] opacity-80">{t("Data Used", "البيانات")}</p>
+            <p className="text-xl font-bold">{downloadUsage.value}<span className="text-xs font-normal opacity-70"> GB</span></p>
+            <p className="text-[10px] opacity-80">{t("Downloaded", "تحميل")}</p>
           </div>
           <div className="bg-white/15 rounded-lg p-3 text-center backdrop-blur-sm">
-            <p className="text-xl font-bold">{usageData.find(u => u.name === "Voice")!.value}<span className="text-xs font-normal opacity-70">/{usageData.find(u => u.name === "Voice")!.limit} min</span></p>
-            <p className="text-[10px] opacity-80">{t("Calls", "المكالمات")}</p>
+            <p className="text-xl font-bold">{uploadUsage.value}<span className="text-xs font-normal opacity-70"> GB</span></p>
+            <p className="text-[10px] opacity-80">{t("Uploaded", "رفع")}</p>
           </div>
           <div className="bg-white/15 rounded-lg p-3 text-center backdrop-blur-sm">
-            <p className="text-xl font-bold">{usageData.find(u => u.name === "SMS")!.value}<span className="text-xs font-normal opacity-70">/{usageData.find(u => u.name === "SMS")!.limit}</span></p>
-            <p className="text-[10px] opacity-80">{t("SMS Sent", "الرسائل")}</p>
+            <p className="text-xl font-bold">{devicesUsage.value}<span className="text-xs font-normal opacity-70">/{devicesUsage.limit}</span></p>
+            <p className="text-[10px] opacity-80">{t("Devices", "الأجهزة")}</p>
           </div>
         </div>
       </div>
@@ -92,18 +93,19 @@ export default function Dashboard() {
       {/* Usage Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {usageData.map((item) => {
-          const percent = Math.round((item.value / item.limit) * 100);
-          const isHigh = percent > 80;
+          const isUnlimited = item.unlimited;
+          const percent = isUnlimited ? -1 : Math.round((item.value / item.limit) * 100);
           return (
             <Card key={item.name}>
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium">{t(item.name, item.name === "Data" ? "البيانات" : item.name === "Voice" ? "الصوت" : "الرسائل")}</p>
-                  {isHigh && <Badge variant="outline" className="text-[10px] text-warning border-warning/20">{t("High", "عالي")}</Badge>}
+                  <p className="text-sm font-medium">{t(item.name, item.name === "Data" ? "التحميل" : item.name === "Upload" ? "الرفع" : "الأجهزة")}</p>
+                  {isUnlimited && <Badge variant="outline" className="text-[10px] text-success border-success/20">{t("Unlimited", "غير محدود")}</Badge>}
                 </div>
-                <p className="text-2xl font-bold">{item.value} <span className="text-sm font-normal text-muted-foreground">/ {item.limit} {item.unit}</span></p>
-                <Progress value={percent} className={`mt-2 h-2 ${isHigh ? "[&>div]:bg-warning" : ""}`} />
-                <p className="text-xs text-muted-foreground mt-1">{percent}% {t("used", "مستخدم")}</p>
+                <p className="text-2xl font-bold">{item.value} <span className="text-sm font-normal text-muted-foreground">{item.unit}{!isUnlimited && ` / ${item.limit}`}</span></p>
+                {!isUnlimited && <Progress value={percent} className={`mt-2 h-2 ${percent > 80 ? "[&>div]:bg-warning" : ""}`} />}
+                {!isUnlimited && <p className="text-xs text-muted-foreground mt-1">{percent}% {t("used", "مستخدم")}</p>}
+                {isUnlimited && <p className="text-xs text-muted-foreground mt-2">{t("This month", "هذا الشهر")}</p>}
               </CardContent>
             </Card>
           );
@@ -120,11 +122,11 @@ export default function Dashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={monthlyUsage}>
                 <defs>
-                  <linearGradient id="dataGrad" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id="downloadGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="hsl(316, 70%, 41%)" stopOpacity={0.3}/>
                     <stop offset="95%" stopColor="hsl(316, 70%, 41%)" stopOpacity={0}/>
                   </linearGradient>
-                  <linearGradient id="voiceGrad" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id="uploadGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="hsl(202, 90%, 43%)" stopOpacity={0.3}/>
                     <stop offset="95%" stopColor="hsl(202, 90%, 43%)" stopOpacity={0}/>
                   </linearGradient>
@@ -141,8 +143,8 @@ export default function Dashboard() {
                   }}
                 />
                 <Legend />
-                <Area type="monotone" dataKey="data" name={t("Data (GB)", "البيانات (جيجا)")} stroke="hsl(316, 70%, 41%)" fill="url(#dataGrad)" strokeWidth={2} />
-                <Area type="monotone" dataKey="voice" name={t("Voice (min)", "الصوت (دقيقة)")} stroke="hsl(202, 90%, 43%)" fill="url(#voiceGrad)" strokeWidth={2} />
+                <Area type="monotone" dataKey="download" name={t("Download (GB)", "تحميل (جيجا)")} stroke="hsl(316, 70%, 41%)" fill="url(#downloadGrad)" strokeWidth={2} />
+                <Area type="monotone" dataKey="upload" name={t("Upload (GB)", "رفع (جيجا)")} stroke="hsl(202, 90%, 43%)" fill="url(#uploadGrad)" strokeWidth={2} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -169,9 +171,8 @@ export default function Dashboard() {
                     fontSize: '12px'
                   }}
                 />
-                <Bar dataKey="data" name={t("Data (GB)", "البيانات (جيجا)")} fill="hsl(316, 70%, 41%)" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="voice" name={t("Voice (min)", "الصوت (دقيقة)")} fill="hsl(202, 90%, 43%)" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="sms" name={t("SMS", "رسائل")} fill="hsl(220, 9%, 46%)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="download" name={t("Download (GB)", "تحميل (جيجا)")} fill="hsl(316, 70%, 41%)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="upload" name={t("Upload (GB)", "رفع (جيجا)")} fill="hsl(202, 90%, 43%)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
