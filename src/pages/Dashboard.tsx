@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CreditCard, LifeBuoy, Package, Eye, Zap, Wifi, Tv, Phone } from "lucide-react";
+import { Card as CardIcon, MessageQuestion, Box, Eye, Flash, Wifi, Monitor, Call } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -42,7 +42,7 @@ export default function Dashboard() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-2">
               <p className="text-sm text-muted-foreground">{t("Outstanding Balance", "الرصيد المستحق")}</p>
-              <CreditCard className="h-4 w-4 text-muted-foreground" />
+              <CardIcon size={16} className="text-muted-foreground" />
             </div>
             <p className="text-2xl font-bold">{outstandingBalance.toFixed(2)} <span className="text-sm font-normal text-muted-foreground">{t("OMR", "ر.ع")}</span></p>
             <Link to="/billing">
@@ -55,7 +55,7 @@ export default function Dashboard() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-2">
               <p className="text-sm text-muted-foreground">{t("Data Usage", "استخدام البيانات")}</p>
-              <Wifi className="h-4 w-4 text-muted-foreground" />
+              <Wifi size={16} className="text-muted-foreground" />
             </div>
             <p className="text-2xl font-bold">{dataUsage.value} <span className="text-sm font-normal text-muted-foreground">/ {dataUsage.limit} {dataUsage.unit}</span></p>
             <Progress value={dataPercent} className="mt-2 h-2" />
@@ -67,7 +67,7 @@ export default function Dashboard() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-2">
               <p className="text-sm text-muted-foreground">{t("Active Services", "الخدمات النشطة")}</p>
-              <Zap className="h-4 w-4 text-muted-foreground" />
+              <Flash size={16} className="text-muted-foreground" />
             </div>
             <p className="text-2xl font-bold">{activeServicesCount}</p>
             <Link to="/services">
@@ -80,16 +80,16 @@ export default function Dashboard() {
       {/* Quick actions */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { to: "/billing", icon: CreditCard, labelEn: "Pay Bill", labelAr: "دفع الفاتورة" },
-          { to: "/support", icon: LifeBuoy, labelEn: "Raise Ticket", labelAr: "إنشاء تذكرة" },
-          { to: "/orders", icon: Package, labelEn: "Track Order", labelAr: "تتبع الطلب" },
+          { to: "/billing", icon: CardIcon, labelEn: "Pay Bill", labelAr: "دفع الفاتورة" },
+          { to: "/support", icon: MessageQuestion, labelEn: "Raise Ticket", labelAr: "إنشاء تذكرة" },
+          { to: "/orders", icon: Box, labelEn: "Track Order", labelAr: "تتبع الطلب" },
           { to: "/catalog", icon: Eye, labelEn: "View Plans", labelAr: "عرض الباقات" },
         ].map((action) => (
           <Link key={action.to} to={action.to}>
             <Card className="hover:border-primary/30 transition-colors cursor-pointer">
               <CardContent className="p-3 flex flex-col items-center gap-2 text-center">
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <action.icon className="h-5 w-5 text-primary" />
+                  <action.icon size={20} className="text-primary" />
                 </div>
                 <span className="text-xs font-medium">{t(action.labelEn, action.labelAr)}</span>
               </CardContent>
@@ -131,11 +131,11 @@ export default function Dashboard() {
             {recentActivity.map((item) => (
               <div key={item.id} className="flex items-start gap-3 py-2 border-b border-border last:border-0">
                 <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  {item.type === "payment" && <CreditCard className="h-4 w-4 text-success" />}
-                  {item.type === "ticket" && <LifeBuoy className="h-4 w-4 text-warning" />}
-                  {item.type === "service" && <Zap className="h-4 w-4 text-secondary" />}
-                  {item.type === "order" && <Package className="h-4 w-4 text-info" />}
-                  {item.type === "billing" && <CreditCard className="h-4 w-4 text-primary" />}
+                  {item.type === "payment" && <CardIcon size={16} className="text-success" />}
+                  {item.type === "ticket" && <MessageQuestion size={16} className="text-warning" />}
+                  {item.type === "service" && <Flash size={16} className="text-secondary" />}
+                  {item.type === "order" && <Box size={16} className="text-info" />}
+                  {item.type === "billing" && <CardIcon size={16} className="text-primary" />}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm">{t(item.description, item.descriptionAr)}</p>

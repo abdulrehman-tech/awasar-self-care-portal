@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff, Globe } from "lucide-react";
+import { Eye, EyeSlash, Global } from "iconsax-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
+import awasrLogo from "@/assets/awasr-logo.png";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -33,7 +34,7 @@ export default function LoginPage() {
         onClick={toggleLanguage}
         className="fixed top-4 right-4 flex items-center gap-1 px-3 py-1.5 rounded-md text-sm text-muted-foreground hover:bg-muted transition-colors bg-card border border-border"
       >
-        <Globe className="h-4 w-4" />
+        <Global size={16} />
         {language === "en" ? "عربي" : "EN"}
       </button>
 
@@ -42,7 +43,7 @@ export default function LoginPage() {
         <div className="h-1.5 gradient-primary rounded-t-lg" />
         <CardHeader className="text-center pb-2">
           <div className="mx-auto mb-4">
-            <span className="text-3xl font-bold gradient-primary bg-clip-text text-transparent">Awasr</span>
+            <img src={awasrLogo} alt="Awasr" className="h-16 w-auto mx-auto object-contain" />
           </div>
           <p className="text-sm text-muted-foreground">{t("Sign in to your account", "تسجيل الدخول إلى حسابك")}</p>
         </CardHeader>
@@ -73,7 +74,7 @@ export default function LoginPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? <EyeSlash size={16} /> : <Eye size={16} />}
                 </button>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Download, CreditCard, Check, AlertCircle } from "lucide-react";
+import { DocumentDownload, TickCircle, Warning2 } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,10 +13,10 @@ import { invoices } from "@/data/mockData";
 import { cn } from "@/lib/utils";
 
 const paymentMethods = [
-  { id: "card", name: "Credit/Debit Card", nameAr: "بطاقة ائتمان/خصم", icon: "💳" },
-  { id: "omannet", name: "Omannet", nameAr: "عُمان نت", icon: "🏦" },
-  { id: "apple", name: "Apple Pay", nameAr: "آبل باي", icon: "🍎" },
-  { id: "samsung", name: "Samsung Pay", nameAr: "سامسونج باي", icon: "📱" },
+  { id: "card", name: "Credit/Debit Card", nameAr: "بطاقة ائتمان/خصم", icon: "/icons/visa.svg" },
+  { id: "omannet", name: "Omannet", nameAr: "عُمان نت", icon: null, emoji: "🏦" },
+  { id: "apple", name: "Apple Pay", nameAr: "آبل باي", icon: "/icons/apple.svg" },
+  { id: "samsung", name: "Samsung Pay", nameAr: "سامسونج باي", icon: null, emoji: "📱" },
 ];
 
 export default function BillingPage() {
@@ -47,7 +47,7 @@ export default function BillingPage() {
         <Card className="border-primary/20 bg-primary/5">
           <CardContent className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <AlertCircle className="h-5 w-5 text-primary shrink-0" />
+              <Warning2 size={20} className="text-primary shrink-0" />
               <div>
                 <p className="font-semibold">{t("Outstanding Balance", "الرصيد المستحق")}</p>
                 <p className="text-2xl font-bold">{outstanding.toFixed(2)} <span className="text-sm font-normal text-muted-foreground">{t("OMR", "ر.ع")}</span></p>
@@ -68,12 +68,16 @@ export default function BillingPage() {
                 key={m.id}
                 onClick={() => setSelectedMethod(m.id)}
                 className={cn(
-                  "p-3 rounded-lg border text-center text-sm transition-colors",
+                  "p-3 rounded-lg border text-center text-sm transition-colors flex flex-col items-center gap-2",
                   selectedMethod === m.id ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
                 )}
               >
-                <span className="text-xl block mb-1">{m.icon}</span>
-                {t(m.name, m.nameAr)}
+                {m.icon ? (
+                  <img src={m.icon} alt={m.name} className="h-6 w-auto object-contain" />
+                ) : (
+                  <span className="text-xl">{m.emoji}</span>
+                )}
+                <span className="text-xs">{t(m.name, m.nameAr)}</span>
               </button>
             ))}
           </div>
@@ -128,7 +132,7 @@ export default function BillingPage() {
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="icon" className="h-8 w-8"><Download className="h-4 w-4" /></Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8"><DocumentDownload size={16} /></Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -151,7 +155,7 @@ export default function BillingPage() {
           </div>
           <div className="flex gap-2 justify-end">
             <Button variant="outline" onClick={() => setShowConfirmation(false)}>{t("Cancel", "إلغاء")}</Button>
-            <Button onClick={confirmPayment}><Check className="h-4 w-4 mr-1" />{t("Confirm & Pay", "تأكيد والدفع")}</Button>
+            <Button onClick={confirmPayment}><TickCircle size={16} className="mr-1" />{t("Confirm & Pay", "تأكيد والدفع")}</Button>
           </div>
         </DialogContent>
       </Dialog>

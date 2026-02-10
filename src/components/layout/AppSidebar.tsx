@@ -1,28 +1,29 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  Home, Layers, CreditCard, LifeBuoy, Package, Wifi, Bell,
-  BookOpen, MapPin, User, Settings, LogOut, ChevronLeft, ChevronRight,
-  ClipboardList, MessageSquare
-} from "lucide-react";
+  Home2, Layer, Card as CardIcon, MessageQuestion, Box, Wifi,
+  Notification, Book, LocationTick, User, Setting2, Logout,
+  ArrowLeft2, ArrowRight2, ClipboardText
+} from "iconsax-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
+import awasrLogo from "@/assets/awasr-logo.png";
 
 const navItems = [
-  { path: "/", icon: Home, labelEn: "Dashboard", labelAr: "الرئيسية" },
-  { path: "/services", icon: Layers, labelEn: "My Services", labelAr: "خدماتي" },
-  { path: "/billing", icon: CreditCard, labelEn: "Billing", labelAr: "الفواتير" },
-  { path: "/requests", icon: ClipboardList, labelEn: "Requests", labelAr: "الطلبات" },
-  { path: "/support", icon: LifeBuoy, labelEn: "Support", labelAr: "الدعم" },
-  { path: "/knowledge-base", icon: BookOpen, labelEn: "Knowledge Base", labelAr: "قاعدة المعرفة" },
-  { path: "/orders", icon: Package, labelEn: "Orders", labelAr: "الطلبات" },
+  { path: "/", icon: Home2, labelEn: "Dashboard", labelAr: "الرئيسية" },
+  { path: "/services", icon: Layer, labelEn: "My Services", labelAr: "خدماتي" },
+  { path: "/billing", icon: CardIcon, labelEn: "Billing", labelAr: "الفواتير" },
+  { path: "/requests", icon: ClipboardText, labelEn: "Requests", labelAr: "الطلبات" },
+  { path: "/support", icon: MessageQuestion, labelEn: "Support", labelAr: "الدعم" },
+  { path: "/knowledge-base", icon: Book, labelEn: "Knowledge Base", labelAr: "قاعدة المعرفة" },
+  { path: "/orders", icon: Box, labelEn: "Orders", labelAr: "الطلبات" },
   { path: "/network-status", icon: Wifi, labelEn: "Network Status", labelAr: "حالة الشبكة" },
-  { path: "/catalog", icon: MapPin, labelEn: "Products", labelAr: "المنتجات" },
+  { path: "/catalog", icon: LocationTick, labelEn: "Products", labelAr: "المنتجات" },
 ];
 
 const bottomItems = [
   { path: "/profile", icon: User, labelEn: "Profile", labelAr: "الملف الشخصي" },
-  { path: "/notifications", icon: Bell, labelEn: "Notifications", labelAr: "الإشعارات" },
+  { path: "/notifications", icon: Notification, labelEn: "Notifications", labelAr: "الإشعارات" },
 ];
 
 export default function AppSidebar() {
@@ -40,15 +41,16 @@ export default function AppSidebar() {
       {/* Logo */}
       <div className="flex items-center justify-between p-4 border-b border-border">
         {!collapsed && (
-          <span className="text-xl font-bold gradient-primary bg-clip-text text-transparent">
-            Awasr
-          </span>
+          <img src={awasrLogo} alt="Awasr" className="h-8 w-auto object-contain" />
+        )}
+        {collapsed && (
+          <img src={awasrLogo} alt="Awasr" className="h-7 w-7 object-cover rounded" />
         )}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="p-1.5 rounded-md hover:bg-muted transition-colors"
         >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          {collapsed ? <ArrowRight2 size={16} /> : <ArrowLeft2 size={16} />}
         </button>
       </div>
 
@@ -70,7 +72,7 @@ export default function AppSidebar() {
               {isActive && (
                 <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-primary" />
               )}
-              <item.icon className="h-5 w-5 shrink-0" />
+              <item.icon size={20} variant={isActive ? "Bold" : "Linear"} className="shrink-0" />
               {!collapsed && <span>{t(item.labelEn, item.labelAr)}</span>}
             </Link>
           );
@@ -92,13 +94,13 @@ export default function AppSidebar() {
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
-              <item.icon className="h-5 w-5 shrink-0" />
+              <item.icon size={20} variant={isActive ? "Bold" : "Linear"} className="shrink-0" />
               {!collapsed && <span>{t(item.labelEn, item.labelAr)}</span>}
             </Link>
           );
         })}
         <button className="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-md text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors w-full">
-          <LogOut className="h-5 w-5 shrink-0" />
+          <Logout size={20} className="shrink-0" />
           {!collapsed && <span>{t("Logout", "تسجيل الخروج")}</span>}
         </button>
       </div>

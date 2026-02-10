@@ -1,4 +1,4 @@
-import { Package, Phone, User as UserIcon, Check } from "lucide-react";
+import { Box, Call, User, TickCircle } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -34,7 +34,7 @@ export default function OrdersPage() {
                           ? "bg-primary border-primary text-primary-foreground"
                           : "border-border bg-card text-muted-foreground"
                       )}>
-                        {step.completed ? <Check className="h-4 w-4" /> : i + 1}
+                        {step.completed ? <TickCircle size={16} variant="Bold" /> : i + 1}
                       </div>
                       <p className={cn("text-[10px] mt-1 max-w-[70px]", step.completed ? "font-medium" : "text-muted-foreground")}>
                         {t(step.label, step.labelAr)}
@@ -54,12 +54,12 @@ export default function OrdersPage() {
               <Card className="bg-muted/50">
                 <CardContent className="p-3 flex items-center gap-3">
                   <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <UserIcon className="h-5 w-5 text-primary" />
+                    <User size={20} className="text-primary" />
                   </div>
                   <div>
                     <p className="text-sm font-medium">{t(order.technician.name, order.technician.nameAr)}</p>
                     <p className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Phone className="h-3 w-3" /> {order.technician.phone}
+                      <Call size={12} /> {order.technician.phone}
                     </p>
                   </div>
                 </CardContent>

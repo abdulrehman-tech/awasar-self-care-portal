@@ -1,8 +1,9 @@
-import { Bell, Search, Globe, User } from "lucide-react";
+import { Notification, SearchNormal, Global, User } from "iconsax-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { notifications } from "@/data/mockData";
+import awasrLogo from "@/assets/awasr-logo.png";
 
 export default function AppHeader() {
   const { language, toggleLanguage, t } = useLanguage();
@@ -12,12 +13,12 @@ export default function AppHeader() {
     <header className="sticky top-0 z-30 h-14 bg-card border-b border-border flex items-center justify-between px-4 md:px-6">
       {/* Logo (mobile only) */}
       <div className="md:hidden">
-        <span className="text-lg font-bold gradient-primary bg-clip-text text-transparent">Awasr</span>
+        <img src={awasrLogo} alt="Awasr" className="h-7 w-auto object-contain" />
       </div>
 
       {/* Search (desktop) */}
       <div className="hidden md:flex items-center gap-2 bg-muted rounded-md px-3 py-1.5 w-72">
-        <Search className="h-4 w-4 text-muted-foreground" />
+        <SearchNormal size={16} className="text-muted-foreground" />
         <input
           type="text"
           placeholder={t("Search...", "بحث...")}
@@ -31,7 +32,7 @@ export default function AppHeader() {
           onClick={toggleLanguage}
           className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-sm text-muted-foreground hover:bg-muted transition-colors"
         >
-          <Globe className="h-4 w-4" />
+          <Global size={16} />
           <span className="hidden sm:inline">{language === "en" ? "عربي" : "EN"}</span>
         </button>
 
@@ -40,7 +41,7 @@ export default function AppHeader() {
           to="/notifications"
           className="relative p-2 rounded-md text-muted-foreground hover:bg-muted transition-colors"
         >
-          <Bell className="h-5 w-5" />
+          <Notification size={20} />
           {unreadCount > 0 && (
             <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-medium">
               {unreadCount}

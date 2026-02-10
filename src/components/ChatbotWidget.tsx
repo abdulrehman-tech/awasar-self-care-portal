@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageSquare, X, Send } from "lucide-react";
+import { MessageText, CloseCircle, Send2 } from "iconsax-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 
@@ -50,7 +50,7 @@ export default function ChatbotWidget() {
           "bottom-20 right-4"
         )}
       >
-        {open ? <X className="h-5 w-5" /> : <MessageSquare className="h-5 w-5" />}
+        {open ? <CloseCircle size={22} /> : <MessageText size={22} />}
       </button>
 
       {/* Chat window */}
@@ -111,7 +111,7 @@ export default function ChatbotWidget() {
               onClick={() => sendMessage(input)}
               className="p-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
-              <Send className="h-4 w-4" />
+              <Send2 size={16} />
             </button>
           </div>
         </div>
