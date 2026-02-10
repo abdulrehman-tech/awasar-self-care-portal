@@ -256,8 +256,8 @@ export default function KnowledgeBasePage() {
   }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{t("Knowledge Base", "قاعدة المعرفة")}</h1>
+    <div className="space-y-5">
+      <h1 className="text-xl font-semibold">{t("Knowledge Base", "قاعدة المعرفة")}</h1>
 
       {/* Search */}
       <div className="relative">
@@ -270,7 +270,7 @@ export default function KnowledgeBasePage() {
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">{filteredArticles.length} {t("results found", "نتائج")}</p>
           {filteredArticles.map((article) => (
-            <Card key={article.id} className="cursor-pointer hover:border-primary/20 transition-colors" onClick={() => setSelectedArticle(article)}>
+            <Card key={article.id} className="cursor-pointer card-shadow border-0 hover:card-shadow-md transition-all duration-200" onClick={() => setSelectedArticle(article)}>
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-1">
                   <Badge variant="secondary" className="text-[10px]">
@@ -298,7 +298,7 @@ export default function KnowledgeBasePage() {
             {knowledgeBase.articles
               .filter((a) => popularArticleIds.includes(a.id))
               .map((article) => (
-                <Card key={article.id} className="cursor-pointer hover:border-primary/20 transition-colors" onClick={() => setSelectedArticle(article)}>
+                <Card key={article.id} className="cursor-pointer card-shadow border-0 hover:card-shadow-md transition-all duration-200" onClick={() => setSelectedArticle(article)}>
                   <CardContent className="p-4 flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-warning/10 flex items-center justify-center shrink-0">
                       <Book size={16} className="text-warning" />
@@ -322,7 +322,7 @@ export default function KnowledgeBasePage() {
             {knowledgeBase.categories.map((cat) => {
               const Icon = iconMap[cat.icon] || Warning2;
               return (
-                <Card key={cat.id} className="cursor-pointer hover:border-primary/20 transition-colors" onClick={() => setSelectedCategory(cat.id)}>
+                <Card key={cat.id} className="cursor-pointer card-shadow border-0 hover:card-shadow-md transition-all duration-200" onClick={() => setSelectedCategory(cat.id)}>
                   <CardContent className="p-4 text-center">
                     <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
                       <Icon size={20} className="text-primary" />

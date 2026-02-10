@@ -143,10 +143,10 @@ export default function SupportPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{t("Support Tickets", "تذاكر الدعم")}</h1>
-        <Button size="sm" onClick={() => { resetForm(); setShowCreate(true); }}>
+        <h1 className="text-xl font-semibold">{t("Support Tickets", "تذاكر الدعم")}</h1>
+        <Button size="sm" className="rounded-xl" onClick={() => { resetForm(); setShowCreate(true); }}>
           <Add size={16} className="me-1" />{t("New Ticket", "تذكرة جديدة")}
         </Button>
       </div>
@@ -164,7 +164,7 @@ export default function SupportPage() {
             {ticketList
               .filter((tk) => tab === "all" || tk.status === tab)
               .map((ticket) => (
-                <Card key={ticket.id} className="cursor-pointer hover:border-primary/20 transition-colors" onClick={() => setSelectedTicketId(ticket.id)}>
+                <Card key={ticket.id} className="cursor-pointer card-shadow border-0 hover:card-shadow-md transition-all duration-200" onClick={() => setSelectedTicketId(ticket.id)}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">

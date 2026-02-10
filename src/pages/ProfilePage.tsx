@@ -145,11 +145,11 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{t("Profile & Settings", "الملف الشخصي والإعدادات")}</h1>
+    <div className="space-y-5">
+      <h1 className="text-xl font-semibold">{t("Profile & Settings", "الملف الشخصي والإعدادات")}</h1>
 
       {/* Personal info */}
-      <Card>
+      <Card className="card-shadow border-0">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base">{t("Personal Information", "المعلومات الشخصية")}</CardTitle>
@@ -205,7 +205,7 @@ export default function ProfilePage() {
       </Card>
 
       {/* Notification preferences */}
-      <Card>
+      <Card className="card-shadow border-0">
         <CardHeader className="pb-2">
           <CardTitle className="text-base">{t("Notification Preferences", "تفضيلات الإشعارات")}</CardTitle>
         </CardHeader>
@@ -224,7 +224,7 @@ export default function ProfilePage() {
       </Card>
 
       {/* Language */}
-      <Card>
+      <Card className="card-shadow border-0">
         <CardHeader className="pb-2">
           <CardTitle className="text-base">{t("Language", "اللغة")}</CardTitle>
         </CardHeader>
@@ -240,7 +240,7 @@ export default function ProfilePage() {
       </Card>
 
       {/* Payment methods */}
-      <Card>
+      <Card className="card-shadow border-0">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base">{t("Payment Methods", "طرق الدفع")}</CardTitle>
@@ -271,7 +271,7 @@ export default function ProfilePage() {
       </Card>
 
       {/* Account deactivation */}
-      <Card className="border-destructive/20">
+      <Card className="card-shadow border-destructive/10 border-0">
         <CardHeader className="pb-2">
           <CardTitle className="text-base text-destructive flex items-center gap-2">
             <Warning2 size={16} />

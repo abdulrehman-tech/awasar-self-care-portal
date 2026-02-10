@@ -108,10 +108,10 @@ export default function OrdersPage() {
   const isInstallationComplete = (order: Order) => order.steps.every((s) => s.completed);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{t("Order & Installation Tracking", "تتبع الطلبات والتركيب")}</h1>
-        <Button size="sm" onClick={() => { setNewOrderStep(0); setShowNewOrder(true); }}>
+        <h1 className="text-xl font-semibold">{t("Order & Installation Tracking", "تتبع الطلبات والتركيب")}</h1>
+        <Button size="sm" className="rounded-xl" onClick={() => { setNewOrderStep(0); setShowNewOrder(true); }}>
           <Add size={16} className="me-1" />{t("New Order", "طلب جديد")}
         </Button>
       </div>
@@ -121,7 +121,7 @@ export default function OrdersPage() {
       )}
 
       {orderList.map((order) => (
-        <Card key={order.id} className="cursor-pointer hover:border-primary/20 transition-colors" onClick={() => setSelectedOrderId(order.id)}>
+        <Card key={order.id} className="cursor-pointer card-shadow border-0 hover:card-shadow-md transition-all duration-200" onClick={() => setSelectedOrderId(order.id)}>
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base">{order.id} — {t(order.type, order.typeAr)}</CardTitle>

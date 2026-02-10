@@ -142,12 +142,12 @@ export default function BillingPage() {
   const selectedInvoice = invoices.find((i) => i.id === showInvoiceDetail);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{t("Billing & Payments", "الفواتير والمدفوعات")}</h1>
+    <div className="space-y-5">
+      <h1 className="text-xl font-semibold">{t("Billing & Payments", "الفواتير والمدفوعات")}</h1>
 
       {/* Balance Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className={outstanding > 0 ? "border-warning/30 bg-warning/5" : "border-success/30 bg-success/5"}>
+        <Card className={`card-shadow border-0 ${outstanding > 0 ? "bg-gradient-to-br from-warning/5 to-transparent" : "bg-gradient-to-br from-success/5 to-transparent"}`}>
           <CardContent className="p-4">
             <p className="text-xs text-muted-foreground mb-1">{t("Outstanding Balance", "الرصيد المستحق")}</p>
             <p className="text-2xl font-bold">
@@ -168,7 +168,7 @@ export default function BillingPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-shadow border-0">
           <CardContent className="p-4">
             <p className="text-xs text-muted-foreground mb-1">{t("Total Paid (YTD)", "إجمالي المدفوعات")}</p>
             <p className="text-2xl font-bold">{totalPaid.toFixed(2)} <span className="text-sm font-normal text-muted-foreground">{t("OMR", "ر.ع")}</span></p>
@@ -176,7 +176,7 @@ export default function BillingPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-shadow border-0">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-1">
               <p className="text-xs text-muted-foreground">{t("Auto-Pay", "الدفع التلقائي")}</p>
@@ -194,7 +194,7 @@ export default function BillingPage() {
       {/* Payment Method & Promo in a clean layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Payment Methods - takes 2 cols */}
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 card-shadow border-0">
           <CardHeader className="pb-3">
             <CardTitle className="text-base">{t("Payment Method", "طريقة الدفع")}</CardTitle>
           </CardHeader>
@@ -225,7 +225,7 @@ export default function BillingPage() {
         </Card>
 
         {/* Promo Code */}
-        <Card>
+        <Card className="card-shadow border-0">
           <CardHeader className="pb-3">
             <CardTitle className="text-base">{t("Promo Code", "رمز ترويجي")}</CardTitle>
           </CardHeader>
@@ -252,7 +252,7 @@ export default function BillingPage() {
       </div>
 
       {/* Invoice History with filters */}
-      <Card>
+      <Card className="card-shadow border-0">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <CardTitle className="text-base">{t("Invoice History", "سجل الفواتير")}</CardTitle>
@@ -280,13 +280,13 @@ export default function BillingPage() {
             {filteredInvoices.map((inv) => (
               <div
                 key={inv.id}
-                className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/30 transition-colors cursor-pointer"
+                className="flex items-center justify-between p-3.5 rounded-xl bg-card card-shadow hover:card-shadow-md transition-all duration-200 cursor-pointer"
                 onClick={() => setShowInvoiceDetail(inv.id)}
               >
                 <div className="flex items-center gap-3">
                   <div className={cn(
-                    "h-9 w-9 rounded-full flex items-center justify-center",
-                    inv.status === "paid" ? "bg-success/10" : "bg-warning/10"
+                    "h-9 w-9 rounded-xl flex items-center justify-center",
+                    inv.status === "paid" ? "bg-success/8" : "bg-warning/8"
                   )}>
                     {inv.status === "paid" ? <TickCircle size={16} className="text-success" /> : <Warning2 size={16} className="text-warning" />}
                   </div>
