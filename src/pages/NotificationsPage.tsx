@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const categoryIcons: Record<string, any> = { billing: CardIcon, service: Wifi, outage: Warning2, ticket: MessageQuestion, order: Box };
 
 export default function NotificationsPage() {
-  const { t } = useLanguage();
+  const { t, dir } = useLanguage();
   const [items, setItems] = useState(notifications);
 
   const markAllRead = () => setItems(items.map((n) => ({ ...n, read: true })));
@@ -31,7 +31,7 @@ export default function NotificationsPage() {
         )}
       </div>
 
-      <Tabs defaultValue="all">
+      <Tabs defaultValue="all" dir={dir}>
         <TabsList>
           <TabsTrigger value="all">{t("All", "الكل")}</TabsTrigger>
           <TabsTrigger value="billing">{t("Billing", "الفواتير")}</TabsTrigger>

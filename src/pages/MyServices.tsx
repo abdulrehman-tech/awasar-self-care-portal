@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 const typeIcons: Record<string, any> = { internet: Wifi, tv: Monitor, voice: Call, bundle: Box };
 
 export default function MyServices() {
-  const { t } = useLanguage();
+  const { t, dir } = useLanguage();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -91,7 +91,7 @@ export default function MyServices() {
         <Button size="sm" onClick={openAddService}><Add size={16} className="me-1" />{t("Add Service", "إضافة خدمة")}</Button>
       </div>
 
-      <Tabs defaultValue="all">
+      <Tabs defaultValue="all" dir={dir}>
         <TabsList>
           <TabsTrigger value="all">{t("All", "الكل")}</TabsTrigger>
           <TabsTrigger value="internet">{t("Internet", "الإنترنت")}</TabsTrigger>

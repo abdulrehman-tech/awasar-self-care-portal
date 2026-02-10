@@ -19,7 +19,7 @@ type Message = { sender: string; text: string; timestamp: string };
 type Ticket = Omit<typeof initialTickets[0], 'priority' | 'status'> & { priority: string; status: string; attachments?: string[]; satisfaction?: number };
 
 export default function SupportPage() {
-  const { t } = useLanguage();
+  const { t, dir } = useLanguage();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const detailFileRef = useRef<HTMLInputElement>(null);
@@ -151,7 +151,7 @@ export default function SupportPage() {
         </Button>
       </div>
 
-      <Tabs defaultValue="all">
+      <Tabs defaultValue="all" dir={dir}>
         <TabsList>
           <TabsTrigger value="all">{t("All", "الكل")} ({ticketList.length})</TabsTrigger>
           <TabsTrigger value="open">{t("Open", "مفتوح")} ({ticketList.filter((t) => t.status === "open").length})</TabsTrigger>
