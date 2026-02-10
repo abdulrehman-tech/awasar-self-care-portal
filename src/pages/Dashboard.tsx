@@ -39,23 +39,23 @@ export default function Dashboard() {
         {/* Inline stats */}
         <div className="grid grid-cols-3 gap-3 mt-4">
           <div className="bg-white/15 rounded-lg p-3 text-center backdrop-blur-sm">
-            <p className="text-xl font-bold">{outstandingBalance.toFixed(1)}</p>
-            <p className="text-[10px] opacity-80">{t("OMR Due", "ر.ع مستحق")}</p>
+            <p className="text-xl font-bold">{dataUsage.value}<span className="text-xs font-normal opacity-70">/{dataUsage.limit} GB</span></p>
+            <p className="text-[10px] opacity-80">{t("Data Used", "البيانات")}</p>
           </div>
           <div className="bg-white/15 rounded-lg p-3 text-center backdrop-blur-sm">
-            <p className="text-xl font-bold">{dataPercent}%</p>
-            <p className="text-[10px] opacity-80">{t("Data Used", "بيانات مستخدمة")}</p>
+            <p className="text-xl font-bold">{usageData.find(u => u.name === "Voice")!.value}<span className="text-xs font-normal opacity-70">/{usageData.find(u => u.name === "Voice")!.limit} min</span></p>
+            <p className="text-[10px] opacity-80">{t("Calls", "المكالمات")}</p>
           </div>
           <div className="bg-white/15 rounded-lg p-3 text-center backdrop-blur-sm">
-            <p className="text-xl font-bold">{activeServicesCount}</p>
-            <p className="text-[10px] opacity-80">{t("Active", "نشطة")}</p>
+            <p className="text-xl font-bold">{usageData.find(u => u.name === "SMS")!.value}<span className="text-xs font-normal opacity-70">/{usageData.find(u => u.name === "SMS")!.limit}</span></p>
+            <p className="text-[10px] opacity-80">{t("SMS Sent", "الرسائل")}</p>
           </div>
         </div>
       </div>
 
       {/* Promotions banner */}
       {promotions.length > 0 && (
-        <Link to="/catalog">
+        <Link to="/catalog" className="mt-2 block">
           <Card className="border-secondary/20 bg-secondary/5 hover:bg-secondary/10 transition-colors cursor-pointer overflow-hidden">
             <CardContent className="p-4 flex items-center gap-4">
               <div className="flex-1 min-w-0">
