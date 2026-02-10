@@ -19,7 +19,7 @@ export default function ChatbotWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const { t } = useLanguage();
+  const { t, dir } = useLanguage();
 
   const sendMessage = (text: string) => {
     if (!text.trim()) return;
@@ -46,8 +46,8 @@ export default function ChatbotWidget() {
         onClick={() => setOpen(!open)}
         className={cn(
           "fixed z-50 h-12 w-12 rounded-full gradient-primary text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all",
-          "md:bottom-6 md:right-6",
-          "bottom-20 right-4"
+          "md:bottom-6 md:end-6",
+          "bottom-20 end-4"
         )}
       >
         {open ? <CloseCircle size={22} /> : <MessageText size={22} />}
@@ -58,8 +58,8 @@ export default function ChatbotWidget() {
         <div
           className={cn(
             "fixed z-50 bg-card rounded-xl border border-border shadow-2xl flex flex-col overflow-hidden",
-            "md:bottom-20 md:right-6 md:w-80 md:h-[420px]",
-            "bottom-20 right-4 left-4 h-[400px] md:left-auto"
+            "md:bottom-20 md:end-6 md:w-80 md:h-[420px]",
+            "bottom-20 end-4 start-4 h-[400px] md:start-auto"
           )}
         >
           {/* Header */}
@@ -77,7 +77,7 @@ export default function ChatbotWidget() {
                   <button
                     key={i}
                     onClick={() => sendMessage(t(q.en, q.ar))}
-                    className="block w-full text-left text-sm px-3 py-2 rounded-md bg-muted hover:bg-muted/80 transition-colors"
+                    className="block w-full text-start text-sm px-3 py-2 rounded-md bg-muted hover:bg-muted/80 transition-colors"
                   >
                     {t(q.en, q.ar)}
                   </button>

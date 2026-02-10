@@ -170,7 +170,7 @@ export default function RequestsPage() {
         <div className="space-y-2">
           {services.filter((s) => s.type === "internet").map((s) => (
             <button key={s.id} onClick={() => { setSelectedCurrentPlan(s.id); setFlowStep(1); }}
-              className={cn("w-full p-3 rounded-lg border text-left flex justify-between items-center transition-colors hover:border-primary/30", selectedCurrentPlan === s.id && "border-primary bg-primary/5")}>
+              className={cn("w-full p-3 rounded-lg border text-start flex justify-between items-center transition-colors hover:border-primary/30", selectedCurrentPlan === s.id && "border-primary bg-primary/5")}>
               <div>
                 <p className="font-medium text-sm">{t(s.name, s.nameAr)}</p>
                 <p className="text-xs text-muted-foreground">{s.speed}</p>
@@ -191,7 +191,7 @@ export default function RequestsPage() {
           <div className="space-y-2">
             {filteredPlans.map((p) => (
               <button key={p.id} onClick={() => { setSelectedNewPlan(p.id); setFlowStep(2); }}
-                className={cn("w-full p-3 rounded-lg border text-left flex justify-between items-center transition-colors hover:border-primary/30", selectedNewPlan === p.id && "border-primary bg-primary/5")}>
+                className={cn("w-full p-3 rounded-lg border text-start flex justify-between items-center transition-colors hover:border-primary/30", selectedNewPlan === p.id && "border-primary bg-primary/5")}>
                 <div>
                   <p className="font-medium text-sm">{t(p.name, p.nameAr)}</p>
                   <p className="text-xs text-muted-foreground">{p.speed}</p>
@@ -246,7 +246,7 @@ export default function RequestsPage() {
         <div className="space-y-2">
           {addons.map((a) => (
             <button key={a.id} onClick={() => setSelectedAddons((prev) => prev.includes(a.id) ? prev.filter((x) => x !== a.id) : [...prev, a.id])}
-              className={cn("w-full p-3 rounded-lg border text-left flex justify-between items-center transition-colors", selectedAddons.includes(a.id) ? "border-primary bg-primary/5" : "hover:border-primary/30")}>
+              className={cn("w-full p-3 rounded-lg border text-start flex justify-between items-center transition-colors", selectedAddons.includes(a.id) ? "border-primary bg-primary/5" : "hover:border-primary/30")}>
               <div>
                 <p className="font-medium text-sm">{t(a.name, a.nameAr)}</p>
               </div>
@@ -313,7 +313,7 @@ export default function RequestsPage() {
       <div className="space-y-4">
         <p className="text-sm font-semibold">{t("Review Relocation", "مراجعة النقل")}</p>
         <div className="space-y-2 text-sm">
-          <div className="flex justify-between"><span className="text-muted-foreground">{t("New Address", "العنوان الجديد")}</span><span className="text-right max-w-[60%]">{relocAddress}</span></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">{t("New Address", "العنوان الجديد")}</span><span className="text-end max-w-[60%]">{relocAddress}</span></div>
           <div className="flex justify-between"><span className="text-muted-foreground">{t("City", "المدينة")}</span><span>{relocCity}</span></div>
           {relocNotes && <div className="flex justify-between"><span className="text-muted-foreground">{t("Notes", "ملاحظات")}</span><span className="text-right max-w-[60%]">{relocNotes}</span></div>}
           <Separator />

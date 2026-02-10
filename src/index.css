@@ -116,6 +116,11 @@
     text-align: right;
     font-family: 'Tajawal', 'Inter', sans-serif;
   }
+
+  /* RTL-aware logical properties for common patterns */
+  [dir="rtl"] .rtl\:rotate-180 {
+    transform: rotate(180deg);
+  }
 }
 
 @layer utilities {

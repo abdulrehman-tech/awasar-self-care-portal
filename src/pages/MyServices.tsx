@@ -88,7 +88,7 @@ export default function MyServices() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t("My Services", "خدماتي")}</h1>
-        <Button size="sm" onClick={openAddService}><Add size={16} className="mr-1" />{t("Add Service", "إضافة خدمة")}</Button>
+        <Button size="sm" onClick={openAddService}><Add size={16} className="me-1" />{t("Add Service", "إضافة خدمة")}</Button>
       </div>
 
       <Tabs defaultValue="all">
@@ -122,7 +122,7 @@ export default function MyServices() {
                             </Badge>
                           </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                           <p className="font-bold text-sm">{service.monthlyCost.toFixed(2)} <span className="text-xs text-muted-foreground">{t("OMR/mo", "ر.ع/شهر")}</span></p>
                         </div>
                       </div>
@@ -222,7 +222,7 @@ export default function MyServices() {
             <div className="space-y-3">
               {filteredPlans.map((plan) => (
                 <button key={plan.id} onClick={() => { setSelectedPlan(plan.id); setAddStep("confirm"); }}
-                  className={cn("w-full p-3 rounded-lg border text-left transition-colors",
+                  className={cn("w-full p-3 rounded-lg border text-start transition-colors",
                     selectedPlan === plan.id ? "border-primary bg-primary/5" : "border-border hover:border-primary/30")}>
                   <div className="flex items-center justify-between">
                     <div>
@@ -350,12 +350,12 @@ export default function MyServices() {
               ) : (
                 availableUpgrades.map((plan) => (
                   <button key={plan.id} onClick={() => { setUpgradeTarget(plan.id); setUpgradeStep("review"); }}
-                    className="w-full p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left flex items-center justify-between">
+                    className="w-full p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-start flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-sm">{t(plan.name, plan.nameAr)}</p>
                       {plan.speed && <p className="text-xs text-muted-foreground">{plan.speed}</p>}
                     </div>
-                    <div className="text-right">
+                    <div className="text-end">
                       <p className="font-bold text-sm">{plan.price} {t("OMR/mo", "ر.ع/شهر")}</p>
                       <p className="text-xs text-success">+{(plan.price - (upgradeService?.monthlyCost || 0)).toFixed(2)} {t("OMR", "ر.ع")}</p>
                     </div>
