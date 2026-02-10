@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 const typeIcons: Record<string, any> = { internet: Wifi, tv: Monitor, voice: Call, bundle: Box };
 
 export default function CatalogPage() {
-  const { t } = useLanguage();
+  const { t, dir } = useLanguage();
   const { toast } = useToast();
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ export default function CatalogPage() {
         <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("Search plans...", "ابحث عن الباقات...")} className="ps-9" />
       </div>
 
-      <Tabs defaultValue="all">
+      <Tabs defaultValue="all" dir={dir}>
         <TabsList>
           <TabsTrigger value="all">{t("All", "الكل")}</TabsTrigger>
           <TabsTrigger value="internet">{t("Internet", "الإنترنت")}</TabsTrigger>
