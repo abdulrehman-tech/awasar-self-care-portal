@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeSlash, Global, ArrowLeft, Sms, Lock, ShieldTick } from "iconsax-react";
+import { Global, ArrowLeft, Call, Lock, ShieldTick } from "iconsax-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,40 +9,30 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import awasrLogo from "@/assets/awasr-logo.png";
 
-type AuthView = "login" | "forgot" | "otp" | "reset-success";
+type AuthView = "phone" | "otp" | "success";
 
 export default function LoginPage() {
-  const [view, setView] = useState<AuthView>("login");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [resetEmail, setResetEmail] = useState("");
+  const [view, setView] = useState<AuthView>("phone");
+  const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const { t, language, toggleLanguage } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim() || !password.trim()) {
-      toast({ title: t("Error", "خطأ"), description: t("Please fill in all fields.", "يرجى ملء جميع الحقول."), variant: "destructive" });
-      return;
-    }
-    toast({ title: t("Welcome back!", "مرحباً بعودتك!"), description: t("Logging you in...", "جاري تسجيل الدخول...") });
-    setTimeout(() => navigate("/"), 800);
+  const formatPhone = (v: string) => {
+    const digits = v.replace(/\D/g, "").slice(0, 8);
+    if (digits.length > 4) return `${digits.slice(0, 4)} ${digits.slice(4)}`;
+    return digits;
   };
 
-  const handleForgotSubmit = (e: React.FormEvent) => {
+  const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!resetEmail.trim()) {
-      toast({ title: t("Error", "خطأ"), description: t("Please enter your email.", "يرجى إدخال بريدك الإلكتروني."), variant: "destructive" });
+    const digits = phone.replace(/\s/g, "");
+    if (digits.length < 8) {
+      toast({ title: t("Error", "خطأ"), description: t("Please enter a valid 8-digit phone number.", "يرجى إدخال رقم هاتف صالح من 8 أرقام."), variant: "destructive" });
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(resetEmail)) {
-      toast({ title: t("Error", "خطأ"), description: t("Please enter a valid email.", "يرجى إدخال بريد إلكتروني صالح."), variant: "destructive" });
-      return;
-    }
-    toast({ title: t("Code Sent", "تم إرسال الرمز"), description: t("Check your email for the verification code.", "تحقق من بريدك الإلكتروني للحصول على رمز التحقق.") });
+    toast({ title: t("Code Sent", "تم إرسال الرمز"), description: t("A verification code has been sent to your phone.", "تم إرسال رمز التحقق إلى هاتفك.") });
     setView("otp");
   };
 
@@ -52,7 +42,12 @@ export default function LoginPage() {
       toast({ title: t("Error", "خطأ"), description: t("Please enter the 4-digit code.", "يرجى إدخال الرمز المكون من 4 أرقام."), variant: "destructive" });
       return;
     }
-    setView("reset-success");
+    toast({ title: t("Welcome!", "مرحباً!"), description: t("Logging you in...", "جاري تسجيل الدخول...") });
+    setTimeout(() => navigate("/"), 800);
+  };
+
+  const handleResend = () => {
+    toast({ title: t("Code Resent", "تم إعادة إرسال الرمز"), description: t("A new verification code has been sent.", "تم إرسال رمز تحقق جديد.") });
   };
 
   return (
@@ -69,61 +64,38 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <div className="h-1.5 gradient-primary rounded-t-lg" />
 
-        {/* === LOGIN VIEW === */}
-        {view === "login" && (
+        {/* === PHONE NUMBER VIEW === */}
+        {view === "phone" && (
           <>
             <CardHeader className="text-center pb-2">
               <div className="mx-auto mb-4">
                 <img src={awasrLogo} alt="Awasr" className="h-16 w-auto mx-auto object-contain" />
               </div>
-              <p className="text-sm text-muted-foreground">{t("Sign in to your account", "تسجيل الدخول إلى حسابك")}</p>
+              <p className="text-sm text-muted-foreground">{t("Sign in with your phone number", "سجل الدخول برقم هاتفك")}</p>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleLogin} className="space-y-4">
+              <form onSubmit={handlePhoneSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">{t("Email or Phone", "البريد الإلكتروني أو الهاتف")}</Label>
-                  <Input id="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("ahmed@email.com", "ahmed@email.com")} />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">{t("Password", "كلمة المرور")}</Label>
-                  <div className="relative">
-                    <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                      {showPassword ? <EyeSlash size={16} /> : <Eye size={16} />}
-                    </button>
+                  <Label htmlFor="phone">{t("Phone Number", "رقم الهاتف")}</Label>
+                  <div className="flex gap-2">
+                    <div className="flex items-center px-3 rounded-md border border-input bg-muted/50 text-sm text-muted-foreground shrink-0">
+                      +968
+                    </div>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(formatPhone(e.target.value))}
+                      placeholder="9123 4567"
+                      className="font-mono"
+                      maxLength={9}
+                    />
                   </div>
                 </div>
-                <div className="text-end">
-                  <button type="button" onClick={() => { setView("forgot"); setResetEmail(email.includes("@") ? email : ""); }} className="text-sm text-secondary hover:underline">
-                    {t("Forgot Password?", "نسيت كلمة المرور؟")}
-                  </button>
-                </div>
-                <Button type="submit" className="w-full">{t("Sign In", "تسجيل الدخول")}</Button>
-              </form>
-            </CardContent>
-          </>
-        )}
-
-        {/* === FORGOT PASSWORD VIEW === */}
-        {view === "forgot" && (
-          <>
-            <CardHeader className="pb-2">
-              <button onClick={() => setView("login")} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-2 transition-colors">
-                <ArrowLeft size={16} />{t("Back to login", "العودة لتسجيل الدخول")}
-              </button>
-              <div className="mx-auto mb-2 h-12 w-12 rounded-full bg-secondary/10 flex items-center justify-center">
-                <Sms size={24} className="text-secondary" />
-              </div>
-              <p className="text-lg font-semibold text-center">{t("Reset Password", "إعادة تعيين كلمة المرور")}</p>
-              <p className="text-sm text-muted-foreground text-center">{t("Enter your email to receive a verification code.", "أدخل بريدك الإلكتروني لتلقي رمز التحقق.")}</p>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleForgotSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label>{t("Email", "البريد الإلكتروني")}</Label>
-                  <Input type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} placeholder="ahmed@email.com" />
-                </div>
-                <Button type="submit" className="w-full">{t("Send Code", "إرسال الرمز")}</Button>
+                <Button type="submit" className="w-full">
+                  <Call size={16} className="me-1" />
+                  {t("Send Verification Code", "إرسال رمز التحقق")}
+                </Button>
               </form>
             </CardContent>
           </>
@@ -133,7 +105,7 @@ export default function LoginPage() {
         {view === "otp" && (
           <>
             <CardHeader className="pb-2">
-              <button onClick={() => setView("forgot")} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-2 transition-colors">
+              <button onClick={() => { setView("phone"); setOtp(""); }} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-2 transition-colors">
                 <ArrowLeft size={16} />{t("Back", "رجوع")}
               </button>
               <div className="mx-auto mb-2 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -141,7 +113,7 @@ export default function LoginPage() {
               </div>
               <p className="text-lg font-semibold text-center">{t("Enter Verification Code", "أدخل رمز التحقق")}</p>
               <p className="text-sm text-muted-foreground text-center">
-                {t(`We sent a code to ${resetEmail}`, `أرسلنا رمزاً إلى ${resetEmail}`)}
+                {t(`We sent a code to +968 ${phone}`, `أرسلنا رمزاً إلى 968+ ${phone}`)}
               </p>
             </CardHeader>
             <CardContent>
@@ -155,10 +127,11 @@ export default function LoginPage() {
                     placeholder="0000"
                     className="text-center text-2xl tracking-[0.5em] font-mono"
                     maxLength={4}
+                    autoFocus
                   />
                 </div>
-                <Button type="submit" className="w-full">{t("Verify", "تحقق")}</Button>
-                <button type="button" onClick={handleForgotSubmit} className="w-full text-sm text-secondary hover:underline text-center">
+                <Button type="submit" className="w-full">{t("Verify & Sign In", "تحقق وسجل الدخول")}</Button>
+                <button type="button" onClick={handleResend} className="w-full text-sm text-secondary hover:underline text-center">
                   {t("Resend Code", "إعادة إرسال الرمز")}
                 </button>
               </form>
@@ -166,24 +139,21 @@ export default function LoginPage() {
           </>
         )}
 
-        {/* === RESET SUCCESS VIEW === */}
-        {view === "reset-success" && (
+        {/* === SUCCESS VIEW (unused but kept for flow completeness) === */}
+        {view === "success" && (
           <>
             <CardHeader className="pb-2 text-center">
               <div className="mx-auto mb-2 h-14 w-14 rounded-full bg-success/10 flex items-center justify-center">
                 <ShieldTick size={28} className="text-success" />
               </div>
-              <p className="text-lg font-semibold">{t("Password Reset Link Sent", "تم إرسال رابط إعادة التعيين")}</p>
+              <p className="text-lg font-semibold">{t("Welcome Back!", "مرحباً بعودتك!")}</p>
               <p className="text-sm text-muted-foreground mt-1">
-                {t(
-                  "Check your email for a link to reset your password. If it doesn't appear, check your spam folder.",
-                  "تحقق من بريدك الإلكتروني للحصول على رابط لإعادة تعيين كلمة المرور. إذا لم يظهر، تحقق من مجلد البريد العشوائي."
-                )}
+                {t("You have been successfully authenticated.", "تم التحقق من هويتك بنجاح.")}
               </p>
             </CardHeader>
             <CardContent>
-              <Button className="w-full" onClick={() => { setView("login"); setOtp(""); setResetEmail(""); }}>
-                {t("Back to Login", "العودة لتسجيل الدخول")}
+              <Button className="w-full" onClick={() => navigate("/")}>
+                {t("Go to Dashboard", "الذهاب للرئيسية")}
               </Button>
             </CardContent>
           </>

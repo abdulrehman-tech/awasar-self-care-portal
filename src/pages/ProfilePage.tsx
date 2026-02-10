@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { User, Sms, Call, Location, Lock, Logout, Card as CardIcon, Save2, CloseCircle, Add, Trash, ShieldTick, Warning2, Eye, EyeSlash, InfoCircle } from "iconsax-react";
+import { useState } from "react";
+import { User, Sms, Call, Location, Logout, Card as CardIcon, Save2, CloseCircle, Add, Trash, Warning2, InfoCircle } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +8,6 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -25,21 +24,6 @@ interface PaymentMethod {
 const initialPaymentMethods: PaymentMethod[] = [
   { id: "pm-1", type: "visa", last4: "4521", expiry: "12/25", brand: "Visa" },
 ];
-
-function getPasswordStrength(pw: string): { score: number; label: string; labelAr: string; color: string } {
-  let score = 0;
-  if (pw.length >= 8) score++;
-  if (/[A-Z]/.test(pw)) score++;
-  if (/[0-9]/.test(pw)) score++;
-  if (/[^A-Za-z0-9]/.test(pw)) score++;
-  if (pw.length >= 12) score++;
-
-  if (score <= 1) return { score: 20, label: "Weak", labelAr: "ضعيفة", color: "bg-destructive" };
-  if (score === 2) return { score: 40, label: "Fair", labelAr: "مقبولة", color: "bg-warning" };
-  if (score === 3) return { score: 60, label: "Good", labelAr: "جيدة", color: "bg-info" };
-  if (score === 4) return { score: 80, label: "Strong", labelAr: "قوية", color: "bg-success" };
-  return { score: 100, label: "Very Strong", labelAr: "قوية جداً", color: "bg-success" };
-}
 
 export default function ProfilePage() {
   const { t, language } = useLanguage();
@@ -63,14 +47,6 @@ export default function ProfilePage() {
   const [cardErrors, setCardErrors] = useState<Record<string, string>>({});
   const [deletePaymentId, setDeletePaymentId] = useState<string | null>(null);
 
-  // Password
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showCurrentPw, setShowCurrentPw] = useState(false);
-  const [showNewPw, setShowNewPw] = useState(false);
-  const [passwordErrors, setPasswordErrors] = useState<Record<string, string>>({});
-
   // Deactivation
   const [showDeactivate, setShowDeactivate] = useState(false);
   const [deactivateReason, setDeactivateReason] = useState("");
@@ -78,8 +54,6 @@ export default function ProfilePage() {
 
   // Logout
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-
-  const passwordStrength = useMemo(() => getPasswordStrength(newPassword), [newPassword]);
 
   // --- Profile edit ---
   const validateProfile = () => {
@@ -146,24 +120,6 @@ export default function ProfilePage() {
     setPaymentMethods((prev) => prev.filter((p) => p.id !== deletePaymentId));
     setDeletePaymentId(null);
     toast({ title: t("Payment method removed", "تمت إزالة طريقة الدفع") });
-  };
-
-  // --- Change password ---
-  const validatePassword = () => {
-    const errors: Record<string, string> = {};
-    if (!currentPassword) errors.current = t("Current password is required", "كلمة المرور الحالية مطلوبة");
-    if (newPassword.length < 8) errors.new = t("Minimum 8 characters", "8 أحرف على الأقل");
-    if (newPassword !== confirmPassword) errors.confirm = t("Passwords don't match", "كلمات المرور غير متطابقة");
-    setPasswordErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  const handleChangePassword = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validatePassword()) return;
-    setCurrentPassword(""); setNewPassword(""); setConfirmPassword("");
-    setPasswordErrors({});
-    toast({ title: t("Password Updated", "تم تحديث كلمة المرور"), description: t("Your password has been changed successfully.", "تم تغيير كلمة المرور بنجاح.") });
   };
 
   // --- Deactivation ---
@@ -314,72 +270,6 @@ export default function ProfilePage() {
         </CardContent>
       </Card>
 
-      {/* Change password */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">{t("Change Password", "تغيير كلمة المرور")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleChangePassword} className="space-y-3">
-            <div className="space-y-2">
-              <Label>{t("Current Password", "كلمة المرور الحالية")}</Label>
-              <div className="relative">
-                <Input
-                  type={showCurrentPw ? "text" : "password"}
-                  value={currentPassword}
-                  onChange={(e) => { setCurrentPassword(e.target.value); setPasswordErrors((p) => ({ ...p, current: "" })); }}
-                  className={passwordErrors.current ? "border-destructive" : ""}
-                />
-                <button type="button" onClick={() => setShowCurrentPw(!showCurrentPw)} className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  {showCurrentPw ? <EyeSlash size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
-              {passwordErrors.current && <p className="text-xs text-destructive">{passwordErrors.current}</p>}
-            </div>
-            <div className="space-y-2">
-              <Label>{t("New Password", "كلمة المرور الجديدة")}</Label>
-              <div className="relative">
-                <Input
-                  type={showNewPw ? "text" : "password"}
-                  value={newPassword}
-                  onChange={(e) => { setNewPassword(e.target.value); setPasswordErrors((p) => ({ ...p, new: "" })); }}
-                  className={passwordErrors.new ? "border-destructive" : ""}
-                />
-                <button type="button" onClick={() => setShowNewPw(!showNewPw)} className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  {showNewPw ? <EyeSlash size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
-              {passwordErrors.new && <p className="text-xs text-destructive">{passwordErrors.new}</p>}
-              {newPassword && (
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <Progress value={passwordStrength.score} className={`h-1.5 flex-1 [&>div]:${passwordStrength.color}`} />
-                    <span className="text-xs text-muted-foreground">{t(passwordStrength.label, passwordStrength.labelAr)}</span>
-                  </div>
-                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-muted-foreground">
-                    <span className={newPassword.length >= 8 ? "text-success" : ""}>✓ {t("8+ chars", "8+ أحرف")}</span>
-                    <span className={/[A-Z]/.test(newPassword) ? "text-success" : ""}>✓ {t("Uppercase", "حرف كبير")}</span>
-                    <span className={/[0-9]/.test(newPassword) ? "text-success" : ""}>✓ {t("Number", "رقم")}</span>
-                    <span className={/[^A-Za-z0-9]/.test(newPassword) ? "text-success" : ""}>✓ {t("Symbol", "رمز")}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label>{t("Confirm Password", "تأكيد كلمة المرور")}</Label>
-              <Input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => { setConfirmPassword(e.target.value); setPasswordErrors((p) => ({ ...p, confirm: "" })); }}
-                className={passwordErrors.confirm ? "border-destructive" : ""}
-              />
-              {passwordErrors.confirm && <p className="text-xs text-destructive">{passwordErrors.confirm}</p>}
-            </div>
-            <Button type="submit" size="sm"><Lock size={16} className="me-1" />{t("Update Password", "تحديث كلمة المرور")}</Button>
-          </form>
-        </CardContent>
-      </Card>
-
       {/* Account deactivation */}
       <Card className="border-destructive/20">
         <CardHeader className="pb-2">
@@ -418,46 +308,24 @@ export default function ProfilePage() {
           <form onSubmit={handleAddPayment} className="space-y-3">
             <div className="space-y-1">
               <Label>{t("Card Number", "رقم البطاقة")}</Label>
-              <Input
-                placeholder="0000 0000 0000 0000"
-                value={newCard.number}
-                onChange={(e) => setNewCard((p) => ({ ...p, number: formatCardNumber(e.target.value) }))}
-                className={cardErrors.number ? "border-destructive" : ""}
-                maxLength={19}
-              />
+              <Input placeholder="0000 0000 0000 0000" value={newCard.number} onChange={(e) => setNewCard((p) => ({ ...p, number: formatCardNumber(e.target.value) }))} className={cardErrors.number ? "border-destructive" : ""} maxLength={19} />
               {cardErrors.number && <p className="text-xs text-destructive">{cardErrors.number}</p>}
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
                 <Label>{t("Expiry", "انتهاء الصلاحية")}</Label>
-                <Input
-                  placeholder="MM/YY"
-                  value={newCard.expiry}
-                  onChange={(e) => setNewCard((p) => ({ ...p, expiry: formatExpiry(e.target.value) }))}
-                  className={cardErrors.expiry ? "border-destructive" : ""}
-                  maxLength={5}
-                />
+                <Input placeholder="MM/YY" value={newCard.expiry} onChange={(e) => setNewCard((p) => ({ ...p, expiry: formatExpiry(e.target.value) }))} className={cardErrors.expiry ? "border-destructive" : ""} maxLength={5} />
                 {cardErrors.expiry && <p className="text-xs text-destructive">{cardErrors.expiry}</p>}
               </div>
               <div className="space-y-1">
                 <Label>CVV</Label>
-                <Input
-                  placeholder="123"
-                  value={newCard.cvv}
-                  onChange={(e) => setNewCard((p) => ({ ...p, cvv: e.target.value.replace(/\D/g, "").slice(0, 4) }))}
-                  className={cardErrors.cvv ? "border-destructive" : ""}
-                  maxLength={4}
-                />
+                <Input placeholder="123" value={newCard.cvv} onChange={(e) => setNewCard((p) => ({ ...p, cvv: e.target.value.replace(/\D/g, "").slice(0, 4) }))} className={cardErrors.cvv ? "border-destructive" : ""} maxLength={4} />
                 {cardErrors.cvv && <p className="text-xs text-destructive">{cardErrors.cvv}</p>}
               </div>
             </div>
             <div className="space-y-1">
               <Label>{t("Cardholder Name", "اسم حامل البطاقة")}</Label>
-              <Input
-                value={newCard.name}
-                onChange={(e) => setNewCard((p) => ({ ...p, name: e.target.value }))}
-                className={cardErrors.name ? "border-destructive" : ""}
-              />
+              <Input value={newCard.name} onChange={(e) => setNewCard((p) => ({ ...p, name: e.target.value }))} className={cardErrors.name ? "border-destructive" : ""} />
               {cardErrors.name && <p className="text-xs text-destructive">{cardErrors.name}</p>}
             </div>
             <div className="flex gap-2 justify-end pt-2">
@@ -514,21 +382,11 @@ export default function ProfilePage() {
             </div>
             <div className="space-y-2">
               <Label>{t("Reason (optional)", "السبب (اختياري)")}</Label>
-              <Textarea
-                value={deactivateReason}
-                onChange={(e) => setDeactivateReason(e.target.value)}
-                placeholder={t("Tell us why you're leaving...", "أخبرنا لماذا تريد المغادرة...")}
-                rows={3}
-                maxLength={500}
-              />
+              <Textarea value={deactivateReason} onChange={(e) => setDeactivateReason(e.target.value)} placeholder={t("Tell us why you're leaving...", "أخبرنا لماذا تريد المغادرة...")} rows={3} maxLength={500} />
             </div>
             <div className="space-y-2">
               <Label>{t('Type "DEACTIVATE" to confirm', 'اكتب "DEACTIVATE" للتأكيد')}</Label>
-              <Input
-                value={deactivateConfirmText}
-                onChange={(e) => setDeactivateConfirmText(e.target.value)}
-                placeholder="DEACTIVATE"
-              />
+              <Input value={deactivateConfirmText} onChange={(e) => setDeactivateConfirmText(e.target.value)} placeholder="DEACTIVATE" />
             </div>
             <div className="flex gap-2 justify-end">
               <Button variant="outline" onClick={() => setShowDeactivate(false)}>{t("Cancel", "إلغاء")}</Button>
