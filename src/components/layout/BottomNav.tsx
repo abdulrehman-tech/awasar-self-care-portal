@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home2, Layer, Card as CardIcon, MessageQuestion, More,
   User, Wifi, Book, Notification, Logout, Box, ClipboardText
@@ -29,6 +29,7 @@ export default function BottomNav() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { t } = useLanguage();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isMoreActive = moreItems.some((item) => location.pathname === item.path);
 
@@ -85,7 +86,10 @@ export default function BottomNav() {
                 <span className="text-xs font-medium text-center">{t(item.labelEn, item.labelAr)}</span>
               </Link>
             ))}
-            <button className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-muted transition-colors">
+            <button
+              onClick={() => { setDrawerOpen(false); navigate("/login"); }}
+              className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-muted transition-colors"
+            >
               <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center">
                 <Logout size={20} className="text-destructive" />
               </div>
