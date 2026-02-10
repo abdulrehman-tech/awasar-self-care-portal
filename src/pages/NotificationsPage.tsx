@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, Check, CreditCard, Wifi, AlertTriangle, LifeBuoy, Package } from "lucide-react";
+import { Notification, TickCircle, Card as CardIcon, Wifi, Warning2, MessageQuestion, Box } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,7 +8,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { notifications } from "@/data/mockData";
 import { cn } from "@/lib/utils";
 
-const categoryIcons: Record<string, any> = { billing: CreditCard, service: Wifi, outage: AlertTriangle, ticket: LifeBuoy, order: Package };
+const categoryIcons: Record<string, any> = { billing: CardIcon, service: Wifi, outage: Warning2, ticket: MessageQuestion, order: Box };
 
 export default function NotificationsPage() {
   const { t } = useLanguage();
@@ -26,7 +26,7 @@ export default function NotificationsPage() {
         </div>
         {unreadCount > 0 && (
           <Button variant="outline" size="sm" onClick={markAllRead}>
-            <Check className="h-4 w-4 mr-1" />{t("Mark all read", "تحديد الكل كمقروء")}
+            <TickCircle size={16} className="mr-1" />{t("Mark all read", "تحديد الكل كمقروء")}
           </Button>
         )}
       </div>
@@ -44,12 +44,12 @@ export default function NotificationsPage() {
             {items
               .filter((n) => tab === "all" || n.category === tab)
               .map((notification) => {
-                const Icon = categoryIcons[notification.category] || Bell;
+                const Icon = categoryIcons[notification.category] || Notification;
                 return (
                   <Card key={notification.id} className={cn(!notification.read && "border-primary/20 bg-primary/5")}>
                     <CardContent className="p-4 flex items-start gap-3">
                       <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center shrink-0">
-                        <Icon className="h-4 w-4 text-muted-foreground" />
+                        <Icon size={16} className="text-muted-foreground" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">

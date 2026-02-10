@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Wifi, Tv, Phone, Package, ArrowRight, Check } from "lucide-react";
+import { SearchNormal, Wifi, Monitor, Call, Box, ArrowRight2, TickCircle } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { plans } from "@/data/mockData";
 import { cn } from "@/lib/utils";
 
-const typeIcons: Record<string, any> = { internet: Wifi, tv: Tv, voice: Phone, bundle: Package };
+const typeIcons: Record<string, any> = { internet: Wifi, tv: Monitor, voice: Call, bundle: Box };
 
 export default function CatalogPage() {
   const { t } = useLanguage();
@@ -47,7 +47,7 @@ export default function CatalogPage() {
       </div>
 
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <SearchNormal size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("Search plans...", "ابحث عن الباقات...")} className="pl-9" />
       </div>
 
@@ -64,17 +64,17 @@ export default function CatalogPage() {
           <TabsContent key={tab} value={tab} className="mt-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {filtered.filter((p) => tab === "all" || p.type === tab).map((plan) => {
-                const Icon = typeIcons[plan.type] || Package;
+                const Icon = typeIcons[plan.type] || Box;
                 const isComparing = compareList.includes(plan.id);
                 return (
                   <Card key={plan.id} className={cn("transition-colors", isComparing && "border-primary")}>
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between mb-3">
                         <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                          <Icon className="h-5 w-5 text-primary" />
+                          <Icon size={20} className="text-primary" />
                         </div>
                         <button onClick={() => toggleCompare(plan.id)} className={cn("text-xs px-2 py-1 rounded border transition-colors", isComparing ? "border-primary text-primary bg-primary/5" : "border-border text-muted-foreground hover:border-primary/30")}>
-                          {isComparing ? <Check className="h-3 w-3 inline mr-0.5" /> : null}
+                          {isComparing ? <TickCircle size={12} className="inline mr-0.5" /> : null}
                           {t("Compare", "مقارنة")}
                         </button>
                       </div>
@@ -88,7 +88,7 @@ export default function CatalogPage() {
                       )}
                       <div className="mt-3 flex items-center justify-between">
                         <p className="text-lg font-bold">{plan.price} <span className="text-xs font-normal text-muted-foreground">{t("OMR/mo", "ر.ع/شهر")}</span></p>
-                        <Button size="sm" className="text-xs">{t("Subscribe", "اشترك")} <ArrowRight className="h-3 w-3 ml-1" /></Button>
+                        <Button size="sm" className="text-xs">{t("Subscribe", "اشترك")} <ArrowRight2 size={14} className="ml-1" /></Button>
                       </div>
                     </CardContent>
                   </Card>

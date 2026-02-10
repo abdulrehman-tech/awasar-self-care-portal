@@ -1,4 +1,4 @@
-import { Wifi, AlertTriangle, Clock, Bell } from "lucide-react";
+import { Wifi, Warning2, Clock, Notification } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
@@ -26,7 +26,7 @@ export default function NetworkStatusPage() {
         <Card className="border-warning/20 bg-warning/5">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-warning" />
+              <Warning2 size={16} className="text-warning" />
               {t("Active Issues", "مشاكل نشطة")}
             </CardTitle>
           </CardHeader>
@@ -38,7 +38,7 @@ export default function NetworkStatusPage() {
                   <p className="text-xs text-muted-foreground">{n.issue && t(n.issue, n.issueAr || "")}</p>
                   {"eta" in n && n.eta && (
                     <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-                      <Clock className="h-3 w-3" /> {t("Est. resolution:", "الحل المتوقع:")} {new Date(n.eta as string).toLocaleTimeString()}
+                      <Clock size={12} /> {t("Est. resolution:", "الحل المتوقع:")} {new Date(n.eta as string).toLocaleTimeString()}
                     </p>
                   )}
                 </div>
@@ -69,7 +69,7 @@ export default function NetworkStatusPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-1.5">
-                    <Bell className="h-3.5 w-3.5 text-muted-foreground" />
+                    <Notification size={14} className="text-muted-foreground" />
                     <Switch />
                   </div>
                 </div>

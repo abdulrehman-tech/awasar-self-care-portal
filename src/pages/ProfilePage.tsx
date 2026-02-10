@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User, Mail, Phone, MapPin, Lock, LogOut, CreditCard, Save } from "lucide-react";
+import { User, Sms, Call, Location, Lock, Logout, Card as CardIcon, Save2 } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,7 +30,7 @@ export default function ProfilePage() {
           <div className="flex items-center justify-between">
             <CardTitle className="text-base">{t("Personal Information", "المعلومات الشخصية")}</CardTitle>
             <Button variant="outline" size="sm" onClick={() => editing ? handleSave() : setEditing(true)}>
-              {editing ? <><Save className="h-4 w-4 mr-1" />{t("Save", "حفظ")}</> : t("Edit", "تعديل")}
+              {editing ? <><Save2 size={16} className="mr-1" />{t("Save", "حفظ")}</> : t("Edit", "تعديل")}
             </Button>
           </div>
         </CardHeader>
@@ -43,12 +43,12 @@ export default function ProfilePage() {
             </div>
           </div>
           {[
-            { icon: Mail, label: t("Email", "البريد الإلكتروني"), value: customer.email },
-            { icon: Phone, label: t("Phone", "الهاتف"), value: customer.phone },
-            { icon: MapPin, label: t("Address", "العنوان"), value: t(customer.address, customer.addressAr) },
+            { icon: Sms, label: t("Email", "البريد الإلكتروني"), value: customer.email },
+            { icon: Call, label: t("Phone", "الهاتف"), value: customer.phone },
+            { icon: Location, label: t("Address", "العنوان"), value: t(customer.address, customer.addressAr) },
           ].map((field, i) => (
             <div key={i} className="flex items-center gap-3">
-              <field.icon className="h-4 w-4 text-muted-foreground shrink-0" />
+              <field.icon size={16} className="text-muted-foreground shrink-0" />
               <div className="flex-1">
                 <Label className="text-xs text-muted-foreground">{field.label}</Label>
                 {editing ? <Input defaultValue={field.value} className="mt-1" /> : <p className="text-sm">{field.value}</p>}
@@ -103,7 +103,7 @@ export default function ProfilePage() {
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-3 py-2">
-            <CreditCard className="h-5 w-5 text-muted-foreground" />
+            <CardIcon size={20} className="text-muted-foreground" />
             <div><p className="text-sm">•••• •••• •••• 4521</p><p className="text-xs text-muted-foreground">Visa — Expires 12/25</p></div>
           </div>
         </CardContent>
@@ -118,13 +118,13 @@ export default function ProfilePage() {
           <div className="space-y-2"><Label>{t("Current Password", "كلمة المرور الحالية")}</Label><Input type="password" /></div>
           <div className="space-y-2"><Label>{t("New Password", "كلمة المرور الجديدة")}</Label><Input type="password" /></div>
           <div className="space-y-2"><Label>{t("Confirm Password", "تأكيد كلمة المرور")}</Label><Input type="password" /></div>
-          <Button size="sm"><Lock className="h-4 w-4 mr-1" />{t("Update Password", "تحديث كلمة المرور")}</Button>
+          <Button size="sm"><Lock size={16} className="mr-1" />{t("Update Password", "تحديث كلمة المرور")}</Button>
         </CardContent>
       </Card>
 
       {/* Logout */}
       <Button variant="destructive" className="w-full sm:w-auto">
-        <LogOut className="h-4 w-4 mr-1" />{t("Logout", "تسجيل الخروج")}
+        <Logout size={16} className="mr-1" />{t("Logout", "تسجيل الخروج")}
       </Button>
     </div>
   );

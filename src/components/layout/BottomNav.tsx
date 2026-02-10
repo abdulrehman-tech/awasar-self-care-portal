@@ -1,25 +1,28 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Layers, CreditCard, LifeBuoy, MoreHorizontal, User, Wifi, BookOpen, Bell, LogOut, Package, ClipboardList } from "lucide-react";
+import {
+  Home2, Layer, Card as CardIcon, MessageQuestion, More,
+  User, Wifi, Book, Notification, Logout, Box, ClipboardText
+} from "iconsax-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 
 const mainTabs = [
-  { path: "/", icon: Home, labelEn: "Home", labelAr: "الرئيسية" },
-  { path: "/services", icon: Layers, labelEn: "Services", labelAr: "خدماتي" },
-  { path: "/billing", icon: CreditCard, labelEn: "Pay", labelAr: "الدفع" },
-  { path: "/support", icon: LifeBuoy, labelEn: "Support", labelAr: "الدعم" },
+  { path: "/", icon: Home2, labelEn: "Home", labelAr: "الرئيسية" },
+  { path: "/services", icon: Layer, labelEn: "Services", labelAr: "خدماتي" },
+  { path: "/billing", icon: CardIcon, labelEn: "Pay", labelAr: "الدفع" },
+  { path: "/support", icon: MessageQuestion, labelEn: "Support", labelAr: "الدعم" },
 ];
 
 const moreItems = [
   { path: "/profile", icon: User, labelEn: "Profile", labelAr: "الملف الشخصي" },
-  { path: "/requests", icon: ClipboardList, labelEn: "Requests", labelAr: "الطلبات" },
-  { path: "/orders", icon: Package, labelEn: "Orders", labelAr: "الطلبات" },
+  { path: "/requests", icon: ClipboardText, labelEn: "Requests", labelAr: "الطلبات" },
+  { path: "/orders", icon: Box, labelEn: "Orders", labelAr: "الطلبات" },
   { path: "/network-status", icon: Wifi, labelEn: "Network Status", labelAr: "حالة الشبكة" },
-  { path: "/knowledge-base", icon: BookOpen, labelEn: "Knowledge Base", labelAr: "قاعدة المعرفة" },
-  { path: "/notifications", icon: Bell, labelEn: "Notifications", labelAr: "الإشعارات" },
-  { path: "/catalog", icon: Package, labelEn: "Products", labelAr: "المنتجات" },
+  { path: "/knowledge-base", icon: Book, labelEn: "Knowledge Base", labelAr: "قاعدة المعرفة" },
+  { path: "/notifications", icon: Notification, labelEn: "Notifications", labelAr: "الإشعارات" },
+  { path: "/catalog", icon: Box, labelEn: "Products", labelAr: "المنتجات" },
 ];
 
 export default function BottomNav() {
@@ -44,7 +47,7 @@ export default function BottomNav() {
                   isActive ? "text-primary" : "text-muted-foreground"
                 )}
               >
-                <tab.icon className="h-5 w-5" />
+                <tab.icon size={20} variant={isActive ? "Bold" : "Linear"} />
                 <span className="text-[10px] font-medium">{t(tab.labelEn, tab.labelAr)}</span>
               </Link>
             );
@@ -56,7 +59,7 @@ export default function BottomNav() {
               isMoreActive ? "text-primary" : "text-muted-foreground"
             )}
           >
-            <MoreHorizontal className="h-5 w-5" />
+            <More size={20} variant={isMoreActive ? "Bold" : "Linear"} />
             <span className="text-[10px] font-medium">{t("More", "المزيد")}</span>
           </button>
         </div>
@@ -77,14 +80,14 @@ export default function BottomNav() {
                 className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-muted transition-colors"
               >
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <item.icon className="h-5 w-5 text-primary" />
+                  <item.icon size={20} className="text-primary" />
                 </div>
                 <span className="text-xs font-medium text-center">{t(item.labelEn, item.labelAr)}</span>
               </Link>
             ))}
             <button className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-muted transition-colors">
               <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center">
-                <LogOut className="h-5 w-5 text-destructive" />
+                <Logout size={20} className="text-destructive" />
               </div>
               <span className="text-xs font-medium">{t("Logout", "تسجيل الخروج")}</span>
             </button>

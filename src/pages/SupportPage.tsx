@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Send, Paperclip } from "lucide-react";
+import { Add, Send2, Paperclip } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -48,7 +48,7 @@ export default function SupportPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t("Support Tickets", "تذاكر الدعم")}</h1>
         <Button size="sm" onClick={() => setShowCreate(true)}>
-          <Plus className="h-4 w-4 mr-1" />{t("New Ticket", "تذكرة جديدة")}
+          <Add size={16} className="mr-1" />{t("New Ticket", "تذكرة جديدة")}
         </Button>
       </div>
 
@@ -108,7 +108,7 @@ export default function SupportPage() {
           </div>
           <div className="flex gap-2">
             <Input value={reply} onChange={(e) => setReply(e.target.value)} placeholder={t("Type your reply...", "اكتب ردك...")} onKeyDown={(e) => e.key === "Enter" && handleReply()} />
-            <Button size="icon" onClick={handleReply}><Send className="h-4 w-4" /></Button>
+            <Button size="icon" onClick={handleReply}><Send2 size={16} /></Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -150,7 +150,7 @@ export default function SupportPage() {
                 </SelectContent>
               </Select>
             </div>
-            <Button variant="outline" size="sm" type="button"><Paperclip className="h-4 w-4 mr-1" />{t("Attach", "إرفاق")}</Button>
+            <Button variant="outline" size="sm" type="button"><Paperclip size={16} className="mr-1" />{t("Attach", "إرفاق")}</Button>
             <div className="flex gap-2 justify-end">
               <Button variant="outline" type="button" onClick={() => setShowCreate(false)}>{t("Cancel", "إلغاء")}</Button>
               <Button type="submit">{t("Submit", "إرسال")}</Button>

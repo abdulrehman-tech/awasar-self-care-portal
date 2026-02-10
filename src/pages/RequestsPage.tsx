@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Paperclip, CheckCircle } from "lucide-react";
+import { Add, Paperclip, TickCircle } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -46,7 +46,7 @@ export default function RequestsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t("Service Requests", "طلبات الخدمة")}</h1>
         <Button size="sm" onClick={() => setShowForm(true)}>
-          <Plus className="h-4 w-4 mr-1" />{t("New Request", "طلب جديد")}
+          <Add size={16} className="mr-1" />{t("New Request", "طلب جديد")}
         </Button>
       </div>
 
@@ -94,7 +94,7 @@ export default function RequestsPage() {
             </div>
             <div className="space-y-2">
               <Label>{t("Attachments", "المرفقات")}</Label>
-              <Button variant="outline" size="sm" type="button"><Paperclip className="h-4 w-4 mr-1" />{t("Attach File", "إرفاق ملف")}</Button>
+              <Button variant="outline" size="sm" type="button"><Paperclip size={16} className="mr-1" />{t("Attach File", "إرفاق ملف")}</Button>
             </div>
             <div className="flex gap-2 justify-end">
               <Button variant="outline" type="button" onClick={() => setShowForm(false)}>{t("Cancel", "إلغاء")}</Button>
@@ -108,7 +108,7 @@ export default function RequestsPage() {
       <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
         <DialogContent>
           <div className="text-center py-4">
-            <CheckCircle className="h-12 w-12 text-success mx-auto mb-3" />
+            <TickCircle size={48} className="text-success mx-auto mb-3" variant="Bold" />
             <h3 className="font-semibold text-lg">{t("Request Submitted!", "تم إرسال الطلب!")}</h3>
             <p className="text-sm text-muted-foreground mt-1">{t("Reference: REQ-3003", "المرجع: REQ-3003")}</p>
             <p className="text-sm text-muted-foreground">{t("We'll process your request within 2-3 business days.", "سنقوم بمعالجة طلبك خلال 2-3 أيام عمل.")}</p>

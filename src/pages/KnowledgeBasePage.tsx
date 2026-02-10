@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Search, Wifi, Tv, CreditCard, Wrench, User, AlertTriangle, ThumbsUp, ThumbsDown, ArrowLeft } from "lucide-react";
+import { SearchNormal, Wifi, Monitor, Card as CardIcon, Setting, User, Warning2, Like1, Dislike, ArrowLeft2 } from "iconsax-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { knowledgeBase } from "@/data/mockData";
 
-const iconMap: Record<string, any> = { Wifi, Tv, CreditCard, Wrench, User, AlertTriangle };
+const iconMap: Record<string, any> = { Wifi, Tv: Monitor, CreditCard: CardIcon, Wrench: Setting, User, AlertTriangle: Warning2 };
 
 export default function KnowledgeBasePage() {
   const { t } = useLanguage();
@@ -24,7 +24,7 @@ export default function KnowledgeBasePage() {
     return (
       <div className="space-y-6">
         <Button variant="ghost" size="sm" onClick={() => setSelectedArticle(null)}>
-          <ArrowLeft className="h-4 w-4 mr-1" />{t("Back", "رجوع")}
+          <ArrowLeft2 size={16} className="mr-1" />{t("Back", "رجوع")}
         </Button>
         <h1 className="text-xl font-bold">{t(selectedArticle.title, selectedArticle.titleAr)}</h1>
         <Card><CardContent className="p-6">
@@ -42,8 +42,8 @@ export default function KnowledgeBasePage() {
           <div className="mt-6 pt-4 border-t border-border">
             <p className="text-sm text-muted-foreground mb-2">{t("Was this helpful?", "هل كان هذا مفيداً؟")}</p>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm"><ThumbsUp className="h-4 w-4 mr-1" />{t("Yes", "نعم")}</Button>
-              <Button variant="outline" size="sm"><ThumbsDown className="h-4 w-4 mr-1" />{t("No", "لا")}</Button>
+              <Button variant="outline" size="sm"><Like1 size={16} className="mr-1" />{t("Yes", "نعم")}</Button>
+              <Button variant="outline" size="sm"><Dislike size={16} className="mr-1" />{t("No", "لا")}</Button>
             </div>
           </div>
         </CardContent></Card>
@@ -57,7 +57,7 @@ export default function KnowledgeBasePage() {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <SearchNormal size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("Search articles...", "ابحث في المقالات...")} className="pl-9" />
       </div>
 
@@ -65,12 +65,12 @@ export default function KnowledgeBasePage() {
       {!selectedCategory && (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {knowledgeBase.categories.map((cat) => {
-            const Icon = iconMap[cat.icon] || AlertTriangle;
+            const Icon = iconMap[cat.icon] || Warning2;
             return (
               <Card key={cat.id} className="cursor-pointer hover:border-primary/20 transition-colors" onClick={() => setSelectedCategory(cat.id)}>
                 <CardContent className="p-4 text-center">
                   <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
-                    <Icon className="h-5 w-5 text-primary" />
+                    <Icon size={20} className="text-primary" />
                   </div>
                   <p className="text-sm font-medium">{t(cat.name, cat.nameAr)}</p>
                   <p className="text-xs text-muted-foreground">{cat.count} {t("articles", "مقال")}</p>
@@ -84,7 +84,7 @@ export default function KnowledgeBasePage() {
       {selectedCategory && (
         <>
           <Button variant="ghost" size="sm" onClick={() => setSelectedCategory(null)}>
-            <ArrowLeft className="h-4 w-4 mr-1" />{t("All Categories", "جميع الفئات")}
+            <ArrowLeft2 size={16} className="mr-1" />{t("All Categories", "جميع الفئات")}
           </Button>
           <div className="space-y-2">
             {filteredArticles.map((article) => (
