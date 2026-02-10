@@ -43,7 +43,7 @@ export default function LoginPage() {
       return;
     }
     toast({ title: t("Welcome!", "مرحباً!"), description: t("Logging you in...", "جاري تسجيل الدخول...") });
-    setTimeout(() => navigate("/"), 800);
+    setTimeout(() => navigate("/dashboard"), 800);
   };
 
   const handleResend = () => {
@@ -155,7 +155,7 @@ export default function LoginPage() {
               </p>
             </CardHeader>
             <CardContent>
-              <Button className="w-full" onClick={() => navigate("/")}>
+              <Button className="w-full" onClick={() => navigate("/dashboard")}>
                 {t("Go to Dashboard", "الذهاب للرئيسية")}
               </Button>
             </CardContent>

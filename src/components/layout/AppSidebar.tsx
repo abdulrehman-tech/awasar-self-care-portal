@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import awasrLogo from "@/assets/awasr-logo.png";
 
 const navItems = [
-  { path: "/", icon: Home2, labelEn: "Dashboard", labelAr: "الرئيسية" },
+  { path: "/dashboard", icon: Home2, labelEn: "Dashboard", labelAr: "الرئيسية" },
   { path: "/services", icon: Layer, labelEn: "My Services", labelAr: "خدماتي" },
   { path: "/billing", icon: CardIcon, labelEn: "Billing", labelAr: "الفواتير" },
   { path: "/requests", icon: ClipboardText, labelEn: "Requests", labelAr: "الطلبات" },
