@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DocumentDownload, TickCircle, Warning2, Card as CardIcon, Eye, EyeSlash, ReceiptItem, CloseCircle } from "iconsax-react";
+import { DocumentDownload, TickCircle, Warning2, Card as CardIcon, Eye, EyeSlash, ReceiptItem, CloseCircle, Flash, ArrowRight2 } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { invoices, invoiceLineItems } from "@/data/mockData";
@@ -16,15 +17,14 @@ import { cn } from "@/lib/utils";
 
 const paymentMethods = [
   { id: "card", name: "Credit/Debit Card", nameAr: "بطاقة ائتمان/خصم", icon: "/icons/visa.svg" },
-  { id: "omannet", name: "Omannet", nameAr: "عُمان نت", icon: null, emoji: "🏦" },
   { id: "apple", name: "Apple Pay", nameAr: "آبل باي", icon: "/icons/apple.svg" },
-  { id: "samsung", name: "Samsung Pay", nameAr: "سامسونج باي", icon: null, emoji: "📱" },
+  { id: "samsung", name: "Samsung Pay", nameAr: "سامسونج باي", icon: "/icons/samsung-pay.svg" },
 ];
 
 const rechargeAmounts = [5, 10, 15, 20, 25, 50];
 
 export default function BillingPage() {
-  const { t } = useLanguage();
+  const { t, dir } = useLanguage();
   const { toast } = useToast();
   const [selectedMethod, setSelectedMethod] = useState("card");
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -37,6 +37,7 @@ export default function BillingPage() {
   const [promoCode, setPromoCode] = useState("");
   const [promoStatus, setPromoStatus] = useState<"idle" | "success" | "error">("idle");
   const [discount, setDiscount] = useState(0);
+  const [invoiceFilter, setInvoiceFilter] = useState<"all" | "paid" | "unpaid">("all");
 
   // Card form state
   const [cardNumber, setCardNumber] = useState("");
@@ -52,7 +53,10 @@ export default function BillingPage() {
   const [receiptData, setReceiptData] = useState({ amount: 0, method: "", ref: "" });
 
   const outstanding = invoices.filter((i) => i.status === "unpaid").reduce((sum, i) => sum + i.amount, 0);
+  const totalPaid = invoices.filter((i) => i.status === "paid").reduce((sum, i) => sum + i.amount, 0);
   const finalAmount = Math.max(0, outstanding - discount);
+
+  const filteredInvoices = invoices.filter((i) => invoiceFilter === "all" || i.status === invoiceFilter);
 
   const formatCard = (v: string) => {
     const digits = v.replace(/\D/g, "").slice(0, 16);
@@ -92,7 +96,6 @@ export default function BillingPage() {
     });
     setShowConfirmation(false);
     setShowReceipt(true);
-    // Reset card form
     setCardNumber(""); setCardExpiry(""); setCardCvv(""); setCardName("");
   };
 
@@ -142,129 +145,165 @@ export default function BillingPage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">{t("Billing & Payments", "الفواتير والمدفوعات")}</h1>
 
-      {/* Outstanding balance banner */}
-      {outstanding > 0 && (
-        <Card className="border-primary/20 bg-primary/5">
-          <CardContent className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <Warning2 size={20} className="text-primary shrink-0" />
-              <div>
-                <p className="font-semibold">{t("Outstanding Balance", "الرصيد المستحق")}</p>
-                <p className="text-2xl font-bold">
-                  {discount > 0 ? (
-                    <>
-                      <span className="line-through text-muted-foreground text-lg me-2">{outstanding.toFixed(2)}</span>
-                      {finalAmount.toFixed(2)}
-                    </>
-                  ) : outstanding.toFixed(2)}
-                  {" "}<span className="text-sm font-normal text-muted-foreground">{t("OMR", "ر.ع")}</span>
-                </p>
-                {discount > 0 && <p className="text-xs text-success">{t(`Discount: OMR ${discount.toFixed(2)}`, `الخصم: ${discount.toFixed(2)} ر.ع`)}</p>}
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={() => setShowRecharge(true)}>{t("Recharge", "إعادة شحن")}</Button>
-              <Button onClick={handlePay}>{t("Pay Now", "ادفع الآن")}</Button>
-            </div>
+      {/* Balance Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Card className={outstanding > 0 ? "border-warning/30 bg-warning/5" : "border-success/30 bg-success/5"}>
+          <CardContent className="p-4">
+            <p className="text-xs text-muted-foreground mb-1">{t("Outstanding Balance", "الرصيد المستحق")}</p>
+            <p className="text-2xl font-bold">
+              {discount > 0 ? (
+                <>
+                  <span className="line-through text-muted-foreground text-lg me-2">{outstanding.toFixed(2)}</span>
+                  {finalAmount.toFixed(2)}
+                </>
+              ) : outstanding.toFixed(2)}
+              <span className="text-sm font-normal text-muted-foreground ms-1">{t("OMR", "ر.ع")}</span>
+            </p>
+            {discount > 0 && <p className="text-xs text-success mt-0.5">{t(`Discount: OMR ${discount.toFixed(2)}`, `الخصم: ${discount.toFixed(2)} ر.ع`)}</p>}
+            {outstanding > 0 && (
+              <Button size="sm" className="w-full mt-3" onClick={handlePay}>
+                {t("Pay Now", "ادفع الآن")}
+              </Button>
+            )}
           </CardContent>
         </Card>
-      )}
 
-      {/* Payment methods */}
-      <Card>
-        <CardHeader className="pb-2"><CardTitle className="text-base">{t("Payment Method", "طريقة الدفع")}</CardTitle></CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {paymentMethods.map((m) => (
-              <button
-                key={m.id}
-                onClick={() => setSelectedMethod(m.id)}
-                className={cn(
-                  "p-3 rounded-lg border text-center text-sm transition-colors flex flex-col items-center gap-2",
-                  selectedMethod === m.id ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
-                )}
-              >
-                {m.icon ? (
-                  <img src={m.icon} alt={m.name} className="h-6 w-auto object-contain" />
-                ) : (
-                  <span className="text-xl">{m.emoji}</span>
-                )}
-                <span className="text-xs">{t(m.name, m.nameAr)}</span>
-              </button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Promo code + Auto-pay */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Card>
           <CardContent className="p-4">
-            <p className="text-sm font-medium mb-2">{t("Promo Code", "رمز ترويجي")}</p>
-            <div className="flex gap-2">
-              <div className="flex-1 relative">
-                <Input
-                  value={promoCode}
-                  onChange={(e) => { setPromoCode(e.target.value); setPromoStatus("idle"); setDiscount(0); }}
-                  placeholder={t("e.g. AWASR20", "مثال: AWASR20")}
-                  className={cn(
-                    promoStatus === "success" && "border-success",
-                    promoStatus === "error" && "border-destructive"
-                  )}
-                  maxLength={20}
-                />
-              </div>
-              <Button variant="outline" size="sm" onClick={handlePromoApply} disabled={!promoCode.trim()}>{t("Apply", "تطبيق")}</Button>
-            </div>
-            {promoStatus === "success" && <p className="text-xs text-success mt-1">{t("✓ Promo code applied successfully!", "✓ تم تطبيق الرمز الترويجي بنجاح!")}</p>}
-            {promoStatus === "error" && <p className="text-xs text-destructive mt-1">{t("✗ Invalid promo code. Try AWASR20.", "✗ رمز غير صالح. جرّب AWASR20.")}</p>}
+            <p className="text-xs text-muted-foreground mb-1">{t("Total Paid (YTD)", "إجمالي المدفوعات")}</p>
+            <p className="text-2xl font-bold">{totalPaid.toFixed(2)} <span className="text-sm font-normal text-muted-foreground">{t("OMR", "ر.ع")}</span></p>
+            <p className="text-xs text-muted-foreground mt-1">{invoices.filter(i => i.status === "paid").length} {t("invoices", "فواتير")}</p>
           </CardContent>
         </Card>
+
         <Card>
-          <CardContent className="p-4 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">{t("Auto-Pay", "الدفع التلقائي")}</p>
-              <p className="text-xs text-muted-foreground">{t("Automatically pay monthly bills", "دفع الفواتير الشهرية تلقائياً")}</p>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-xs text-muted-foreground">{t("Auto-Pay", "الدفع التلقائي")}</p>
+              <Switch checked={autoPay} onCheckedChange={handleAutoPayToggle} />
             </div>
-            <Switch checked={autoPay} onCheckedChange={handleAutoPayToggle} />
+            <p className="text-sm font-medium mt-1">{autoPay ? t("Enabled", "مفعّل") : t("Disabled", "معطّل")}</p>
+            <p className="text-xs text-muted-foreground">{t("Monthly on the 5th", "شهرياً في الخامس")}</p>
+            <Button variant="outline" size="sm" className="w-full mt-3" onClick={() => setShowRecharge(true)}>
+              <Flash size={14} className="me-1" />{t("Recharge", "إعادة شحن")}
+            </Button>
           </CardContent>
         </Card>
       </div>
 
-      {/* Invoice history */}
-      <Card>
-        <CardHeader className="pb-2"><CardTitle className="text-base">{t("Invoice History", "سجل الفواتير")}</CardTitle></CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{t("Invoice", "الفاتورة")}</TableHead>
-                <TableHead>{t("Date", "التاريخ")}</TableHead>
-                <TableHead>{t("Amount", "المبلغ")}</TableHead>
-                <TableHead>{t("Status", "الحالة")}</TableHead>
-                <TableHead></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {invoices.map((inv) => (
-                <TableRow key={inv.id} className="cursor-pointer hover:bg-muted/50" onClick={() => setShowInvoiceDetail(inv.id)}>
-                  <TableCell className="font-medium text-sm">{inv.id}</TableCell>
-                  <TableCell className="text-sm">{inv.date}</TableCell>
-                  <TableCell className="text-sm">{inv.amount.toFixed(2)} {t("OMR", "ر.ع")}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className={cn("text-[10px]", inv.status === "paid" ? "text-success border-success/20" : "text-warning border-warning/20")}>
-                      {t(inv.status === "paid" ? "Paid" : "Unpaid", inv.status === "paid" ? "مدفوع" : "غير مدفوع")}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); handleDownloadInvoice(inv.id); }}>
-                      <DocumentDownload size={16} />
-                    </Button>
-                  </TableCell>
-                </TableRow>
+      {/* Payment Method & Promo in a clean layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Payment Methods - takes 2 cols */}
+        <Card className="lg:col-span-2">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">{t("Payment Method", "طريقة الدفع")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-3 gap-3">
+              {paymentMethods.map((m) => (
+                <button
+                  key={m.id}
+                  onClick={() => setSelectedMethod(m.id)}
+                  className={cn(
+                    "p-4 rounded-xl border-2 text-center transition-all flex flex-col items-center gap-2.5 relative",
+                    selectedMethod === m.id 
+                      ? "border-primary bg-primary/5 shadow-sm" 
+                      : "border-border hover:border-primary/30 hover:bg-muted/30"
+                  )}
+                >
+                  {selectedMethod === m.id && (
+                    <div className="absolute top-2 end-2">
+                      <TickCircle size={16} className="text-primary" variant="Bold" />
+                    </div>
+                  )}
+                  <img src={m.icon} alt={m.name} className="h-8 w-auto object-contain" />
+                  <span className="text-xs font-medium">{t(m.name, m.nameAr)}</span>
+                </button>
               ))}
-            </TableBody>
-          </Table>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Promo Code */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">{t("Promo Code", "رمز ترويجي")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <Input
+                value={promoCode}
+                onChange={(e) => { setPromoCode(e.target.value); setPromoStatus("idle"); setDiscount(0); }}
+                placeholder={t("Enter code", "أدخل الرمز")}
+                className={cn(
+                  promoStatus === "success" && "border-success",
+                  promoStatus === "error" && "border-destructive"
+                )}
+                maxLength={20}
+              />
+              <Button variant="outline" className="w-full" onClick={handlePromoApply} disabled={!promoCode.trim()}>
+                {t("Apply Code", "تطبيق الرمز")}
+              </Button>
+              {promoStatus === "success" && <p className="text-xs text-success">{t("✓ Code applied!", "✓ تم تطبيق الرمز!")}</p>}
+              {promoStatus === "error" && <p className="text-xs text-destructive">{t("✗ Invalid code", "✗ رمز غير صالح")}</p>}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Invoice History with filters */}
+      <Card>
+        <CardHeader className="pb-2">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <CardTitle className="text-base">{t("Invoice History", "سجل الفواتير")}</CardTitle>
+            <div className="flex gap-1">
+              {(["all", "unpaid", "paid"] as const).map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setInvoiceFilter(f)}
+                  className={cn(
+                    "text-xs px-3 py-1 rounded-full border transition-colors",
+                    invoiceFilter === f ? "border-primary bg-primary/10 text-primary font-medium" : "border-border text-muted-foreground hover:border-primary/30"
+                  )}
+                >
+                  {t(
+                    f === "all" ? "All" : f === "paid" ? "Paid" : "Unpaid",
+                    f === "all" ? "الكل" : f === "paid" ? "مدفوع" : "غير مدفوع"
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            {filteredInvoices.map((inv) => (
+              <div
+                key={inv.id}
+                className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/30 transition-colors cursor-pointer"
+                onClick={() => setShowInvoiceDetail(inv.id)}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={cn(
+                    "h-9 w-9 rounded-full flex items-center justify-center",
+                    inv.status === "paid" ? "bg-success/10" : "bg-warning/10"
+                  )}>
+                    {inv.status === "paid" ? <TickCircle size={16} className="text-success" /> : <Warning2 size={16} className="text-warning" />}
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">{inv.id}</p>
+                    <p className="text-xs text-muted-foreground">{inv.date}</p>
+                  </div>
+                </div>
+                <div className="text-end">
+                  <p className="text-sm font-semibold">{inv.amount.toFixed(2)} {t("OMR", "ر.ع")}</p>
+                  <Badge variant="outline" className={cn("text-[10px]", inv.status === "paid" ? "text-success border-success/20" : "text-warning border-warning/20")}>
+                    {t(inv.status === "paid" ? "Paid" : "Unpaid", inv.status === "paid" ? "مدفوع" : "غير مدفوع")}
+                  </Badge>
+                </div>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
 
