@@ -133,26 +133,36 @@ export default function LandingPage() {
         {/* Dot pattern */}
         <div className="absolute inset-0 opacity-[0.06] z-[2]" style={{ backgroundImage: "radial-gradient(white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
 
-        <div className="relative z-[3] max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-28 md:pt-32 md:pb-36">
-          <div className="max-w-2xl">
+        {/* Decorative glowing orbs */}
+        <div className="absolute top-20 right-[10%] w-72 h-72 bg-secondary/20 rounded-full blur-[100px] z-[1]" />
+        <div className="absolute bottom-10 left-[5%] w-96 h-96 bg-primary/15 rounded-full blur-[120px] z-[1]" />
+
+        <div className="relative z-[3] max-w-6xl mx-auto px-4 sm:px-6 pt-28 pb-32 md:pt-36 md:pb-40">
+          <div className="max-w-3xl">
             {/* Speed pill badge */}
             <Reveal>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 mb-6">
-                <Flash size={13} className="text-warning" variant="Bold" />
-                <span className="text-white/80 text-xs font-medium tracking-wide">
+              <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/[0.08] backdrop-blur-lg border border-white/[0.12] mb-8 shadow-lg shadow-black/5">
+                <div className="flex items-center justify-center h-5 w-5 rounded-full bg-warning/20">
+                  <Flash size={11} className="text-warning" variant="Bold" />
+                </div>
+                <span className="text-white/90 text-[13px] font-medium tracking-wide">
                   {t("Up to 1 Gbps fiber speed", "سرعة ألياف تصل إلى 1 جيجا")}
                 </span>
               </div>
             </Reveal>
 
             <Reveal delay={100}>
-              <h1 className="text-[2.75rem] md:text-7xl lg:text-8xl font-bold leading-[1.02] text-white mb-6" style={{ letterSpacing: "-0.03em" }}>
-                {t("Internet that actually keeps up.", "إنترنت يواكب سرعتك.")}
+              <h1 className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[0.98] text-white mb-7" style={{ letterSpacing: "-0.035em" }}>
+                {t("Internet that", "إنترنت")}
+                <br />
+                <span className="bg-gradient-to-r from-white via-white/90 to-white/60 bg-clip-text text-transparent">
+                  {t("actually keeps up.", "يواكب سرعتك.")}
+                </span>
               </h1>
             </Reveal>
 
             <Reveal delay={200}>
-              <p className="text-base md:text-lg text-white/65 max-w-lg mb-10 leading-relaxed">
+              <p className="text-[15px] md:text-lg text-white/55 max-w-xl mb-12 leading-[1.7]">
                 {t(
                   "Fiber speeds from 300 Mbps to 1 Gbps. Unlimited data. No surprises on your bill. Plans start at 27 OMR.",
                   "سرعات ألياف من 300 ميجا إلى 1 جيجا. بيانات غير محدودة. بدون مفاجآت في فاتورتك. الباقات تبدأ من 27 ر.ع."
@@ -161,33 +171,33 @@ export default function LandingPage() {
             </Reveal>
 
             <Reveal delay={300}>
-              <div className="flex flex-wrap gap-3">
-                <button onClick={() => scrollTo("#plans")} className="group px-7 py-3.5 rounded-xl bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-all duration-200 flex items-center gap-2 shadow-lg shadow-black/10">
+              <div className="flex flex-wrap gap-3.5">
+                <button onClick={() => scrollTo("#plans")} className="group px-8 py-4 rounded-2xl bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-all duration-300 flex items-center gap-2.5 shadow-xl shadow-black/15 hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-0.5">
                   {t("See plans", "شاهد الباقات")}
-                  <ArrowRight size={15} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
+                  <ArrowRight size={16} className="rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform duration-300" />
                 </button>
-                <Link to="/login" className="px-7 py-3.5 rounded-xl border border-white/20 text-white font-medium text-sm hover:bg-white/10 transition-all duration-200 backdrop-blur-sm">
+                <Link to="/login" className="px-8 py-4 rounded-2xl border border-white/15 text-white/90 font-medium text-sm hover:bg-white/10 hover:border-white/25 transition-all duration-300 backdrop-blur-sm">
                   {t("Sign in", "تسجيل الدخول")}
                 </Link>
               </div>
             </Reveal>
           </div>
 
-          {/* Stats — staggered */}
-          <div className="flex flex-wrap gap-4 md:gap-5 mt-16">
+          {/* Stats — frosted glass cards */}
+          <div className="grid grid-cols-3 gap-3 md:gap-4 mt-20 max-w-2xl">
             {[
               { icon: Flash, val: "1 Gbps", label: t("Max speed", "أقصى سرعة") },
               { icon: Map1, val: "8+", label: t("Cities covered", "مدن مغطاة") },
               { icon: Headphone, val: "24/7", label: t("Support", "الدعم") },
             ].map((s, i) => (
-              <Reveal key={i} delay={400 + i * 100}>
-                <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/[0.08] backdrop-blur-md border border-white/10">
-                  <div className="flex items-center justify-center h-9 w-9 rounded-lg bg-white/10">
-                    <s.icon size={18} className="text-white/80" variant="Bold" />
+              <Reveal key={i} delay={400 + i * 120}>
+                <div className="flex flex-col items-center md:flex-row md:items-center gap-2.5 md:gap-3.5 px-4 py-4 md:px-5 md:py-4 rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] hover:bg-white/[0.1] hover:border-white/[0.15] transition-all duration-300">
+                  <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-br from-white/15 to-white/5 shrink-0">
+                    <s.icon size={19} className="text-white/85" variant="Bold" />
                   </div>
-                  <div>
-                    <p className="text-white font-bold text-base leading-tight">{s.val}</p>
-                    <p className="text-white/50 text-xs">{s.label}</p>
+                  <div className="text-center md:text-start">
+                    <p className="text-white font-bold text-lg md:text-xl leading-tight">{s.val}</p>
+                    <p className="text-white/40 text-[11px] md:text-xs mt-0.5">{s.label}</p>
                   </div>
                 </div>
               </Reveal>
