@@ -184,18 +184,18 @@ export default function LandingPage() {
           </div>
 
           {/* Stats — frosted glass cards */}
-          <div className="flex flex-wrap gap-3 md:gap-4 mt-20">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-20">
             {[
               { icon: Flash, val: "1 Gbps", label: t("Max speed", "أقصى سرعة") },
               { icon: Map1, val: "8+", label: t("Cities covered", "مدن مغطاة") },
               { icon: Headphone, val: "24/7", label: t("Support", "الدعم") },
             ].map((s, i) => (
               <Reveal key={i} delay={400 + i * 120}>
-                <div className="flex flex-col items-center md:flex-row md:items-center gap-2.5 md:gap-3.5 px-4 py-4 md:px-5 md:py-4 rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] hover:bg-white/[0.1] hover:border-white/[0.15] transition-all duration-300">
+                <div className="flex items-center gap-3.5 px-5 py-3.5 sm:flex-col sm:items-center sm:px-4 sm:py-4 md:flex-row md:items-center md:px-5 md:py-4 rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] hover:bg-white/[0.1] hover:border-white/[0.15] transition-all duration-300">
                   <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-br from-white/15 to-white/5 shrink-0">
                     <s.icon size={19} className="text-white/85" variant="Bold" />
                   </div>
-                  <div className="text-center md:text-start">
+                  <div className="sm:text-center md:text-start">
                     <p className="text-white font-bold text-lg md:text-xl leading-tight">{s.val}</p>
                     <p className="text-white/40 text-[11px] md:text-xs mt-0.5">{s.label}</p>
                   </div>
