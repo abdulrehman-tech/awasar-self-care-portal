@@ -40,7 +40,7 @@ export default function AppSidebar() {
   const handleLogout = () => {
     setShowLogout(false);
     toast({ title: t("Logged out", "تم تسجيل الخروج") });
-    setTimeout(() => navigate("/"), 500);
+    setTimeout(() => navigate("/login"), 500);
   };
 
   return (
