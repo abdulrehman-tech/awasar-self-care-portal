@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Add, Paperclip, TickCircle, ArrowUp2, ArrowDown2, AddCircle, Location, Timer1, CloseCircle, DocumentText, Trash, ArrowRight2 } from "iconsax-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import OmrSymbol from "@/components/OmrSymbol";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -175,7 +176,7 @@ export default function RequestsPage() {
                 <p className="font-medium text-sm">{t(s.name, s.nameAr)}</p>
                 <p className="text-xs text-muted-foreground">{s.speed}</p>
               </div>
-              <span className="text-sm font-semibold">{s.monthlyCost} {t("OMR/mo", "ر.ع/شهر")}</span>
+              <span className="text-sm font-semibold">{s.monthlyCost} <OmrSymbol />/{t("mo", "شهر")}</span>
             </button>
           ))}
         </div>
@@ -196,7 +197,7 @@ export default function RequestsPage() {
                   <p className="font-medium text-sm">{t(p.name, p.nameAr)}</p>
                   <p className="text-xs text-muted-foreground">{p.speed}</p>
                 </div>
-                <span className="text-sm font-semibold">{p.price} {t("OMR/mo", "ر.ع/شهر")}</span>
+                <span className="text-sm font-semibold">{p.price} <OmrSymbol />/{t("mo", "شهر")}</span>
               </button>
             ))}
           </div>
@@ -216,7 +217,7 @@ export default function RequestsPage() {
           <Separator />
           <div className="flex justify-between"><span className="text-muted-foreground">{t("Price Change", "تغيير السعر")}</span>
             <span className={isUpgrade ? "text-warning" : "text-success"}>
-              {currentService && newPlanObj && `${isUpgrade ? "+" : ""}${(newPlanObj.price - currentService.monthlyCost).toFixed(2)} ${t("OMR/mo", "ر.ع/شهر")}`}
+              {currentService && newPlanObj && <>{isUpgrade ? "+" : ""}{(newPlanObj.price - currentService.monthlyCost).toFixed(2)} <OmrSymbol />/{t("mo", "شهر")}</>}
             </span>
           </div>
         </div>
@@ -251,7 +252,7 @@ export default function RequestsPage() {
                 <p className="font-medium text-sm">{t(a.name, a.nameAr)}</p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold">{a.price} {t("OMR/mo", "ر.ع/شهر")}</span>
+                <span className="text-sm font-semibold">{a.price} <OmrSymbol />/{t("mo", "شهر")}</span>
                 {selectedAddons.includes(a.id) && <TickCircle size={16} className="text-success" variant="Bold" />}
               </div>
             </button>
@@ -271,10 +272,10 @@ export default function RequestsPage() {
         <p className="text-sm font-semibold">{t("Review Add-ons", "مراجعة الخدمات الإضافية")}</p>
         <div className="space-y-2">
           {selected.map((a) => (
-            <div key={a.id} className="flex justify-between text-sm"><span>{t(a.name, a.nameAr)}</span><span>{a.price} {t("OMR/mo", "ر.ع/شهر")}</span></div>
+            <div key={a.id} className="flex justify-between text-sm"><span>{t(a.name, a.nameAr)}</span><span>{a.price} <OmrSymbol />/{t("mo", "شهر")}</span></div>
           ))}
           <Separator />
-          <div className="flex justify-between text-sm font-bold"><span>{t("Total", "الإجمالي")}</span><span>+{total} {t("OMR/mo", "ر.ع/شهر")}</span></div>
+          <div className="flex justify-between text-sm font-bold"><span>{t("Total", "الإجمالي")}</span><span>+{total} <OmrSymbol />/{t("mo", "شهر")}</span></div>
         </div>
         <div className="flex gap-2 justify-end">
           <Button variant="outline" onClick={() => setFlowStep(0)}>{t("Back", "رجوع")}</Button>
