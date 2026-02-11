@@ -160,12 +160,20 @@
 
   /* Gradient mesh for hero background */
   .gradient-mesh {
+    position: relative;
+    background: linear-gradient(135deg, hsl(316, 70%, 32%) 0%, hsl(280, 60%, 30%) 35%, hsl(202, 85%, 30%) 100%);
+  }
+
+  .gradient-mesh::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
     background:
-      radial-gradient(ellipse 80% 60% at 20% 40%, hsl(316, 70%, 45% / 0.5) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 80% at 80% 30%, hsl(202, 85%, 45% / 0.4) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 50% at 50% 80%, hsl(280, 60%, 35% / 0.3) 0%, transparent 70%),
-      linear-gradient(135deg, hsl(316, 70%, 32%) 0%, hsl(280, 60%, 35%) 40%, hsl(202, 85%, 35%) 100%);
-    animation: mesh-drift 12s ease-in-out infinite alternate;
+      radial-gradient(ellipse 70% 50% at 15% 45%, hsl(316, 70%, 50% / 0.55) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 65% at 85% 25%, hsl(202, 90%, 50% / 0.45) 0%, transparent 60%),
+      radial-gradient(ellipse 45% 45% at 50% 85%, hsl(280, 60%, 45% / 0.35) 0%, transparent 60%);
+    animation: mesh-drift 10s ease-in-out infinite alternate;
   }
 
   /* Glass morphism navbar */
@@ -202,12 +210,8 @@
 }
 
 @keyframes mesh-drift {
-  0% {
-    background-position: 0% 50%, 100% 50%, 50% 100%;
-  }
-  100% {
-    background-position: 100% 30%, 0% 70%, 50% 0%;
-  }
+  0% { opacity: 0.8; transform: scale(1) rotate(0deg); }
+  100% { opacity: 1; transform: scale(1.1) rotate(2deg); }
 }
 
 @keyframes pulse-dot {
@@ -215,7 +219,6 @@
   50% { opacity: 0.6; transform: scale(1.3); }
 }
 
-/* Staggered fade-in animation */
 @keyframes stagger-fade-in {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
