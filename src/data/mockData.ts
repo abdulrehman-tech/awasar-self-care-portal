@@ -168,15 +168,15 @@ export const monthlyUsage = [
 ];
 
 export const recentActivity = [
-  { id: 1, type: "payment", description: "Payment of OMR 42.00 received", descriptionAr: "تم استلام دفعة بقيمة 42.00 ر.ع", date: "2025-07-25", icon: "payment" },
+  { id: 1, type: "payment", description: "Payment of 42.00 received", descriptionAr: "تم استلام دفعة بقيمة 42.00", date: "2025-07-25", icon: "payment" },
   { id: 2, type: "ticket", description: "Ticket TKT-1001 created — Speed issue", descriptionAr: "تم إنشاء التذكرة TKT-1001 — مشكلة السرعة", date: "2025-07-28", icon: "ticket" },
   { id: 3, type: "service", description: "Jawwy TV subscription renewed", descriptionAr: "تم تجديد اشتراك جوّي تي في", date: "2025-07-20", icon: "service" },
   { id: 4, type: "order", description: "Upgrade to Fibernet Home 40 requested", descriptionAr: "تم طلب ترقية إلى فايبرنت هوم 40", date: "2025-07-28", icon: "order" },
-  { id: 5, type: "billing", description: "Invoice INV-2508 generated — OMR 42.00", descriptionAr: "تم إصدار الفاتورة INV-2508 — 42.00 ر.ع", date: "2025-08-05", icon: "billing" },
+  { id: 5, type: "billing", description: "Invoice INV-2508 generated — 42.00", descriptionAr: "تم إصدار الفاتورة INV-2508 — 42.00", date: "2025-08-05", icon: "billing" },
 ];
 
 export const notifications = [
-  { id: 1, category: "billing", title: "Payment Due", titleAr: "موعد الدفع", message: "Your invoice INV-2507 of OMR 42.00 is due on July 20.", messageAr: "فاتورتك INV-2507 بقيمة 42.00 ر.ع مستحقة في 20 يوليو.", read: false, date: "2025-07-15" },
+  { id: 1, category: "billing", title: "Payment Due", titleAr: "موعد الدفع", message: "Your invoice INV-2507 of 42.00 is due on July 20.", messageAr: "فاتورتك INV-2507 بقيمة 42.00 مستحقة في 20 يوليو.", read: false, date: "2025-07-15" },
   { id: 2, category: "service", title: "Maintenance Scheduled", titleAr: "صيانة مجدولة", message: "Planned fiber maintenance in Al Khuwair area on Aug 10, 2-4 AM. Expect brief service interruption.", messageAr: "صيانة مخططة للألياف في منطقة الخوير في 10 أغسطس، 2-4 صباحاً.", read: false, date: "2025-08-01" },
   { id: 3, category: "ticket", title: "Ticket Updated", titleAr: "تحديث التذكرة", message: "Your ticket TKT-1001 regarding evening speed drops has been assigned to a technician.", messageAr: "تم تعيين فني لتذكرتك TKT-1001 بخصوص انخفاض السرعة.", read: true, date: "2025-07-29" },
   { id: 4, category: "order", title: "Upgrade in Progress", titleAr: "الترقية قيد التنفيذ", message: "Your upgrade to Fibernet Home 40 (600 Mbps) is being processed. Technician assigned.", messageAr: "تتم معالجة ترقيتك إلى فايبرنت هوم 40. تم تعيين فني.", read: true, date: "2025-07-28" },
@@ -221,11 +221,11 @@ export const knowledgeBase = {
     { id: "KB-003", category: "billing", title: "How to pay your Awasr bill", titleAr: "كيفية دفع فاتورة أوامر", summary: "Pay via My Awasr app, website, WhatsApp (80001000), or at retail stores.", summaryAr: "ادفع عبر تطبيق ماي أوامر أو الموقع أو واتساب أو المتاجر." },
     { id: "KB-004", category: "tv", title: "Setting up Jawwy TV App", titleAr: "إعداد تطبيق جوّي تي في", summary: "Complete setup guide for Jawwy TV on your Smart TV, mobile, or tablet.", summaryAr: "دليل إعداد كامل لجوّي تي في على التلفزيون الذكي أو الجوال." },
     { id: "KB-005", category: "troubleshooting", title: "No internet connection", titleAr: "لا يوجد اتصال بالإنترنت", summary: "Troubleshooting steps: check fiber light, restart router, contact 80001000.", summaryAr: "خطوات الحل: تحقق من ضوء الألياف، أعد تشغيل الراوتر، اتصل بـ 80001000." },
-    { id: "KB-006", category: "installation", title: "Preparing for Awasr installation", titleAr: "التحضير لتركيب أوامر", summary: "Installation fee: OMR 15 (1-year) or OMR 10 (2-year contract). What to expect on installation day.", summaryAr: "رسوم التركيب: 15 ر.ع (سنة) أو 10 ر.ع (سنتين). ماذا تتوقع يوم التركيب." },
+    { id: "KB-006", category: "installation", title: "Preparing for Awasr installation", titleAr: "التحضير لتركيب أوامر", summary: "Installation fee: 15 (1-year) or 10 (2-year contract). What to expect on installation day.", summaryAr: "رسوم التركيب: 15 (سنة) أو 10 (سنتين). ماذا تتوقع يوم التركيب." },
   ],
 };
 
 export const promotions = [
-  { id: "PROMO-01", title: "Upgrade to 1 Gbps", titleAr: "ترقية إلى 1 جيجا", description: "Get Fibernet Home 90 with 1 Gbps speed for only OMR 90/month with 24-month contract", descriptionAr: "احصل على فايبرنت هوم 90 بسرعة 1 جيجا بـ 90 ر.ع فقط/شهر مع عقد 24 شهر", discount: "Save OMR 4.50 VAT", validUntil: "2025-12-31", image: "" },
-  { id: "PROMO-02", title: "Refer a Friend", titleAr: "أحل صديقاً", description: "Earn OMR 10 credit for each friend who subscribes to Awasr Fibernet", descriptionAr: "اكسب 10 ر.ع رصيد لكل صديق يشترك في أوامر فايبرنت", discount: "OMR 10", validUntil: "2025-12-31", image: "" },
+  { id: "PROMO-01", title: "Upgrade to 1 Gbps", titleAr: "ترقية إلى 1 جيجا", description: "Get Fibernet Home 90 with 1 Gbps speed for only 90/month with 24-month contract", descriptionAr: "احصل على فايبرنت هوم 90 بسرعة 1 جيجا بـ 90 فقط/شهر مع عقد 24 شهر", discount: "Save 4.50 VAT", validUntil: "2025-12-31", image: "" },
+  { id: "PROMO-02", title: "Refer a Friend", titleAr: "أحل صديقاً", description: "Earn 10 credit for each friend who subscribes to Awasr Fibernet", descriptionAr: "اكسب 10 رصيد لكل صديق يشترك في أوامر فايبرنت", discount: "10", validUntil: "2025-12-31", image: "" },
 ];
