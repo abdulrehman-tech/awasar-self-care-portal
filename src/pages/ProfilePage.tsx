@@ -146,7 +146,7 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-xl font-semibold">{t("Profile & Settings", "الملف الشخصي والإعدادات")}</h1>
+      <h1 className="text-xl md:text-2xl font-semibold">{t("Profile & Settings", "الملف الشخصي والإعدادات")}</h1>
 
       {/* Personal info */}
       <Card className="card-shadow border-0">

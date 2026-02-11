@@ -35,8 +35,8 @@ export default function Dashboard() {
       <div className="gradient-primary rounded-2xl p-5 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'radial-gradient(circle at 70% 20%, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
         <div className="relative">
-          <p className="text-xs font-medium opacity-70 uppercase tracking-wider">{greeting}</p>
-          <h1 className="text-lg font-semibold mt-1">{t(customer.name, customer.nameAr)}</h1>
+          <p className="text-xs md:text-sm font-medium opacity-70 uppercase tracking-wider">{greeting}</p>
+          <h1 className="text-lg md:text-xl font-semibold mt-1">{t(customer.name, customer.nameAr)}</h1>
           {currentPlan && (
             <div className="flex items-center gap-2 mt-1.5">
               <span className="inline-flex items-center gap-1 text-[11px] bg-white/15 backdrop-blur-sm px-2.5 py-0.5 rounded-full">
@@ -51,21 +51,21 @@ export default function Dashboard() {
               <div className="flex items-center justify-center gap-1 mb-1">
                 <ArrowDown size={12} className="opacity-70" />
               </div>
-              <p className="text-lg font-bold tabular-nums">{downloadUsage.value}</p>
+              <p className="text-lg md:text-xl font-bold tabular-nums">{downloadUsage.value}</p>
               <p className="text-[10px] opacity-60 mt-0.5">GB {t("this month", "هذا الشهر")}</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center border border-white/5">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <ArrowUp size={12} className="opacity-70" />
               </div>
-              <p className="text-lg font-bold tabular-nums">{uploadUsage.value}</p>
+              <p className="text-lg md:text-xl font-bold tabular-nums">{uploadUsage.value}</p>
               <p className="text-[10px] opacity-60 mt-0.5">GB {t("uploaded", "مرفوع")}</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center border border-white/5">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <MoneyRecive size={12} className="opacity-70" />
               </div>
-              <p className="text-lg font-bold tabular-nums">{outstandingBalance.toFixed(0)}</p>
+              <p className="text-lg md:text-xl font-bold tabular-nums">{outstandingBalance.toFixed(0)}</p>
               <p className="text-[10px] opacity-60 mt-0.5"><OmrSymbol /> {t("due", "مستحق")}</p>
             </div>
           </div>
@@ -80,7 +80,7 @@ export default function Dashboard() {
               <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${action.color} transition-transform duration-200 group-hover:scale-105`}>
                 <action.icon size={18} variant="Bold" />
               </div>
-              <span className="text-[11px] font-medium text-muted-foreground leading-tight">{t(action.labelEn, action.labelAr)}</span>
+              <span className="text-[11px] md:text-xs font-medium text-muted-foreground leading-tight">{t(action.labelEn, action.labelAr)}</span>
             </div>
           </Link>
         ))}
@@ -108,8 +108,8 @@ export default function Dashboard() {
       {/* Current Plan + Usage */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-foreground">{t("Your Usage", "استهلاكك")}</h2>
-          <Badge variant="outline" className="text-[10px] text-success border-success/20 font-medium">{t("Unlimited Data", "بيانات غير محدودة")}</Badge>
+          <h2 className="text-sm md:text-base font-semibold text-foreground">{t("Your Usage", "استهلاكك")}</h2>
+          <Badge variant="outline" className="text-[10px] md:text-xs text-success border-success/20 font-medium">{t("Unlimited Data", "بيانات غير محدودة")}</Badge>
         </div>
         <Card className="card-shadow border-0 overflow-hidden">
           <CardContent className="p-0">
@@ -158,7 +158,7 @@ export default function Dashboard() {
       {/* Active Services */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-foreground">{t("Active Services", "الخدمات النشطة")}</h2>
+          <h2 className="text-sm md:text-base font-semibold text-foreground">{t("Active Services", "الخدمات النشطة")}</h2>
           <Link to="/services" className="text-xs text-primary font-medium">{t("Manage", "إدارة")}</Link>
         </div>
         <div className="space-y-3">
@@ -208,7 +208,7 @@ export default function Dashboard() {
       {/* Recent Activity */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-foreground">{t("Recent Activity", "النشاط الأخير")}</h2>
+          <h2 className="text-sm md:text-base font-semibold text-foreground">{t("Recent Activity", "النشاط الأخير")}</h2>
           <Link to="/notifications" className="text-xs text-primary font-medium">{t("View All", "عرض الكل")}</Link>
         </div>
         <Card className="card-shadow border-0">

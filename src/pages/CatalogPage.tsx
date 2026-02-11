@@ -97,7 +97,7 @@ export default function CatalogPage() {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <h1 className="text-xl font-semibold">{t("Products & Plans", "المنتجات والباقات")}</h1>
+        <h1 className="text-xl md:text-2xl font-semibold">{t("Products & Plans", "المنتجات والباقات")}</h1>
         <div className="flex gap-2">
           {compareList.length >= 2 && (
             <Button size="sm" variant="outline" onClick={() => setShowCompare(true)}>

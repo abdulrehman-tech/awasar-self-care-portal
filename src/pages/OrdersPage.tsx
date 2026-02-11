@@ -111,7 +111,7 @@ export default function OrdersPage() {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">{t("Order & Installation Tracking", "تتبع الطلبات والتركيب")}</h1>
+        <h1 className="text-xl md:text-2xl font-semibold">{t("Order & Installation Tracking", "تتبع الطلبات والتركيب")}</h1>
         <Button size="sm" className="rounded-xl" onClick={() => { setNewOrderStep(0); setShowNewOrder(true); }}>
           <Add size={16} className="me-1" />{t("New Order", "طلب جديد")}
         </Button>

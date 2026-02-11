@@ -21,7 +21,7 @@ export default function NotificationsPage() {
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold">{t("Notifications", "الإشعارات")}</h1>
+          <h1 className="text-xl md:text-2xl font-semibold">{t("Notifications", "الإشعارات")}</h1>
           {unreadCount > 0 && <p className="text-sm text-muted-foreground">{unreadCount} {t("unread", "غير مقروءة")}</p>}
         </div>
         {unreadCount > 0 && (

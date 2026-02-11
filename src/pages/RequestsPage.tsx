@@ -333,7 +333,7 @@ export default function RequestsPage() {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">{t("Service Requests", "طلبات الخدمة")}</h1>
+        <h1 className="text-xl md:text-2xl font-semibold">{t("Service Requests", "طلبات الخدمة")}</h1>
       </div>
 
       {/* Quick action cards */}

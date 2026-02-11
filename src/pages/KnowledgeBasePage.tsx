@@ -180,7 +180,7 @@ export default function KnowledgeBasePage() {
               knowledgeBase.categories.find((c) => c.id === selectedArticle.category)?.nameAr || ""
             )}
           </Badge>
-          <h1 className="text-xl font-bold">{t(selectedArticle.title, selectedArticle.titleAr)}</h1>
+          <h1 className="text-xl md:text-2xl font-bold">{t(selectedArticle.title, selectedArticle.titleAr)}</h1>
         </div>
 
         <Card>
@@ -257,7 +257,7 @@ export default function KnowledgeBasePage() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-xl font-semibold">{t("Knowledge Base", "قاعدة المعرفة")}</h1>
+      <h1 className="text-xl md:text-2xl font-semibold">{t("Knowledge Base", "قاعدة المعرفة")}</h1>
 
       {/* Search */}
       <div className="relative">

@@ -3,6 +3,7 @@ import AppSidebar from "./AppSidebar";
 import AppHeader from "./AppHeader";
 import BottomNav from "./BottomNav";
 import ChatbotWidget from "@/components/ChatbotWidget";
+import PageTransition from "@/components/PageTransition";
 
 export default function AppLayout() {
   return (
@@ -11,7 +12,9 @@ export default function AppLayout() {
       <div className="flex-1 flex flex-col min-w-0">
         <AppHeader />
         <main className="flex-1 p-4 md:p-6 pb-20 md:pb-6">
-          <Outlet />
+          <PageTransition>
+            <Outlet />
+          </PageTransition>
         </main>
       </div>
       <BottomNav />
