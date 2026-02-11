@@ -11,6 +11,7 @@ import { plans, networkStatus } from "@/data/mockData";
 import OmrSymbol from "@/components/OmrSymbol";
 import ChatbotWidget from "@/components/ChatbotWidget";
 import awasrLogo from "@/assets/awasr-logo.png";
+import heroIllustration from "@/assets/hero-illustration.png";
 
 const internetPlans = plans.filter((p) => p.type === "internet");
 
@@ -128,35 +129,45 @@ export default function LandingPage() {
       <section className="relative overflow-hidden gradient-primary">
         <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(white 1px, transparent 1px)", backgroundSize: "22px 22px" }} />
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28">
-          <div className="max-w-2xl">
-            <p className="text-white/60 text-sm font-medium tracking-wide mb-4">
-              {t("FIBER INTERNET • OMAN", "إنترنت ألياف • عُمان")}
-            </p>
-            <h1 className="text-[2.5rem] md:text-6xl lg:text-7xl font-bold leading-[1.05] text-white mb-5">
-              {t("Internet that actually keeps up.", "إنترنت يواكب سرعتك.")}
-            </h1>
-            <p className="text-base md:text-lg text-white/70 max-w-md mb-8">
-              {t(
-                "Fiber speeds from 300 Mbps to 1 Gbps. Unlimited data. No surprises on your bill. Plans start at 27 OMR.",
-                "سرعات ألياف من 300 ميجا إلى 1 جيجا. بيانات غير محدودة. بدون مفاجآت في فاتورتك. الباقات تبدأ من 27 ر.ع."
-              )}
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <button onClick={() => scrollTo("#plans")} className="group px-6 py-3 rounded-lg bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-colors flex items-center gap-2">
-                {t("See plans", "شاهد الباقات")}
-                <ArrowRight size={15} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
-              </button>
-              <Link to="/login" className="px-6 py-3 rounded-lg border border-white/25 text-white font-medium text-sm hover:bg-white/10 transition-colors">
-                {t("Sign in", "تسجيل الدخول")}
-              </Link>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <p className="text-white/60 text-sm font-medium tracking-wide mb-4">
+                {t("FIBER INTERNET • OMAN", "إنترنت ألياف • عُمان")}
+              </p>
+              <h1 className="text-[2.5rem] md:text-5xl lg:text-6xl font-bold leading-[1.05] text-white mb-5">
+                {t("Internet that actually keeps up.", "إنترنت يواكب سرعتك.")}
+              </h1>
+              <p className="text-base md:text-lg text-white/70 max-w-md mb-8">
+                {t(
+                  "Fiber speeds from 300 Mbps to 1 Gbps. Unlimited data. No surprises on your bill. Plans start at 27 OMR.",
+                  "سرعات ألياف من 300 ميجا إلى 1 جيجا. بيانات غير محدودة. بدون مفاجآت في فاتورتك. الباقات تبدأ من 27 ر.ع."
+                )}
+              </p>
+              <div className="flex flex-wrap gap-3 mb-10">
+                <button onClick={() => scrollTo("#plans")} className="group px-6 py-3 rounded-lg bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-colors flex items-center gap-2">
+                  {t("See plans", "شاهد الباقات")}
+                  <ArrowRight size={15} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
+                </button>
+                <Link to="/login" className="px-6 py-3 rounded-lg border border-white/25 text-white font-medium text-sm hover:bg-white/10 transition-colors">
+                  {t("Sign in", "تسجيل الدخول")}
+                </Link>
+              </div>
+              {/* Quick numbers */}
+              <div className="flex flex-wrap gap-6 text-white/50 text-sm">
+                <span><strong className="text-white font-semibold">1 Gbps</strong> {t("max speed", "أقصى سرعة")}</span>
+                <span><strong className="text-white font-semibold">8+</strong> {t("cities", "مدن")}</span>
+                <span><strong className="text-white font-semibold">80001000</strong> {t("support", "الدعم")}</span>
+              </div>
             </div>
-          </div>
-
-          {/* Quick numbers — not a stats grid, just inline hints */}
-          <div className="flex flex-wrap gap-6 md:gap-10 mt-14 text-white/50 text-sm">
-            <span><strong className="text-white font-semibold">1 Gbps</strong> {t("max speed", "أقصى سرعة")}</span>
-            <span><strong className="text-white font-semibold">8+</strong> {t("cities", "مدن")}</span>
-            <span><strong className="text-white font-semibold">80001000</strong> {t("support", "الدعم")}</span>
+            {/* Illustration */}
+            <div className="hidden md:flex justify-center">
+              <img
+                src={heroIllustration}
+                alt=""
+                className="w-full max-w-xs lg:max-w-sm object-contain drop-shadow-2xl"
+                style={{ animation: "float 6s ease-in-out infinite" }}
+              />
+            </div>
           </div>
         </div>
       </section>
