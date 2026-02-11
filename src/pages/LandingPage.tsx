@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
-  Global, HambergerMenu, CloseCircle, Speedometer, ShieldTick,
+  Global, HambergerMenu, CloseCircle, ShieldTick,
   VideoPlay, Book1, Headphone, Wifi, ArrowRight, Call, MessageText1,
-  Location, Timer1, TickCircle, Flash, Data, Monitor, Crown,
-  ArrowUp, Map1, StatusUp
+  Timer1, TickCircle, Flash, Data, Crown,
+  ArrowUp, ArrowUp2, Map1
 } from "iconsax-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { plans, networkStatus } from "@/data/mockData";
@@ -15,42 +15,31 @@ import awasrLogo from "@/assets/awasr-logo.png";
 const internetPlans = plans.filter((p) => p.type === "internet");
 
 const features = [
-  { icon: Data, en: "Unlimited Data", ar: "بيانات غير محدودة", descEn: "No caps, no throttling — browse, stream, and download without any limits on your usage.", descAr: "بدون حدود أو تقييد — تصفح وشاهد وحمّل بدون أي قيود على استخدامك." },
-  { icon: ShieldTick, en: "SafeNet Security", ar: "حماية سيف نت", descEn: "Built-in malware protection and parental controls to keep your home network safe.", descAr: "حماية مدمجة من البرمجيات الخبيثة ومراقبة أبوية للحفاظ على أمان شبكتك المنزلية." },
-  { icon: VideoPlay, en: "Shahid VIP Lite", ar: "شاهد VIP لايت", descEn: "Enjoy premium Arabic & international content — movies, series, and live TV channels.", descAr: "استمتع بمحتوى عربي ودولي مميز — أفلام ومسلسلات وقنوات مباشرة." },
-  { icon: Book1, en: "Ashal Education", ar: "أسهل تعليم", descEn: "Free educational platform access for students across Oman with rich curriculum content.", descAr: "وصول مجاني لمنصة تعليمية للطلاب في جميع أنحاء عُمان بمحتوى منهجي غني." },
-  { icon: Headphone, en: "24/7 Support", ar: "دعم على مدار الساعة", descEn: "Our dedicated team is always available. Call 80001000 or reach us via WhatsApp.", descAr: "فريقنا المتخصص متاح دائماً. اتصل بـ 80001000 أو تواصل معنا عبر واتساب." },
-  { icon: Map1, en: "Barqi Coverage", ar: "تغطية برقي", descEn: "Extensive fiber coverage across Muscat, Seeb, Sohar, Salalah, and growing regions.", descAr: "تغطية ألياف واسعة في مسقط والسيب وصحار وصلالة والمناطق المتزايدة." },
+  { icon: Data, en: "Unlimited Data", ar: "بيانات غير محدودة", descEn: "No data caps or throttling. Ever.", descAr: "بدون حدود أو تقييد. أبداً." },
+  { icon: ShieldTick, en: "SafeNet", ar: "سيف نت", descEn: "Malware protection & parental controls built into your connection.", descAr: "حماية من البرمجيات الخبيثة ومراقبة أبوية مدمجة في اتصالك." },
+  { icon: VideoPlay, en: "Shahid VIP Lite", ar: "شاهد VIP لايت", descEn: "Arabic & international movies, series, and 150+ live channels.", descAr: "أفلام ومسلسلات عربية ودولية وأكثر من 150 قناة مباشرة." },
+  { icon: Book1, en: "Ashal Education", ar: "أسهل تعليم", descEn: "Free curriculum-aligned learning platform for students.", descAr: "منصة تعليمية مجانية متوافقة مع المنهج للطلاب." },
+  { icon: Headphone, en: "24/7 Support", ar: "دعم متواصل", descEn: "Call 80001000 or WhatsApp us anytime.", descAr: "اتصل بـ 80001000 أو راسلنا واتساب في أي وقت." },
+  { icon: Map1, en: "Barqi Coverage", ar: "تغطية برقي", descEn: "Growing fiber network across Oman's major cities.", descAr: "شبكة ألياف متنامية عبر المدن الرئيسية في عُمان." },
 ];
 
-const stats = [
-  { value: "1 Gbps", en: "Max Speed", ar: "أقصى سرعة" },
-  { value: "8+", en: "Cities Covered", ar: "مدن مغطاة" },
-  { value: "99.9%", en: "Uptime SLA", ar: "وقت التشغيل" },
-  { value: "24/7", en: "Support", ar: "دعم فني" },
-];
-
-function useInView() {
+function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.1 });
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold });
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [threshold]);
   return { ref, visible };
 }
 
-function FadeIn({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const { ref, visible } = useInView();
   return (
-    <div
-      ref={ref}
-      className={`transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
+    <div ref={ref} className={`transition-all duration-600 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"} ${className}`}>
       {children}
     </div>
   );
@@ -61,18 +50,22 @@ export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [contractTerm, setContractTerm] = useState<"1" | "2">("2");
   const [scrolled, setScrolled] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+      setShowBackToTop(window.scrollY > 600);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const navLinks = [
     { href: "#plans", en: "Plans", ar: "الباقات" },
-    { href: "#features", en: "Features", ar: "المميزات" },
+    { href: "#features", en: "Why Awasr", ar: "لماذا أوامر" },
     { href: "#coverage", en: "Coverage", ar: "التغطية" },
-    { href: "#contact", en: "Contact", ar: "تواصل معنا" },
+    { href: "#contact", en: "Contact", ar: "تواصل" },
   ];
 
   const scrollTo = (id: string) => {
@@ -80,384 +73,313 @@ export default function LandingPage() {
     document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const statusColor = (s: string) =>
+  const statusBg = (s: string) =>
     s === "operational" ? "bg-success" : s === "degraded" ? "bg-warning" : "bg-destructive";
-  const statusLabel = (s: string) =>
-    s === "operational" ? t("Operational", "تعمل") : s === "degraded" ? t("Degraded", "متدهورة") : t("Outage", "انقطاع");
+  const statusText = (s: string) =>
+    s === "operational" ? t("Live", "تعمل") : s === "degraded" ? t("Slow", "بطيئة") : t("Down", "متوقفة");
 
   return (
     <div className="min-h-screen bg-background">
-      {/* ===== NAVBAR ===== */}
-      <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "bg-card/95 backdrop-blur-xl shadow-sm" : "bg-transparent"}`}>
-        {/* Top gradient line */}
-        <div className="h-1 gradient-primary" />
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 h-16">
-          <img src={awasrLogo} alt="Awasr" className="h-9 w-auto object-contain" />
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1">
+      {/* ── NAVBAR ── */}
+      <header className={`sticky top-0 z-50 transition-all duration-200 ${scrolled ? "bg-card/95 backdrop-blur-xl border-b border-border" : "bg-card border-b border-border"}`}>
+        <div className="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-6 h-14 md:h-16">
+          <Link to="/" className="shrink-0">
+            <img src={awasrLogo} alt="Awasr" className="h-8 md:h-9 w-auto object-contain" />
+          </Link>
+
+          <nav className="hidden md:flex items-center gap-0.5">
             {navLinks.map((l) => (
-              <button key={l.href} onClick={() => scrollTo(l.href)} className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors">
+              <button key={l.href} onClick={() => scrollTo(l.href)} className="px-3 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors">
                 {t(l.en, l.ar)}
               </button>
             ))}
           </nav>
 
           <div className="flex items-center gap-2">
-            <button onClick={toggleLanguage} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors border border-border">
-              <Global size={15} />
+            <button onClick={toggleLanguage} className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
+              <Global size={14} className="inline me-1" />
               {language === "en" ? "عربي" : "EN"}
             </button>
-            <Link to="/login" className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-primary-foreground gradient-primary hover:opacity-90 transition-all hover:shadow-lg hover:shadow-primary/20">
+            <Link to="/login" className="hidden md:inline-flex px-4 py-2 rounded-lg text-xs font-semibold text-primary-foreground gradient-primary hover:opacity-90 transition-opacity">
               {t("My Awasr", "حسابي")}
-              <ArrowRight size={14} className="rtl:rotate-180" />
             </Link>
-            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors">
-              {menuOpen ? <CloseCircle size={22} /> : <HambergerMenu size={22} />}
+            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-1.5 rounded-lg hover:bg-muted transition-colors">
+              {menuOpen ? <CloseCircle size={20} /> : <HambergerMenu size={20} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden border-t border-border bg-card px-4 pb-4 pt-2 space-y-1 animate-fade-in">
+          <div className="md:hidden bg-card border-t border-border px-4 pb-4 pt-1 animate-fade-in">
             {navLinks.map((l) => (
-              <button key={l.href} onClick={() => scrollTo(l.href)} className="block w-full text-start px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
+              <button key={l.href} onClick={() => scrollTo(l.href)} className="block w-full text-start px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 {t(l.en, l.ar)}
               </button>
             ))}
-            <Link to="/login" onClick={() => setMenuOpen(false)} className="block w-full text-center px-4 py-3 rounded-xl text-sm font-semibold text-primary-foreground gradient-primary mt-2">
-              {t("My Awasr Login", "تسجيل الدخول")}
+            <Link to="/login" onClick={() => setMenuOpen(false)} className="block text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-primary-foreground gradient-primary mt-2">
+              {t("Login", "الدخول")}
             </Link>
           </div>
         )}
       </header>
 
-      {/* ===== HERO ===== */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gradient-primary" />
-        {/* Animated mesh overlay */}
-        <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 50%, white 1px, transparent 1px)", backgroundSize: "40px 40px, 30px 30px" }} />
-        {/* Glow orbs */}
-        <div className="absolute top-20 start-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 end-1/4 w-72 h-72 bg-white/5 rounded-full blur-3xl" />
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-32 lg:py-40">
-          <div className="max-w-3xl">
-            <FadeIn>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 text-sm text-white mb-8">
-                <Flash size={16} className="text-warning" />
-                {t("Oman's Award-Winning Fiber Provider", "مزود الألياف الحائز على جوائز في عُمان")}
-              </div>
-            </FadeIn>
-            <FadeIn delay={100}>
-              <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.1] text-white mb-6">
-                {t("Experience", "استمتع بأسرع")}<br />
-                <span className="bg-gradient-to-r from-white via-white/90 to-white/60 bg-clip-text text-transparent">
-                  {t("Better Internet", "إنترنت في عُمان")}
-                </span>
-              </h1>
-            </FadeIn>
-            <FadeIn delay={200}>
-              <p className="text-lg md:text-xl text-white/75 max-w-xl mb-10 leading-relaxed">
-                {t(
-                  "Blazing-fast fiber speeds up to 1 Gbps with unlimited data, SafeNet security, and Shahid VIP Lite — all included.",
-                  "سرعات ألياف فائقة تصل إلى 1 جيجا مع بيانات غير محدودة وحماية سيف نت وشاهد VIP لايت — كل ذلك مشمول."
-                )}
-              </p>
-            </FadeIn>
-            <FadeIn delay={300}>
-              <div className="flex flex-col sm:flex-row items-start gap-3">
-                <button onClick={() => scrollTo("#plans")} className="group px-7 py-3.5 rounded-xl bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-all shadow-lg shadow-black/10 flex items-center gap-2">
-                  {t("Browse Plans", "تصفح الباقات")}
-                  <ArrowRight size={16} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
-                </button>
-                <Link to="/login" className="px-7 py-3.5 rounded-xl border-2 border-white/25 text-white font-semibold text-sm hover:bg-white/10 transition-all">
-                  {t("My Awasr Login", "تسجيل الدخول")}
-                </Link>
-              </div>
-            </FadeIn>
+      {/* ── HERO ── */}
+      <section className="relative overflow-hidden gradient-primary">
+        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(white 1px, transparent 1px)", backgroundSize: "22px 22px" }} />
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28">
+          <div className="max-w-2xl">
+            <p className="text-white/60 text-sm font-medium tracking-wide mb-4">
+              {t("FIBER INTERNET • OMAN", "إنترنت ألياف • عُمان")}
+            </p>
+            <h1 className="text-[2.5rem] md:text-6xl lg:text-7xl font-bold leading-[1.05] text-white mb-5">
+              {t("Internet that actually keeps up.", "إنترنت يواكب سرعتك.")}
+            </h1>
+            <p className="text-base md:text-lg text-white/70 max-w-md mb-8">
+              {t(
+                "Fiber speeds from 300 Mbps to 1 Gbps. Unlimited data. No surprises on your bill. Plans start at 27 OMR.",
+                "سرعات ألياف من 300 ميجا إلى 1 جيجا. بيانات غير محدودة. بدون مفاجآت في فاتورتك. الباقات تبدأ من 27 ر.ع."
+              )}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <button onClick={() => scrollTo("#plans")} className="group px-6 py-3 rounded-lg bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-colors flex items-center gap-2">
+                {t("See plans", "شاهد الباقات")}
+                <ArrowRight size={15} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
+              </button>
+              <Link to="/login" className="px-6 py-3 rounded-lg border border-white/25 text-white font-medium text-sm hover:bg-white/10 transition-colors">
+                {t("Sign in", "تسجيل الدخول")}
+              </Link>
+            </div>
           </div>
 
-          {/* Stats strip */}
-          <FadeIn delay={400}>
-            <div className="mt-16 md:mt-24 grid grid-cols-2 md:grid-cols-4 gap-4">
-              {stats.map((s, i) => (
-                <div key={i} className="bg-white/10 backdrop-blur-sm rounded-xl px-5 py-4 border border-white/10">
-                  <p className="text-2xl md:text-3xl font-bold text-white">{s.value}</p>
-                  <p className="text-sm text-white/60 mt-1">{t(s.en, s.ar)}</p>
-                </div>
-              ))}
-            </div>
-          </FadeIn>
+          {/* Quick numbers — not a stats grid, just inline hints */}
+          <div className="flex flex-wrap gap-6 md:gap-10 mt-14 text-white/50 text-sm">
+            <span><strong className="text-white font-semibold">1 Gbps</strong> {t("max speed", "أقصى سرعة")}</span>
+            <span><strong className="text-white font-semibold">8+</strong> {t("cities", "مدن")}</span>
+            <span><strong className="text-white font-semibold">80001000</strong> {t("support", "الدعم")}</span>
+          </div>
         </div>
       </section>
 
-      {/* ===== PLANS ===== */}
-      <section id="plans" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
-        <FadeIn>
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-4">
-              <StatusUp size={14} />
-              {t("FIBERNET HOME", "فايبرنت هوم")}
+      {/* ── PLANS ── */}
+      <section id="plans" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+        <Reveal>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold">{t("Fibernet Home Plans", "باقات فايبرنت المنزلية")}</h2>
+              <p className="text-muted-foreground mt-1 text-sm">{t("All plans include unlimited data. No data caps, ever.", "جميع الباقات تشمل بيانات غير محدودة.")}</p>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">{t("Choose Your Plan", "اختر باقتك")}</h2>
-            <p className="text-muted-foreground max-w-lg mx-auto">{t("Select the perfect speed for your home. All plans include unlimited data with no caps.", "اختر السرعة المثالية لمنزلك. جميع الباقات تشمل بيانات غير محدودة بدون حدود.")}</p>
-          </div>
-        </FadeIn>
-
-        {/* Contract term toggle */}
-        <FadeIn>
-          <div className="flex justify-center mb-10">
-            <div className="inline-flex items-center bg-muted rounded-xl p-1">
+            {/* Contract toggle */}
+            <div className="inline-flex items-center bg-muted rounded-lg p-0.5 shrink-0">
               <button
                 onClick={() => setContractTerm("1")}
-                className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all ${contractTerm === "1" ? "bg-card card-shadow text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                className={`px-4 py-2 rounded-md text-xs font-medium transition-all ${contractTerm === "1" ? "bg-card card-shadow text-foreground" : "text-muted-foreground"}`}
               >
-                {t("1 Year", "سنة واحدة")}
+                {t("1 Year", "سنة")}
               </button>
               <button
                 onClick={() => setContractTerm("2")}
-                className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all relative ${contractTerm === "2" ? "bg-card card-shadow text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                className={`px-4 py-2 rounded-md text-xs font-medium transition-all ${contractTerm === "2" ? "bg-card card-shadow text-foreground" : "text-muted-foreground"}`}
               >
-                {t("2 Years", "سنتان")}
-                <span className="absolute -top-2 -end-2 px-1.5 py-0.5 rounded-full gradient-primary text-white text-[10px] font-semibold">{t("Best", "أفضل")}</span>
+                {t("2 Years", "سنتان")} <span className="text-primary ms-1">✦</span>
               </button>
             </div>
           </div>
-        </FadeIn>
+        </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {internetPlans.map((plan, i) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {internetPlans.map((plan) => {
             const isPopular = plan.id === "PLN-04";
-            const isUltra = plan.id === "PLN-07";
+            const isTop = plan.id === "PLN-07";
             return (
-              <FadeIn key={plan.id} delay={i * 60}>
-                <div className={`relative rounded-2xl bg-card border-0 card-shadow transition-all duration-300 hover:card-shadow-hover hover:-translate-y-1.5 h-full flex flex-col overflow-hidden ${isPopular ? "ring-2 ring-primary" : ""} ${isUltra ? "ring-2 ring-secondary" : ""}`}>
-                  {/* Top accent */}
-                  {(isPopular || isUltra) && (
-                    <div className={`h-1 w-full ${isPopular ? "gradient-primary" : "bg-secondary"}`} />
-                  )}
-
+              <Reveal key={plan.id}>
+                <div className={`relative rounded-xl bg-card card-shadow hover:card-shadow-hover transition-all duration-200 hover:-translate-y-1 h-full flex flex-col ${isPopular ? "ring-2 ring-primary" : ""} ${isTop ? "ring-2 ring-secondary" : ""}`}>
                   {isPopular && (
-                    <div className="absolute top-3 end-3 px-2.5 py-1 rounded-full gradient-primary text-white text-[10px] font-semibold flex items-center gap-1">
-                      <Crown size={10} />
-                      {t("Popular", "الأكثر شعبية")}
+                    <div className="absolute -top-2.5 start-4 px-2 py-0.5 rounded-md gradient-primary text-white text-[10px] font-semibold flex items-center gap-1">
+                      <Crown size={10} />{t("Popular", "الأشهر")}
                     </div>
                   )}
-                  {isUltra && (
-                    <div className="absolute top-3 end-3 px-2.5 py-1 rounded-full bg-secondary text-white text-[10px] font-semibold flex items-center gap-1">
-                      <Flash size={10} />
-                      {t("Ultra", "فائق")}
+                  {isTop && (
+                    <div className="absolute -top-2.5 start-4 px-2 py-0.5 rounded-md bg-secondary text-white text-[10px] font-semibold flex items-center gap-1">
+                      <Flash size={10} />{t("Fastest", "الأسرع")}
                     </div>
                   )}
 
                   <div className="p-5 flex flex-col flex-1">
-                    <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-3">{t(plan.name, plan.nameAr)}</p>
-                    
-                    {/* Speed prominently displayed */}
+                    <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">{t(plan.name, plan.nameAr)}</p>
+
+                    {/* Speed */}
                     <div className="mb-1">
-                      <span className="text-4xl font-bold tracking-tight">{plan.speed.replace(" Mbps", "").replace(" Gbps", "")}</span>
-                      <span className="text-sm font-medium text-muted-foreground ms-1">{plan.speed.includes("Gbps") ? "Gbps" : "Mbps"}</span>
+                      <span className="text-3xl font-bold tabular-nums">{plan.speed.replace(" Mbps", "").replace(" Gbps", "")}</span>
+                      <span className="text-xs font-medium text-muted-foreground ms-1">{plan.speed.includes("Gbps") ? "Gbps" : "Mbps"}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-5">
-                      <ArrowUp size={12} className="text-secondary" />
-                      <span>{plan.uploadSpeed} {t("Upload", "رفع")}</span>
-                    </div>
+                    <p className="text-[11px] text-muted-foreground mb-4 flex items-center gap-1">
+                      <ArrowUp size={10} className="text-secondary" />
+                      {plan.uploadSpeed} {t("upload", "رفع")}
+                    </p>
 
                     {/* Price */}
-                    <div className="bg-muted/50 rounded-xl px-4 py-3 mb-5">
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-3xl font-bold">{plan.price}</span>
-                        <OmrSymbol className="text-muted-foreground" />
-                        <span className="text-xs text-muted-foreground">/{t("mo", "شهر")}</span>
-                      </div>
-                      <p className="text-[10px] text-muted-foreground mt-1">
-                        {t(`Total with VAT: ${plan.priceWithVat.toFixed(3)}`, `الإجمالي مع الضريبة: ${plan.priceWithVat.toFixed(3)}`)} <OmrSymbol size={8} className="text-muted-foreground" />
-                      </p>
+                    <div className="flex items-baseline gap-1 mb-4">
+                      <span className="text-2xl font-bold">{plan.price}</span>
+                      <OmrSymbol className="text-muted-foreground" />
+                      <span className="text-xs text-muted-foreground">/{t("mo", "شهر")}</span>
+                      <span className="text-[10px] text-muted-foreground ms-auto">{t("incl. VAT", "شامل الضريبة")}</span>
                     </div>
 
                     {/* Features */}
-                    <ul className="space-y-2 mb-6 flex-1">
+                    <ul className="space-y-1.5 mb-5 flex-1">
                       {plan.features.map((f, fi) => (
-                        <li key={fi} className="flex items-start gap-2 text-xs">
-                          <TickCircle size={14} className={`shrink-0 mt-0.5 ${f.includes("not") ? "text-muted-foreground/40" : "text-success"}`} variant={f.includes("not") ? "Linear" : "Bold"} />
-                          <span className={f.includes("not") ? "text-muted-foreground/60 line-through" : "text-muted-foreground"}>{f}</span>
+                        <li key={fi} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                          <TickCircle size={12} className="text-success shrink-0" variant="Bold" />
+                          {f}
                         </li>
                       ))}
                     </ul>
 
                     <Link
                       to="/login"
-                      className={`block text-center py-3 rounded-xl text-sm font-semibold transition-all ${
+                      className={`block text-center py-2.5 rounded-lg text-sm font-medium transition-colors ${
                         isPopular
-                          ? "gradient-primary text-white hover:opacity-90 hover:shadow-lg hover:shadow-primary/20"
-                          : isUltra
-                          ? "bg-secondary text-white hover:opacity-90 hover:shadow-lg hover:shadow-secondary/20"
-                          : "bg-muted hover:bg-muted/70 text-foreground"
+                          ? "gradient-primary text-white hover:opacity-90"
+                          : isTop
+                          ? "bg-secondary text-white hover:opacity-90"
+                          : "bg-muted text-foreground hover:bg-muted/70"
                       }`}
                     >
-                      {t("Subscribe Now", "اشترك الآن")}
+                      {t("Subscribe", "اشترك")}
                     </Link>
                   </div>
                 </div>
-              </FadeIn>
+              </Reveal>
             );
           })}
         </div>
-        <FadeIn>
-          <p className="text-center text-xs text-muted-foreground mt-8">{t("All prices include 5% VAT. Installation fee: 15 OMR (1-year) or 10 OMR (2-year contract).", "جميع الأسعار تشمل 5% ضريبة القيمة المضافة. رسوم التركيب: 15 ر.ع (سنة) أو 10 ر.ع (عقد سنتين).")}</p>
-        </FadeIn>
+        <p className="text-[11px] text-muted-foreground mt-6">{t("Prices include 5% VAT. Installation: 15 OMR (1yr) or 10 OMR (2yr).", "الأسعار شاملة 5% ضريبة. التركيب: 15 ر.ع (سنة) أو 10 ر.ع (سنتين).")}</p>
       </section>
 
-      {/* ===== FEATURES ===== */}
-      <section id="features" className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-muted/40" />
-        <div className="absolute top-0 start-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
-          <FadeIn>
-            <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-semibold mb-4">
-                <Monitor size={14} />
-                {t("WHY AWASR", "لماذا أوامر")}
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">{t("More Than Just Fast Internet", "أكثر من مجرد إنترنت سريع")}</h2>
-              <p className="text-muted-foreground max-w-lg mx-auto">{t("A complete connected home experience with security, entertainment, and education built in.", "تجربة منزل متصل متكاملة مع حماية وترفيه وتعليم مدمج.")}</p>
-            </div>
-          </FadeIn>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* ── FEATURES ── */}
+      <section id="features" className="bg-muted/40 border-y border-border">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+          <Reveal>
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">{t("What's included", "ماذا يشمل الاشتراك")}</h2>
+            <p className="text-muted-foreground text-sm mb-10 max-w-md">{t("Every Fibernet Home plan comes with more than just speed.", "كل باقة فايبرنت هوم تأتي مع أكثر من مجرد سرعة.")}</p>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f, i) => (
-              <FadeIn key={i} delay={i * 80}>
-                <div className="group bg-card rounded-2xl p-6 card-shadow hover:card-shadow-hover transition-all duration-300 h-full border border-transparent hover:border-primary/10">
-                  <div className="h-12 w-12 rounded-2xl gradient-primary flex items-center justify-center text-white mb-5 group-hover:scale-110 transition-transform duration-300">
-                    <f.icon size={24} variant="Bold" />
+              <Reveal key={i}>
+                <div className="bg-card rounded-xl p-5 card-shadow hover:card-shadow-hover transition-all duration-200 h-full flex gap-4">
+                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <f.icon size={20} className="text-primary" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">{t(f.en, f.ar)}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{t(f.descEn, f.descAr)}</p>
+                  <div>
+                    <h3 className="font-semibold text-sm mb-1">{t(f.en, f.ar)}</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{t(f.descEn, f.descAr)}</p>
+                  </div>
                 </div>
-              </FadeIn>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ===== COVERAGE ===== */}
-      <section id="coverage" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <FadeIn>
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-success/10 text-success text-xs font-semibold mb-4">
-                <Wifi size={14} />
-                {t("BARQI COVERAGE", "تغطية برقي")}
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("Available Across Oman", "متوفرة في جميع أنحاء عُمان")}</h2>
-              <p className="text-muted-foreground mb-8 leading-relaxed">{t("Our fiber network covers major cities and is rapidly expanding. Check if your area is covered and subscribe today.", "تغطي شبكة الألياف لدينا المدن الرئيسية وتتوسع بسرعة. تحقق مما إذا كانت منطقتك مغطاة واشترك اليوم.")}</p>
-              <Link to="/login" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl gradient-primary text-white font-semibold text-sm hover:opacity-90 transition-all hover:shadow-lg hover:shadow-primary/20">
-                {t("Check Availability", "تحقق من التوفر")}
-                <ArrowRight size={16} className="rtl:rotate-180" />
+      {/* ── COVERAGE ── */}
+      <section id="coverage" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+        <div className="grid lg:grid-cols-5 gap-10 items-start">
+          <div className="lg:col-span-2">
+            <Reveal>
+              <h2 className="text-2xl md:text-3xl font-bold mb-3">{t("Where we are", "أين نحن")}</h2>
+              <p className="text-muted-foreground text-sm mb-6 leading-relaxed">{t("Fiber coverage across Oman's major cities — and we're expanding fast. If you don't see your area, check back soon.", "تغطية ألياف عبر المدن الرئيسية في عُمان — ونحن نتوسع بسرعة. إذا لم ترَ منطقتك، تابعنا قريباً.")}</p>
+              <Link to="/login" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+                {t("Check your address", "تحقق من عنوانك")}
+                <ArrowRight size={14} className="rtl:rotate-180" />
               </Link>
-            </div>
-          </FadeIn>
-          <FadeIn delay={150}>
-            <div className="grid grid-cols-2 gap-3">
-              {networkStatus.map((r, i) => (
-                <div key={i} className="bg-card rounded-xl p-4 card-shadow hover:card-shadow-hover transition-all duration-200 flex items-center gap-3">
-                  <div className={`h-3 w-3 rounded-full ${statusColor(r.status)} shrink-0`}>
-                    {r.status === "operational" && <div className={`h-3 w-3 rounded-full ${statusColor(r.status)} animate-ping opacity-30`} />}
+            </Reveal>
+          </div>
+          <div className="lg:col-span-3">
+            <Reveal>
+              <div className="grid grid-cols-2 gap-2.5">
+                {networkStatus.map((r, i) => (
+                  <div key={i} className="bg-card rounded-lg p-3 card-shadow flex items-center gap-2.5">
+                    <div className={`h-2 w-2 rounded-full ${statusBg(r.status)}`} />
+                    <span className="text-sm font-medium flex-1 truncate">{t(r.region, r.regionAr)}</span>
+                    <span className={`text-[10px] font-medium ${r.status === "operational" ? "text-success" : r.status === "degraded" ? "text-warning" : "text-destructive"}`}>{statusText(r.status)}</span>
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold truncate">{t(r.region, r.regionAr)}</p>
-                    <p className="text-[10px] text-muted-foreground">{statusLabel(r.status)}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ===== CTA BANNER ===== */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gradient-primary" />
-        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "radial-gradient(circle at 30% 40%, white 1.5px, transparent 1.5px), radial-gradient(circle at 70% 60%, white 1px, transparent 1px)", backgroundSize: "50px 50px, 35px 35px" }} />
-        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl" />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-20 md:py-28 text-center text-white">
-          <FadeIn>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">{t("Ready to Experience Better?", "جاهز لتجربة أفضل؟")}</h2>
-            <p className="text-white/75 mb-8 max-w-md mx-auto text-lg">{t("Join thousands of Omani homes enjoying ultra-fast fiber internet with Awasr.", "انضم لآلاف المنازل العُمانية التي تستمتع بإنترنت ألياف فائق السرعة مع أوامر.")}</p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <button onClick={() => scrollTo("#plans")} className="group px-8 py-4 rounded-xl bg-white text-foreground font-bold text-sm hover:bg-white/95 transition-all shadow-lg shadow-black/10 flex items-center gap-2">
-                {t("View Plans & Subscribe", "شاهد الباقات واشترك")}
-                <ArrowRight size={16} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
-              </button>
-              <a href="tel:80001000" className="px-8 py-4 rounded-xl border-2 border-white/25 text-white font-bold text-sm hover:bg-white/10 transition-all flex items-center gap-2">
-                <Call size={16} />
-                80001000
-              </a>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ===== FOOTER ===== */}
-      <footer id="contact" className="bg-card border-t border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            {/* Brand */}
-            <div className="sm:col-span-2 lg:col-span-1">
-              <img src={awasrLogo} alt="Awasr" className="h-10 w-auto object-contain mb-4" />
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{t("Oman's fastest fiber internet provider. Experience better connectivity for your home.", "أسرع مزود إنترنت ألياف في عُمان. استمتع باتصال أفضل لمنزلك.")}</p>
-            </div>
-            {/* Quick links */}
-            <div>
-              <h4 className="font-bold text-sm mb-4">{t("Quick Links", "روابط سريعة")}</h4>
-              <div className="space-y-2.5">
-                {[
-                  { fn: () => scrollTo("#plans"), en: "Plans & Pricing", ar: "الباقات والأسعار" },
-                  { fn: () => scrollTo("#features"), en: "Features", ar: "المميزات" },
-                  { fn: () => scrollTo("#coverage"), en: "Barqi Coverage", ar: "تغطية برقي" },
-                ].map((l, i) => (
-                  <button key={i} onClick={l.fn} className="block text-sm text-muted-foreground hover:text-primary transition-colors">{t(l.en, l.ar)}</button>
                 ))}
-                <Link to="/login" className="block text-sm text-muted-foreground hover:text-primary transition-colors">{t("My Awasr Portal", "بوابة حسابي")}</Link>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="gradient-primary">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 md:py-20 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{t("Ready to switch?", "جاهز للتحول؟")}</h2>
+            <p className="text-white/65 text-sm">{t("Pick a plan and get connected — installation takes a few days.", "اختر باقة واتصل — التركيب يستغرق أيام قليلة.")}</p>
+          </div>
+          <div className="flex gap-3 shrink-0">
+            <button onClick={() => scrollTo("#plans")} className="group px-6 py-3 rounded-lg bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-colors flex items-center gap-2">
+              {t("View plans", "الباقات")}
+              <ArrowRight size={14} className="rtl:rotate-180" />
+            </button>
+            <a href="tel:80001000" className="px-6 py-3 rounded-lg border border-white/25 text-white font-medium text-sm hover:bg-white/10 transition-colors flex items-center gap-2">
+              <Call size={14} /> 80001000
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer id="contact" className="bg-card border-t border-border">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="col-span-2 md:col-span-1">
+              <img src={awasrLogo} alt="Awasr" className="h-8 w-auto object-contain mb-3" />
+              <p className="text-xs text-muted-foreground leading-relaxed">{t("Fiber internet for homes across Oman.", "إنترنت ألياف للمنازل في جميع أنحاء عُمان.")}</p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground mb-3">{t("Links", "روابط")}</h4>
+              <div className="space-y-2">
+                <button onClick={() => scrollTo("#plans")} className="block text-sm text-foreground/80 hover:text-primary transition-colors">{t("Plans", "الباقات")}</button>
+                <button onClick={() => scrollTo("#features")} className="block text-sm text-foreground/80 hover:text-primary transition-colors">{t("Features", "المميزات")}</button>
+                <button onClick={() => scrollTo("#coverage")} className="block text-sm text-foreground/80 hover:text-primary transition-colors">{t("Coverage", "التغطية")}</button>
+                <Link to="/login" className="block text-sm text-foreground/80 hover:text-primary transition-colors">{t("My Awasr", "حسابي")}</Link>
               </div>
             </div>
-            {/* Support */}
             <div>
-              <h4 className="font-bold text-sm mb-4">{t("Support", "الدعم")}</h4>
-              <div className="space-y-2.5">
-                <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                  <Call size={15} className="text-primary shrink-0" />
-                  <span>80001000</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                  <MessageText1 size={15} className="text-primary shrink-0" />
-                  <span>{t("WhatsApp Support", "دعم واتساب")}</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                  <Timer1 size={15} className="text-primary shrink-0" />
-                  <span>{t("Available 24/7", "متاح على مدار الساعة")}</span>
-                </div>
+              <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground mb-3">{t("Support", "الدعم")}</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center gap-2 text-foreground/80"><Call size={13} className="text-primary" /> 80001000</div>
+                <div className="flex items-center gap-2 text-foreground/80"><MessageText1 size={13} className="text-primary" /> WhatsApp</div>
+                <div className="flex items-center gap-2 text-foreground/80"><Timer1 size={13} className="text-primary" /> 24/7</div>
               </div>
             </div>
-            {/* Legal */}
             <div>
-              <h4 className="font-bold text-sm mb-4">{t("Legal", "قانوني")}</h4>
-              <div className="space-y-2.5">
-                <p className="text-sm text-muted-foreground">{t("Terms & Conditions", "الشروط والأحكام")}</p>
-                <p className="text-sm text-muted-foreground">{t("Privacy Policy", "سياسة الخصوصية")}</p>
-                <p className="text-sm text-muted-foreground">{t("Fair Usage Policy", "سياسة الاستخدام العادل")}</p>
+              <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground mb-3">{t("Legal", "قانوني")}</h4>
+              <div className="space-y-2 text-sm text-foreground/80">
+                <p>{t("Terms & Conditions", "الشروط والأحكام")}</p>
+                <p>{t("Privacy Policy", "سياسة الخصوصية")}</p>
+                <p>{t("Fair Usage", "الاستخدام العادل")}</p>
               </div>
             </div>
           </div>
-          <div className="border-t border-border mt-10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Awasr. {t("All rights reserved.", "جميع الحقوق محفوظة.")}</p>
-            <p className="text-xs text-muted-foreground">{t("Licensed by TRA Oman", "مرخصة من هيئة تنظيم الاتصالات")}</p>
+          <div className="border-t border-border mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-muted-foreground">
+            <span>© {new Date().getFullYear()} Awasr. {t("All rights reserved.", "جميع الحقوق محفوظة.")}</span>
+            <span>{t("Licensed by TRA Oman", "مرخصة من هيئة تنظيم الاتصالات")}</span>
           </div>
         </div>
       </footer>
 
-      {/* Chatbot */}
+      {/* Back to top button */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className={`fixed z-40 bottom-20 md:bottom-6 end-4 md:end-20 h-10 w-10 rounded-full bg-card card-shadow-md border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:card-shadow-hover transition-all duration-300 ${showBackToTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}
+        aria-label="Back to top"
+      >
+        <ArrowUp2 size={18} />
+      </button>
+
       <ChatbotWidget />
     </div>
   );
