@@ -184,7 +184,7 @@ export default function LandingPage() {
           </div>
 
           {/* Stats — frosted glass cards */}
-          <div className="grid grid-cols-3 gap-3 md:gap-4 mt-20 max-w-2xl">
+          <div className="flex flex-wrap gap-3 md:gap-4 mt-20">
             {[
               { icon: Flash, val: "1 Gbps", label: t("Max speed", "أقصى سرعة") },
               { icon: Map1, val: "8+", label: t("Cities covered", "مدن مغطاة") },
