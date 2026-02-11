@@ -1,56 +1,67 @@
 
-
-# Landing Page for Awasr + Chatbot on Landing Page + Routing Updates
+# Landing Page Visual Upgrade -- More Beautiful, Elegant, and Modern
 
 ## Overview
-Create a professional, modern landing page at `/` showcasing Awasr's fiber internet services, move login to `/login`, update all logout flows, and ensure the AI chatbot widget is visible on the landing page.
+Elevate the landing page from "clean but generic" to a premium, editorial-quality telecom website. The changes focus on visual depth, better whitespace rhythm, richer typography hierarchy, and subtle polish that separates professional design from AI-generated layouts.
 
-## Routing Changes
+## Key Design Changes
 
-| Route | Current | New |
-|-------|---------|-----|
-| `/` | LoginPage | LandingPage |
-| `/login` | (none) | LoginPage |
-| Logout redirect (3 places) | `navigate("/")` | `navigate("/login")` |
+### 1. Hero Section -- Cinematic Depth
+- Add a large, softly animated gradient orb/mesh behind the hero text (CSS-only, using layered radial gradients with a slow drift animation)
+- Increase hero padding significantly for more breathing room (pt-24 pb-28 on mobile, pt-32 pb-36 on desktop)
+- Make the headline larger on desktop (text-7xl to text-8xl) with tighter letter-spacing (-0.03em) for a more editorial feel
+- Add a subtle frosted-glass "speed pill" badge above the headline (e.g., "Up to 1 Gbps" in a translucent white chip)
+- Animate the stats row in with a staggered delay
 
-## Landing Page Sections
+### 2. Plans Section -- Card Elevation
+- Add a subtle gradient background to the section (very light radial gradient from center)
+- Increase card padding from p-5 to p-6
+- Make speed numbers larger (text-4xl) with a lighter font weight for elegance
+- Add a thin gradient top-border on the popular card instead of just a ring
+- Improve the contract toggle with a smoother pill design and transition animation
+- Add subtle hover glow effect on plan cards (colored shadow matching primary/secondary)
 
-1. **Sticky Navbar** -- Awasr logo, nav links (Plans, Features, Coverage, Support), language toggle, "My Awasr" login button. Mobile hamburger menu.
+### 3. Features Section -- Asymmetric Grid
+- Change from a uniform 3-column grid to a 2-column layout on desktop where the first item spans full width as a "hero feature" card with larger text
+- Increase icon container size from h-10 w-10 to h-12 w-12 with a softer gradient background
+- Add a subtle border to feature cards for definition
+- Increase vertical spacing between the section header and grid
 
-2. **Hero Section** -- Full-width gradient background, headline "Oman's Fastest Fiber Internet" / "أسرع إنترنت ألياف في عُمان", speed highlight (up to 1 Gbps), two CTAs: "Browse Plans" (scroll) and "My Awasr Login" (link to /login).
+### 4. Coverage Section -- Cleaner Visual
+- Add subtle pulsing animation to the green status dots for "operational" regions
+- Increase card height slightly with better padding
+- Add a light gradient background behind the coverage grid
 
-3. **Plans Grid** -- Cards for 7 Fibernet Home plans (27-90) pulled from `mockData.plans`. Each card shows plan name, speed, price with OmrSymbol, key features. Popular plan (Home 35) highlighted.
+### 5. CTA Banner -- More Dramatic
+- Add a layered mesh gradient background instead of flat gradient-primary
+- Increase padding for more grandeur
+- Make buttons slightly larger with rounded-xl for a softer, modern feel
 
-4. **Features Section** -- Icon grid: Unlimited Data, SafeNet Security, Jawwy TV, Ashal Education, 24/7 Support (80001000), Wide Coverage. Uses Iconsax icons.
+### 6. Navbar -- Glass Morphism
+- When scrolled, use a stronger backdrop-blur with semi-transparent background
+- Add a very subtle bottom shadow instead of just a border
 
-5. **Coverage Section** -- Grid of operational regions from `mockData.networkStatus` with status indicators.
+### 7. Footer -- Refined Spacing
+- Increase vertical padding
+- Add a subtle separator between footer columns on mobile
+- Softer, more muted color palette for footer text
 
-6. **CTA Banner** -- "Ready to get connected?" with link to /login.
-
-7. **Footer** -- Contact (80001000, WhatsApp), quick links, copyright.
-
-## Chatbot Widget
-The `ChatbotWidget` is already rendered inside `AppLayout`. For the landing page (which is outside `AppLayout`), it will be added directly to the `LandingPage` component.
-
-## Files to Change
-
-### New File
-- `src/pages/LandingPage.tsx` -- Full landing page with all sections, responsive, RTL-ready, includes `<ChatbotWidget />`
-
-### Modified Files
-- `src/App.tsx` -- Add LandingPage at `/`, move LoginPage to `/login`
-- `src/pages/LoginPage.tsx` -- Add "Back to Home" link navigating to `/`
-- `src/components/layout/AppSidebar.tsx` -- Change logout `navigate("/")` to `navigate("/login")`
-- `src/components/layout/BottomNav.tsx` -- Change logout `navigate("/")` to `navigate("/login")`
-- `src/pages/ProfilePage.tsx` -- Change logout `navigate("/")` to `navigate("/login")`
+### 8. Global Polish
+- Add smooth fade-in keyframe animation to CSS for staggered reveal effects
+- Increase Reveal animation distance from translate-y-5 to translate-y-8 for more dramatic entrance
+- Add a subtle grain/noise texture overlay on the hero (CSS only, very low opacity)
 
 ## Technical Details
 
-- Reuses existing design tokens: `gradient-primary`, `card-shadow-md`, brand colors from CSS variables
-- Uses `OmrSymbol` / `OmrCurrency` for all pricing
-- Uses `useLanguage()` for bilingual content and RTL
-- Smooth scroll via anchor IDs for in-page navigation
-- Intersection Observer for fade-in-on-scroll animations
-- Mobile-first responsive with Tailwind breakpoints
-- Iconsax icons for consistency with rest of app
+### Files Modified
+- **`src/pages/LandingPage.tsx`** -- All visual changes to hero, plans, features, coverage, CTA, navbar, and footer sections
+- **`src/index.css`** -- Add new CSS utilities: gradient mesh animation keyframes, grain texture, pulsing dot animation, staggered fade-in delays
 
+### New CSS Utilities (in index.css)
+- `.gradient-mesh` -- layered radial gradient with slow CSS animation for hero background
+- `.animate-pulse-dot` -- subtle scale pulse for status indicators
+- `.glass-nav` -- backdrop-blur + transparent bg + subtle shadow for scrolled navbar
+- Staggered animation delay utilities (`.delay-100`, `.delay-200`, etc.)
+
+### No New Dependencies
+All changes use pure CSS and Tailwind utilities already available in the project.
