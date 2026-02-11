@@ -85,7 +85,7 @@ export default function NetworkStatusPage() {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">{t("Network Status", "حالة الشبكة")}</h1>
+        <h1 className="text-xl md:text-2xl font-semibold">{t("Network Status", "حالة الشبكة")}</h1>
         <Button size="sm" variant="outline" className="rounded-xl" onClick={() => { setReportErrors({}); setShowReportIssue(true); }}>
           <MessageQuestion size={16} className="me-1" />{t("Report Issue", "الإبلاغ عن مشكلة")}
         </Button>

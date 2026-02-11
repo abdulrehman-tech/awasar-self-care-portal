@@ -145,7 +145,7 @@ export default function SupportPage() {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">{t("Support Tickets", "تذاكر الدعم")}</h1>
+        <h1 className="text-xl md:text-2xl font-semibold">{t("Support Tickets", "تذاكر الدعم")}</h1>
         <Button size="sm" className="rounded-xl" onClick={() => { resetForm(); setShowCreate(true); }}>
           <Add size={16} className="me-1" />{t("New Ticket", "تذكرة جديدة")}
         </Button>

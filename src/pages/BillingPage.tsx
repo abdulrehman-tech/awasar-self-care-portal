@@ -144,7 +144,7 @@ export default function BillingPage() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-xl font-semibold">{t("Billing & Payments", "الفواتير والمدفوعات")}</h1>
+      <h1 className="text-xl md:text-2xl font-semibold">{t("Billing & Payments", "الفواتير والمدفوعات")}</h1>
 
       {/* Balance Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
