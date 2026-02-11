@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Global, ArrowLeft, Call, Lock, ShieldTick } from "iconsax-react";
+import { Link } from "react-router-dom";
+import { Global, ArrowLeft, Call, Lock, ShieldTick, Home2 } from "iconsax-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -56,14 +57,20 @@ export default function LoginPage() {
       <div className="absolute inset-0 gradient-primary" />
       <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
 
-      {/* Language toggle */}
-      <button
-        onClick={toggleLanguage}
-        className="fixed top-4 end-4 z-10 flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors backdrop-blur-sm border border-white/10"
-      >
-        <Global size={16} />
-        {language === "en" ? "عربي" : "EN"}
-      </button>
+      {/* Top bar: back to home + language toggle */}
+      <div className="fixed top-4 start-4 end-4 z-10 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors backdrop-blur-sm border border-white/10">
+          <Home2 size={16} />
+          {t("Home", "الرئيسية")}
+        </Link>
+        <button
+          onClick={toggleLanguage}
+          className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors backdrop-blur-sm border border-white/10"
+        >
+          <Global size={16} />
+          {language === "en" ? "عربي" : "EN"}
+        </button>
+      </div>
 
       <Card className="w-full max-w-sm relative z-10 border-0 card-shadow-md rounded-2xl overflow-hidden">
 

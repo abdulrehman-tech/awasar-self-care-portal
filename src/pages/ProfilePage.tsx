@@ -135,7 +135,7 @@ export default function ProfilePage() {
   const handleLogout = () => {
     setShowLogoutConfirm(false);
     toast({ title: t("Logged out", "تم تسجيل الخروج") });
-    setTimeout(() => navigate("/"), 500);
+    setTimeout(() => navigate("/login"), 500);
   };
 
   const profileFields = [
