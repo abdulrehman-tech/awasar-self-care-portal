@@ -226,6 +226,6 @@ export const knowledgeBase = {
 };
 
 export const promotions = [
-  { id: "PROMO-01", title: "Upgrade to 1 Gbps", titleAr: "ترقية إلى 1 جيجا", description: "Get Fibernet Home 90 with 1 Gbps speed for only 90/month with 24-month contract", descriptionAr: "احصل على فايبرنت هوم 90 بسرعة 1 جيجا بـ 90 فقط/شهر مع عقد 24 شهر", discount: "Save 4.50 VAT", validUntil: "2025-12-31", image: "" },
-  { id: "PROMO-02", title: "Refer a Friend", titleAr: "أحل صديقاً", description: "Earn 10 credit for each friend who subscribes to Awasr Fibernet", descriptionAr: "اكسب 10 رصيد لكل صديق يشترك في أوامر فايبرنت", discount: "10", validUntil: "2025-12-31", image: "" },
+  { id: "PROMO-01", title: "Upgrade to 1 Gbps", titleAr: "ترقية إلى 1 جيجا", description: "Get Fibernet Home 90 with 1 Gbps speed for only 90 ﷼/month with 24-month contract", descriptionAr: "احصل على فايبرنت هوم 90 بسرعة 1 جيجا بـ 90 ﷼ فقط/شهر مع عقد 24 شهر", discount: "Save 4.50 VAT", validUntil: "2025-12-31", image: "" },
+  { id: "PROMO-02", title: "Refer a Friend", titleAr: "أحل صديقاً", description: "Earn 10 ﷼ credit for each friend who subscribes to Awasr Fibernet", descriptionAr: "اكسب 10 ﷼ رصيد لكل صديق يشترك في أوامر فايبرنت", discount: "10", validUntil: "2025-12-31", image: "" },
 ];
