@@ -174,16 +174,22 @@ export default function LandingPage() {
           </div>
 
           {/* Stats — staggered */}
-          <div className="flex flex-wrap gap-8 md:gap-12 mt-16">
+          <div className="flex flex-wrap gap-4 md:gap-5 mt-16">
             {[
-              { val: "1 Gbps", label: t("max speed", "أقصى سرعة") },
-              { val: "8+", label: t("cities", "مدن") },
-              { val: "80001000", label: t("support", "الدعم") },
+              { icon: Flash, val: "1 Gbps", label: t("Max speed", "أقصى سرعة") },
+              { icon: Map1, val: "8+", label: t("Cities covered", "مدن مغطاة") },
+              { icon: Headphone, val: "24/7", label: t("Support", "الدعم") },
             ].map((s, i) => (
               <Reveal key={i} delay={400 + i * 100}>
-                <span className="text-white/45 text-sm">
-                  <strong className="text-white font-semibold text-base">{s.val}</strong>{" "}{s.label}
-                </span>
+                <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/[0.08] backdrop-blur-md border border-white/10">
+                  <div className="flex items-center justify-center h-9 w-9 rounded-lg bg-white/10">
+                    <s.icon size={18} className="text-white/80" variant="Bold" />
+                  </div>
+                  <div>
+                    <p className="text-white font-bold text-base leading-tight">{s.val}</p>
+                    <p className="text-white/50 text-xs">{s.label}</p>
+                  </div>
+                </div>
               </Reveal>
             ))}
           </div>
