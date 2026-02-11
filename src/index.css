@@ -157,4 +157,70 @@
   .card-shadow-hover {
     box-shadow: 0 8px 25px -5px rgb(0 0 0 / 0.08), 0 4px 10px -3px rgb(0 0 0 / 0.03);
   }
+
+  /* Gradient mesh for hero background */
+  .gradient-mesh {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 40%, hsl(316, 70%, 45% / 0.5) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 80% 30%, hsl(202, 85%, 45% / 0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 50% 80%, hsl(280, 60%, 35% / 0.3) 0%, transparent 70%),
+      linear-gradient(135deg, hsl(316, 70%, 32%) 0%, hsl(280, 60%, 35%) 40%, hsl(202, 85%, 35%) 100%);
+    animation: mesh-drift 12s ease-in-out infinite alternate;
+  }
+
+  /* Glass morphism navbar */
+  .glass-nav {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: hsl(var(--card) / 0.8);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.06), 0 1px 0 rgb(0 0 0 / 0.03);
+  }
+
+  /* Pulsing status dot */
+  .animate-pulse-dot {
+    animation: pulse-dot 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Grain texture overlay */
+  .grain-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Staggered animation delays */
+  .stagger-1 { animation-delay: 100ms; }
+  .stagger-2 { animation-delay: 200ms; }
+  .stagger-3 { animation-delay: 300ms; }
+  .stagger-4 { animation-delay: 400ms; }
+}
+
+@keyframes mesh-drift {
+  0% {
+    background-position: 0% 50%, 100% 50%, 50% 100%;
+  }
+  100% {
+    background-position: 100% 30%, 0% 70%, 50% 0%;
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.3); }
+}
+
+/* Staggered fade-in animation */
+@keyframes stagger-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-stagger-in {
+  animation: stagger-fade-in 0.5s ease-out both;
 }

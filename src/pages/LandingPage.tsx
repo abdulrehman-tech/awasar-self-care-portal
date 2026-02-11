@@ -36,10 +36,14 @@ function useInView(threshold = 0.15) {
   return { ref, visible };
 }
 
-function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const { ref, visible } = useInView();
   return (
-    <div ref={ref} className={`transition-all duration-600 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"} ${className}`}>
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} ${className}`}
+      style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
+    >
       {children}
     </div>
   );
@@ -81,27 +85,27 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-background">
 
-      {/* ── NAVBAR ── */}
-      <header className={`sticky top-0 z-50 transition-all duration-200 ${scrolled ? "bg-card/95 backdrop-blur-xl border-b border-border" : "bg-card border-b border-border"}`}>
+      {/* ── NAVBAR — Glass Morphism ── */}
+      <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "glass-nav" : "bg-card/50 backdrop-blur-sm border-b border-border/50"}`}>
         <div className="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-6 h-14 md:h-16">
           <Link to="/" className="shrink-0">
             <img src={awasrLogo} alt="Awasr" className="h-8 md:h-9 w-auto object-contain" />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-0.5">
+          <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((l) => (
-              <button key={l.href} onClick={() => scrollTo(l.href)} className="px-3 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors">
+              <button key={l.href} onClick={() => scrollTo(l.href)} className="px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50 transition-all duration-200">
                 {t(l.en, l.ar)}
               </button>
             ))}
           </nav>
 
           <div className="flex items-center gap-2">
-            <button onClick={toggleLanguage} className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
+            <button onClick={toggleLanguage} className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200">
               <Global size={14} className="inline me-1" />
               {language === "en" ? "عربي" : "EN"}
             </button>
-            <Link to="/login" className="hidden md:inline-flex px-4 py-2 rounded-lg text-xs font-semibold text-primary-foreground gradient-primary hover:opacity-90 transition-opacity">
+            <Link to="/login" className="hidden md:inline-flex px-5 py-2 rounded-xl text-xs font-semibold text-primary-foreground gradient-primary hover:opacity-90 transition-all duration-200 hover:shadow-lg hover:shadow-primary/20">
               {t("My Awasr", "حسابي")}
             </Link>
             <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-1.5 rounded-lg hover:bg-muted transition-colors">
@@ -111,260 +115,314 @@ export default function LandingPage() {
         </div>
 
         {menuOpen && (
-          <div className="md:hidden bg-card border-t border-border px-4 pb-4 pt-1 animate-fade-in">
+          <div className="md:hidden bg-card/95 backdrop-blur-xl border-t border-border/50 px-4 pb-4 pt-1 animate-fade-in">
             {navLinks.map((l) => (
               <button key={l.href} onClick={() => scrollTo(l.href)} className="block w-full text-start px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 {t(l.en, l.ar)}
               </button>
             ))}
-            <Link to="/login" onClick={() => setMenuOpen(false)} className="block text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-primary-foreground gradient-primary mt-2">
+            <Link to="/login" onClick={() => setMenuOpen(false)} className="block text-center px-4 py-2.5 rounded-xl text-sm font-semibold text-primary-foreground gradient-primary mt-2">
               {t("Login", "الدخول")}
             </Link>
           </div>
         )}
       </header>
 
-      {/* ── HERO ── */}
-      <section className="relative overflow-hidden gradient-primary">
-        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(white 1px, transparent 1px)", backgroundSize: "22px 22px" }} />
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28">
+      {/* ── HERO — Cinematic Depth ── */}
+      <section className="relative overflow-hidden gradient-mesh grain-overlay">
+        {/* Dot pattern */}
+        <div className="absolute inset-0 opacity-[0.06] z-[2]" style={{ backgroundImage: "radial-gradient(white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+
+        <div className="relative z-[3] max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-28 md:pt-32 md:pb-36">
           <div className="max-w-2xl">
-            <p className="text-white/60 text-sm font-medium tracking-wide mb-4">
-              {t("FIBER INTERNET • OMAN", "إنترنت ألياف • عُمان")}
-            </p>
-            <h1 className="text-[2.5rem] md:text-6xl lg:text-7xl font-bold leading-[1.05] text-white mb-5">
-              {t("Internet that actually keeps up.", "إنترنت يواكب سرعتك.")}
-            </h1>
-            <p className="text-base md:text-lg text-white/70 max-w-md mb-8">
-              {t(
-                "Fiber speeds from 300 Mbps to 1 Gbps. Unlimited data. No surprises on your bill. Plans start at 27 OMR.",
-                "سرعات ألياف من 300 ميجا إلى 1 جيجا. بيانات غير محدودة. بدون مفاجآت في فاتورتك. الباقات تبدأ من 27 ر.ع."
-              )}
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <button onClick={() => scrollTo("#plans")} className="group px-6 py-3 rounded-lg bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-colors flex items-center gap-2">
-                {t("See plans", "شاهد الباقات")}
-                <ArrowRight size={15} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
-              </button>
-              <Link to="/login" className="px-6 py-3 rounded-lg border border-white/25 text-white font-medium text-sm hover:bg-white/10 transition-colors">
-                {t("Sign in", "تسجيل الدخول")}
-              </Link>
-            </div>
+            {/* Speed pill badge */}
+            <Reveal>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 mb-6">
+                <Flash size={13} className="text-warning" variant="Bold" />
+                <span className="text-white/80 text-xs font-medium tracking-wide">
+                  {t("Up to 1 Gbps fiber speed", "سرعة ألياف تصل إلى 1 جيجا")}
+                </span>
+              </div>
+            </Reveal>
+
+            <Reveal delay={100}>
+              <h1 className="text-[2.75rem] md:text-7xl lg:text-8xl font-bold leading-[1.02] text-white mb-6" style={{ letterSpacing: "-0.03em" }}>
+                {t("Internet that actually keeps up.", "إنترنت يواكب سرعتك.")}
+              </h1>
+            </Reveal>
+
+            <Reveal delay={200}>
+              <p className="text-base md:text-lg text-white/65 max-w-lg mb-10 leading-relaxed">
+                {t(
+                  "Fiber speeds from 300 Mbps to 1 Gbps. Unlimited data. No surprises on your bill. Plans start at 27 OMR.",
+                  "سرعات ألياف من 300 ميجا إلى 1 جيجا. بيانات غير محدودة. بدون مفاجآت في فاتورتك. الباقات تبدأ من 27 ر.ع."
+                )}
+              </p>
+            </Reveal>
+
+            <Reveal delay={300}>
+              <div className="flex flex-wrap gap-3">
+                <button onClick={() => scrollTo("#plans")} className="group px-7 py-3.5 rounded-xl bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-all duration-200 flex items-center gap-2 shadow-lg shadow-black/10">
+                  {t("See plans", "شاهد الباقات")}
+                  <ArrowRight size={15} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
+                </button>
+                <Link to="/login" className="px-7 py-3.5 rounded-xl border border-white/20 text-white font-medium text-sm hover:bg-white/10 transition-all duration-200 backdrop-blur-sm">
+                  {t("Sign in", "تسجيل الدخول")}
+                </Link>
+              </div>
+            </Reveal>
           </div>
 
-          {/* Quick numbers — not a stats grid, just inline hints */}
-          <div className="flex flex-wrap gap-6 md:gap-10 mt-14 text-white/50 text-sm">
-            <span><strong className="text-white font-semibold">1 Gbps</strong> {t("max speed", "أقصى سرعة")}</span>
-            <span><strong className="text-white font-semibold">8+</strong> {t("cities", "مدن")}</span>
-            <span><strong className="text-white font-semibold">80001000</strong> {t("support", "الدعم")}</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ── PLANS ── */}
-      <section id="plans" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
-        <Reveal>
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold">{t("Fibernet Home Plans", "باقات فايبرنت المنزلية")}</h2>
-              <p className="text-muted-foreground mt-1 text-sm">{t("All plans include unlimited data. No data caps, ever.", "جميع الباقات تشمل بيانات غير محدودة.")}</p>
-            </div>
-            {/* Contract toggle */}
-            <div className="inline-flex items-center bg-muted rounded-lg p-0.5 shrink-0">
-              <button
-                onClick={() => setContractTerm("1")}
-                className={`px-4 py-2 rounded-md text-xs font-medium transition-all ${contractTerm === "1" ? "bg-card card-shadow text-foreground" : "text-muted-foreground"}`}
-              >
-                {t("1 Year", "سنة")}
-              </button>
-              <button
-                onClick={() => setContractTerm("2")}
-                className={`px-4 py-2 rounded-md text-xs font-medium transition-all ${contractTerm === "2" ? "bg-card card-shadow text-foreground" : "text-muted-foreground"}`}
-              >
-                {t("2 Years", "سنتان")} <span className="text-primary ms-1">✦</span>
-              </button>
-            </div>
-          </div>
-        </Reveal>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {internetPlans.map((plan) => {
-            const isPopular = plan.id === "PLN-04";
-            const isTop = plan.id === "PLN-07";
-            return (
-              <Reveal key={plan.id}>
-                <div className={`relative rounded-xl bg-card card-shadow hover:card-shadow-hover transition-all duration-200 hover:-translate-y-1 h-full flex flex-col ${isPopular ? "ring-2 ring-primary" : ""} ${isTop ? "ring-2 ring-secondary" : ""}`}>
-                  {isPopular && (
-                    <div className="absolute -top-2.5 start-4 px-2 py-0.5 rounded-md gradient-primary text-white text-[10px] font-semibold flex items-center gap-1">
-                      <Crown size={10} />{t("Popular", "الأشهر")}
-                    </div>
-                  )}
-                  {isTop && (
-                    <div className="absolute -top-2.5 start-4 px-2 py-0.5 rounded-md bg-secondary text-white text-[10px] font-semibold flex items-center gap-1">
-                      <Flash size={10} />{t("Fastest", "الأسرع")}
-                    </div>
-                  )}
-
-                  <div className="p-5 flex flex-col flex-1">
-                    <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">{t(plan.name, plan.nameAr)}</p>
-
-                    {/* Speed */}
-                    <div className="mb-1">
-                      <span className="text-3xl font-bold tabular-nums">{plan.speed.replace(" Mbps", "").replace(" Gbps", "")}</span>
-                      <span className="text-xs font-medium text-muted-foreground ms-1">{plan.speed.includes("Gbps") ? "Gbps" : "Mbps"}</span>
-                    </div>
-                    <p className="text-[11px] text-muted-foreground mb-4 flex items-center gap-1">
-                      <ArrowUp size={10} className="text-secondary" />
-                      {plan.uploadSpeed} {t("upload", "رفع")}
-                    </p>
-
-                    {/* Price */}
-                    <div className="flex items-baseline gap-1 mb-4">
-                      <span className="text-2xl font-bold">{plan.price}</span>
-                      <OmrSymbol className="text-muted-foreground" />
-                      <span className="text-xs text-muted-foreground">/{t("mo", "شهر")}</span>
-                      <span className="text-[10px] text-muted-foreground ms-auto">{t("incl. VAT", "شامل الضريبة")}</span>
-                    </div>
-
-                    {/* Features */}
-                    <ul className="space-y-1.5 mb-5 flex-1">
-                      {plan.features.map((f, fi) => (
-                        <li key={fi} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                          <TickCircle size={12} className="text-success shrink-0" variant="Bold" />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <Link
-                      to="/login"
-                      className={`block text-center py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                        isPopular
-                          ? "gradient-primary text-white hover:opacity-90"
-                          : isTop
-                          ? "bg-secondary text-white hover:opacity-90"
-                          : "bg-muted text-foreground hover:bg-muted/70"
-                      }`}
-                    >
-                      {t("Subscribe", "اشترك")}
-                    </Link>
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
-        <p className="text-[11px] text-muted-foreground mt-6">{t("Prices include 5% VAT. Installation: 15 OMR (1yr) or 10 OMR (2yr).", "الأسعار شاملة 5% ضريبة. التركيب: 15 ر.ع (سنة) أو 10 ر.ع (سنتين).")}</p>
-      </section>
-
-      {/* ── FEATURES ── */}
-      <section id="features" className="bg-muted/40 border-y border-border">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
-          <Reveal>
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">{t("What's included", "ماذا يشمل الاشتراك")}</h2>
-            <p className="text-muted-foreground text-sm mb-10 max-w-md">{t("Every Fibernet Home plan comes with more than just speed.", "كل باقة فايبرنت هوم تأتي مع أكثر من مجرد سرعة.")}</p>
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {features.map((f, i) => (
-              <Reveal key={i}>
-                <div className="bg-card rounded-xl p-5 card-shadow hover:card-shadow-hover transition-all duration-200 h-full flex gap-4">
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <f.icon size={20} className="text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-sm mb-1">{t(f.en, f.ar)}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{t(f.descEn, f.descAr)}</p>
-                  </div>
-                </div>
+          {/* Stats — staggered */}
+          <div className="flex flex-wrap gap-8 md:gap-12 mt-16">
+            {[
+              { val: "1 Gbps", label: t("max speed", "أقصى سرعة") },
+              { val: "8+", label: t("cities", "مدن") },
+              { val: "80001000", label: t("support", "الدعم") },
+            ].map((s, i) => (
+              <Reveal key={i} delay={400 + i * 100}>
+                <span className="text-white/45 text-sm">
+                  <strong className="text-white font-semibold text-base">{s.val}</strong>{" "}{s.label}
+                </span>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── COVERAGE ── */}
-      <section id="coverage" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
-        <div className="grid lg:grid-cols-5 gap-10 items-start">
-          <div className="lg:col-span-2">
-            <Reveal>
-              <h2 className="text-2xl md:text-3xl font-bold mb-3">{t("Where we are", "أين نحن")}</h2>
-              <p className="text-muted-foreground text-sm mb-6 leading-relaxed">{t("Fiber coverage across Oman's major cities — and we're expanding fast. If you don't see your area, check back soon.", "تغطية ألياف عبر المدن الرئيسية في عُمان — ونحن نتوسع بسرعة. إذا لم ترَ منطقتك، تابعنا قريباً.")}</p>
-              <Link to="/login" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
-                {t("Check your address", "تحقق من عنوانك")}
-                <ArrowRight size={14} className="rtl:rotate-180" />
-              </Link>
-            </Reveal>
-          </div>
-          <div className="lg:col-span-3">
-            <Reveal>
-              <div className="grid grid-cols-2 gap-2.5">
-                {networkStatus.map((r, i) => (
-                  <div key={i} className="bg-card rounded-lg p-3 card-shadow flex items-center gap-2.5">
-                    <div className={`h-2 w-2 rounded-full ${statusBg(r.status)}`} />
-                    <span className="text-sm font-medium flex-1 truncate">{t(r.region, r.regionAr)}</span>
-                    <span className={`text-[10px] font-medium ${r.status === "operational" ? "text-success" : r.status === "degraded" ? "text-warning" : "text-destructive"}`}>{statusText(r.status)}</span>
-                  </div>
-                ))}
+      {/* ── PLANS — Elevated Cards ── */}
+      <section id="plans" className="relative">
+        {/* Subtle radial gradient bg */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 50% at 50% 0%, hsl(316, 70%, 95% / 0.4), transparent 70%)" }} />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-28">
+          <Reveal>
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+              <div>
+                <h2 className="text-2xl md:text-4xl font-bold tracking-tight">{t("Fibernet Home Plans", "باقات فايبرنت المنزلية")}</h2>
+                <p className="text-muted-foreground mt-2 text-sm max-w-md">{t("All plans include unlimited data. No data caps, ever.", "جميع الباقات تشمل بيانات غير محدودة.")}</p>
               </div>
-            </Reveal>
+              {/* Contract toggle — pill style */}
+              <div className="inline-flex items-center bg-muted rounded-xl p-1 shrink-0 shadow-inner">
+                <button
+                  onClick={() => setContractTerm("1")}
+                  className={`px-5 py-2.5 rounded-lg text-xs font-medium transition-all duration-300 ${contractTerm === "1" ? "bg-card card-shadow text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                >
+                  {t("1 Year", "سنة")}
+                </button>
+                <button
+                  onClick={() => setContractTerm("2")}
+                  className={`px-5 py-2.5 rounded-lg text-xs font-medium transition-all duration-300 ${contractTerm === "2" ? "bg-card card-shadow text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                >
+                  {t("2 Years", "سنتان")} <span className="text-primary ms-1">✦</span>
+                </button>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {internetPlans.map((plan, idx) => {
+              const isPopular = plan.id === "PLN-04";
+              const isTop = plan.id === "PLN-07";
+              return (
+                <Reveal key={plan.id} delay={idx * 80}>
+                  <div
+                    className={`relative rounded-2xl bg-card border border-border/50 hover:-translate-y-1.5 transition-all duration-300 h-full flex flex-col overflow-hidden ${
+                      isPopular ? "shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/15" :
+                      isTop ? "shadow-lg shadow-secondary/10 hover:shadow-xl hover:shadow-secondary/15" :
+                      "card-shadow hover:card-shadow-hover"
+                    }`}
+                  >
+                    {/* Gradient top border for popular/top */}
+                    {isPopular && <div className="h-1 w-full gradient-primary" />}
+                    {isTop && <div className="h-1 w-full bg-secondary" />}
+
+                    {isPopular && (
+                      <div className="absolute top-3 end-4 px-2.5 py-1 rounded-full gradient-primary text-white text-[10px] font-semibold flex items-center gap-1">
+                        <Crown size={10} />{t("Popular", "الأشهر")}
+                      </div>
+                    )}
+                    {isTop && (
+                      <div className="absolute top-3 end-4 px-2.5 py-1 rounded-full bg-secondary text-white text-[10px] font-semibold flex items-center gap-1">
+                        <Flash size={10} />{t("Fastest", "الأسرع")}
+                      </div>
+                    )}
+
+                    <div className="p-6 flex flex-col flex-1">
+                      <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-3">{t(plan.name, plan.nameAr)}</p>
+
+                      {/* Speed — larger for elegance */}
+                      <div className="mb-1">
+                        <span className="text-4xl font-light tabular-nums tracking-tight">{plan.speed.replace(" Mbps", "").replace(" Gbps", "")}</span>
+                        <span className="text-sm font-medium text-muted-foreground ms-1.5">{plan.speed.includes("Gbps") ? "Gbps" : "Mbps"}</span>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground mb-5 flex items-center gap-1">
+                        <ArrowUp size={10} className="text-secondary" />
+                        {plan.uploadSpeed} {t("upload", "رفع")}
+                      </p>
+
+                      {/* Price */}
+                      <div className="flex items-baseline gap-1.5 mb-5">
+                        <span className="text-2xl font-bold">{plan.price}</span>
+                        <OmrSymbol className="text-muted-foreground" />
+                        <span className="text-xs text-muted-foreground">/{t("mo", "شهر")}</span>
+                        <span className="text-[10px] text-muted-foreground ms-auto">{t("incl. VAT", "شامل الضريبة")}</span>
+                      </div>
+
+                      {/* Features */}
+                      <ul className="space-y-2 mb-6 flex-1">
+                        {plan.features.map((f, fi) => (
+                          <li key={fi} className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <TickCircle size={13} className="text-success shrink-0" variant="Bold" />
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+
+                      <Link
+                        to="/login"
+                        className={`block text-center py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                          isPopular
+                            ? "gradient-primary text-white hover:opacity-90 hover:shadow-lg hover:shadow-primary/20"
+                            : isTop
+                            ? "bg-secondary text-white hover:opacity-90 hover:shadow-lg hover:shadow-secondary/20"
+                            : "bg-muted text-foreground hover:bg-muted/70"
+                        }`}
+                      >
+                        {t("Subscribe", "اشترك")}
+                      </Link>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+          <p className="text-[11px] text-muted-foreground mt-8">{t("Prices include 5% VAT. Installation: 15 OMR (1yr) or 10 OMR (2yr).", "الأسعار شاملة 5% ضريبة. التركيب: 15 ر.ع (سنة) أو 10 ر.ع (سنتين).")}</p>
+        </div>
+      </section>
+
+      {/* ── FEATURES — Asymmetric Grid ── */}
+      <section id="features" className="bg-muted/30 border-y border-border/50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-28">
+          <Reveal>
+            <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-2">{t("What's included", "ماذا يشمل الاشتراك")}</h2>
+            <p className="text-muted-foreground text-sm mb-12 max-w-md">{t("Every Fibernet Home plan comes with more than just speed.", "كل باقة فايبرنت هوم تأتي مع أكثر من مجرد سرعة.")}</p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {features.map((f, i) => {
+              const isHero = i === 0;
+              return (
+                <Reveal key={i} delay={i * 60}>
+                  <div className={`bg-card rounded-2xl border border-border/40 card-shadow hover:card-shadow-hover transition-all duration-300 h-full ${
+                    isHero ? "md:col-span-2 p-8 flex gap-6 items-start" : "p-6 flex gap-4"
+                  }`}>
+                    <div className={`rounded-xl flex items-center justify-center shrink-0 ${
+                      isHero
+                        ? "h-14 w-14 bg-gradient-to-br from-primary/15 to-secondary/10"
+                        : "h-12 w-12 bg-gradient-to-br from-primary/10 to-primary/5"
+                    }`}>
+                      <f.icon size={isHero ? 26 : 22} className="text-primary" />
+                    </div>
+                    <div>
+                      <h3 className={`font-semibold mb-1.5 ${isHero ? "text-lg" : "text-sm"}`}>{t(f.en, f.ar)}</h3>
+                      <p className={`text-muted-foreground leading-relaxed ${isHero ? "text-sm" : "text-xs"}`}>{t(f.descEn, f.descAr)}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section className="gradient-primary">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 md:py-20 flex flex-col md:flex-row items-center justify-between gap-6">
+      {/* ── COVERAGE — Cleaner Visual ── */}
+      <section id="coverage" className="relative">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 70% 50%, hsl(202, 85%, 95% / 0.3), transparent 70%)" }} />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-28">
+          <div className="grid lg:grid-cols-5 gap-12 items-start">
+            <div className="lg:col-span-2">
+              <Reveal>
+                <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4">{t("Where we are", "أين نحن")}</h2>
+                <p className="text-muted-foreground text-sm mb-8 leading-relaxed">{t("Fiber coverage across Oman's major cities — and we're expanding fast. If you don't see your area, check back soon.", "تغطية ألياف عبر المدن الرئيسية في عُمان — ونحن نتوسع بسرعة. إذا لم ترَ منطقتك، تابعنا قريباً.")}</p>
+                <Link to="/login" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+                  {t("Check your address", "تحقق من عنوانك")}
+                  <ArrowRight size={14} className="rtl:rotate-180" />
+                </Link>
+              </Reveal>
+            </div>
+            <div className="lg:col-span-3">
+              <Reveal delay={100}>
+                <div className="grid grid-cols-2 gap-3">
+                  {networkStatus.map((r, i) => (
+                    <div key={i} className="bg-card rounded-xl p-4 card-shadow border border-border/30 hover:card-shadow-hover transition-all duration-200 flex items-center gap-3">
+                      <div className={`h-2.5 w-2.5 rounded-full ${statusBg(r.status)} ${r.status === "operational" ? "animate-pulse-dot" : ""}`} />
+                      <span className="text-sm font-medium flex-1 truncate">{t(r.region, r.regionAr)}</span>
+                      <span className={`text-[10px] font-medium ${r.status === "operational" ? "text-success" : r.status === "degraded" ? "text-warning" : "text-destructive"}`}>{statusText(r.status)}</span>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA — More Dramatic ── */}
+      <section className="gradient-mesh grain-overlay relative overflow-hidden">
+        <div className="relative z-[3] max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-28 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{t("Ready to switch?", "جاهز للتحول؟")}</h2>
-            <p className="text-white/65 text-sm">{t("Pick a plan and get connected — installation takes a few days.", "اختر باقة واتصل — التركيب يستغرق أيام قليلة.")}</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">{t("Ready to switch?", "جاهز للتحول؟")}</h2>
+            <p className="text-white/60 text-sm max-w-md">{t("Pick a plan and get connected — installation takes a few days.", "اختر باقة واتصل — التركيب يستغرق أيام قليلة.")}</p>
           </div>
           <div className="flex gap-3 shrink-0">
-            <button onClick={() => scrollTo("#plans")} className="group px-6 py-3 rounded-lg bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-colors flex items-center gap-2">
+            <button onClick={() => scrollTo("#plans")} className="group px-7 py-3.5 rounded-xl bg-white text-foreground font-semibold text-sm hover:bg-white/95 transition-all duration-200 flex items-center gap-2 shadow-lg shadow-black/10">
               {t("View plans", "الباقات")}
               <ArrowRight size={14} className="rtl:rotate-180" />
             </button>
-            <a href="tel:80001000" className="px-6 py-3 rounded-lg border border-white/25 text-white font-medium text-sm hover:bg-white/10 transition-colors flex items-center gap-2">
+            <a href="tel:80001000" className="px-7 py-3.5 rounded-xl border border-white/20 text-white font-medium text-sm hover:bg-white/10 transition-all duration-200 backdrop-blur-sm flex items-center gap-2">
               <Call size={14} /> 80001000
             </a>
           </div>
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer id="contact" className="bg-card border-t border-border">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      {/* ── FOOTER — Refined Spacing ── */}
+      <footer id="contact" className="bg-card border-t border-border/50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 md:py-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
             <div className="col-span-2 md:col-span-1">
-              <img src={awasrLogo} alt="Awasr" className="h-8 w-auto object-contain mb-3" />
-              <p className="text-xs text-muted-foreground leading-relaxed">{t("Fiber internet for homes across Oman.", "إنترنت ألياف للمنازل في جميع أنحاء عُمان.")}</p>
+              <img src={awasrLogo} alt="Awasr" className="h-8 w-auto object-contain mb-4" />
+              <p className="text-xs text-muted-foreground/80 leading-relaxed">{t("Fiber internet for homes across Oman.", "إنترنت ألياف للمنازل في جميع أنحاء عُمان.")}</p>
             </div>
-            <div>
-              <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground mb-3">{t("Links", "روابط")}</h4>
-              <div className="space-y-2">
-                <button onClick={() => scrollTo("#plans")} className="block text-sm text-foreground/80 hover:text-primary transition-colors">{t("Plans", "الباقات")}</button>
-                <button onClick={() => scrollTo("#features")} className="block text-sm text-foreground/80 hover:text-primary transition-colors">{t("Features", "المميزات")}</button>
-                <button onClick={() => scrollTo("#coverage")} className="block text-sm text-foreground/80 hover:text-primary transition-colors">{t("Coverage", "التغطية")}</button>
-                <Link to="/login" className="block text-sm text-foreground/80 hover:text-primary transition-colors">{t("My Awasr", "حسابي")}</Link>
+            <div className="border-s border-border/40 ps-6 md:border-0 md:ps-0">
+              <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/60 mb-4">{t("Links", "روابط")}</h4>
+              <div className="space-y-2.5">
+                <button onClick={() => scrollTo("#plans")} className="block text-sm text-foreground/70 hover:text-primary transition-colors">{t("Plans", "الباقات")}</button>
+                <button onClick={() => scrollTo("#features")} className="block text-sm text-foreground/70 hover:text-primary transition-colors">{t("Features", "المميزات")}</button>
+                <button onClick={() => scrollTo("#coverage")} className="block text-sm text-foreground/70 hover:text-primary transition-colors">{t("Coverage", "التغطية")}</button>
+                <Link to="/login" className="block text-sm text-foreground/70 hover:text-primary transition-colors">{t("My Awasr", "حسابي")}</Link>
               </div>
             </div>
             <div>
-              <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground mb-3">{t("Support", "الدعم")}</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2 text-foreground/80"><Call size={13} className="text-primary" /> 80001000</div>
-                <div className="flex items-center gap-2 text-foreground/80"><MessageText1 size={13} className="text-primary" /> WhatsApp</div>
-                <div className="flex items-center gap-2 text-foreground/80"><Timer1 size={13} className="text-primary" /> 24/7</div>
+              <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/60 mb-4">{t("Support", "الدعم")}</h4>
+              <div className="space-y-2.5 text-sm">
+                <div className="flex items-center gap-2 text-foreground/70"><Call size={13} className="text-primary" /> 80001000</div>
+                <div className="flex items-center gap-2 text-foreground/70"><MessageText1 size={13} className="text-primary" /> WhatsApp</div>
+                <div className="flex items-center gap-2 text-foreground/70"><Timer1 size={13} className="text-primary" /> 24/7</div>
               </div>
             </div>
-            <div>
-              <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground mb-3">{t("Legal", "قانوني")}</h4>
-              <div className="space-y-2 text-sm text-foreground/80">
-                <p>{t("Terms & Conditions", "الشروط والأحكام")}</p>
-                <p>{t("Privacy Policy", "سياسة الخصوصية")}</p>
-                <p>{t("Fair Usage", "الاستخدام العادل")}</p>
+            <div className="border-s border-border/40 ps-6 md:border-0 md:ps-0">
+              <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/60 mb-4">{t("Legal", "قانوني")}</h4>
+              <div className="space-y-2.5 text-sm text-foreground/70">
+                <p className="hover:text-primary transition-colors cursor-pointer">{t("Terms & Conditions", "الشروط والأحكام")}</p>
+                <p className="hover:text-primary transition-colors cursor-pointer">{t("Privacy Policy", "سياسة الخصوصية")}</p>
+                <p className="hover:text-primary transition-colors cursor-pointer">{t("Fair Usage", "الاستخدام العادل")}</p>
               </div>
             </div>
           </div>
-          <div className="border-t border-border mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-muted-foreground">
+          <div className="border-t border-border/40 mt-10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-muted-foreground/60">
             <span>© {new Date().getFullYear()} Awasr. {t("All rights reserved.", "جميع الحقوق محفوظة.")}</span>
             <span>{t("Licensed by TRA Oman", "مرخصة من هيئة تنظيم الاتصالات")}</span>
           </div>
@@ -374,7 +432,7 @@ export default function LandingPage() {
       {/* Back to top button */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`fixed z-40 bottom-20 md:bottom-6 end-4 md:end-20 h-10 w-10 rounded-full bg-card card-shadow-md border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:card-shadow-hover transition-all duration-300 ${showBackToTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}
+        className={`fixed z-40 bottom-20 md:bottom-6 end-4 md:end-20 h-11 w-11 rounded-full bg-card/90 backdrop-blur-md card-shadow-md border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:card-shadow-hover transition-all duration-300 ${showBackToTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}
         aria-label="Back to top"
       >
         <ArrowUp2 size={18} />
